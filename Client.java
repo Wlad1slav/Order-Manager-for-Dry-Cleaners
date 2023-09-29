@@ -3,8 +3,18 @@ public class Client {
     private String fullName; // Ім'я замовника
     private String phoneNumber; // Номер телефону замовника
     private String advertisingCampaign; // Звідки замовник дізнався о компанії
-    private String date_create; // Дата створення замовника
     private float discount; // Знижка, що має замовник
+
+    public Client(int id, String fullName, String phoneNumber, String advertisingCampaign, float discount) {
+        this.id = id;
+        if (!fullName.isEmpty())
+            this.fullName = fullName;
+        else
+            throw new IllegalArgumentException("Client конструктор: Строка ім'я клієнта не може бути пустою");
+        this.phoneNumber = phoneNumber;
+        this.advertisingCampaign = advertisingCampaign;
+        this.discount = Utils.greaterOrEqualZero(discount);
+    }
 
     public int getId() {
         // Повртає індіфікатор замовника
@@ -17,10 +27,10 @@ public class Client {
     }
     public void setFullName(String fullName) {
         // Встановлює ім'я замовника
-        if (fullName.length() != 0)
+        if (!fullName.isEmpty())
             this.fullName = fullName;
         else // Якщо довжина ім'я = 0, то виникає помилка
-            throw new IllegalArgumentException("Invalid argument provided");
+            throw new IllegalArgumentException("setFullName(String fullName) - Строка ім'я клієнта не може бути пустою");
     }
 
     public String getPhoneNumber() {
@@ -29,24 +39,19 @@ public class Client {
     }
     public void setPhoneNumber(String phoneNumber) {
         // Встановлює значення номеру телефону замавнику
-        if (phoneNumber.length() != 0)
-            this.phoneNumber = phoneNumber;
-        else // Якщо довжина номеру телефону = 0, то виникає помилка
-            throw new IllegalArgumentException("Invalid argument provided");
+        this.phoneNumber = phoneNumber;
     }
     public String callLink() {
         // Повертає посилання для дзвонку по номеру телефона
-        return "tel:" + getPhoneNumber();
+        if (!phoneNumber.isEmpty())
+            return "tel:" + getPhoneNumber();
+        else
+            throw new IllegalArgumentException("callLink() - Для того, щоб отримати посилання для дзвінку, потрібно ввести номер телефону клієнта");
     }
 
     public String getAdvertisingCampaign() {
         // Повертає рекламну кампанію замовника
         return advertisingCampaign;
-    }
-
-    public String getDate_create() {
-        // Повертає дату створення замовника
-        return date_create;
     }
 
     public float getDiscount() {
@@ -56,8 +61,6 @@ public class Client {
 
     public void setDiscount(float discount) {
         // Змінює значення знижки у замовника
-        if (discount >= 0)
-            this.discount = discount;
-        else this.discount = 0;
+        this.discount = Utils.greaterOrEqualZero(discount);
     }
 }
