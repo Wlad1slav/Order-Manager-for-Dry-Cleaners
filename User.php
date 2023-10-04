@@ -13,7 +13,6 @@ class User {
      * @param string $username
      * @param string $password
      * @param Rights $rights
-     * @param Utils $utils
      */
     public function __construct(int $id, string $username, string $password, Rights $rights) {
         $this->utils = new Utils(); // додаткові утіліти

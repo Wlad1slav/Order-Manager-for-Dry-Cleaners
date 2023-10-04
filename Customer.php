@@ -12,7 +12,6 @@ class Customer {
      * @param int $id
      * @param string $fullName
      * @param string $phoneNumber
-     * @param string $advertisingCampaign
      * @param float $discount
      */
     public function __construct(int $id, string $fullName, string $phoneNumber, float $discount) {
@@ -25,7 +24,7 @@ class Customer {
         if (strlen($phoneNumber) == 0)
             throw new InvalidArgumentException('Конструктор Customer: Очікується, що password не буде пустим.');
         $this->phoneNumber = $phoneNumber;
-        $this->discount = $this->utils->atLeast($discount, 0);
+        $this->discount = $this->utils->atLeastFloat($discount, 0);
     }
 
     public function getId(): int {
@@ -62,6 +61,6 @@ class Customer {
 
     public function setDiscount(float $discount): void {
         // Встановлює знижку клієнта
-        $this->discount = $this->utils->atLeast($discount, 0);
+        $this->discount = $this->utils->atLeastFloat($discount, 0);
     }
 }

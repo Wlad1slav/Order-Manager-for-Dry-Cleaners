@@ -41,7 +41,7 @@ class Product {
     }
     public function setPrice(float $price): void {
         // Встановлює ціну за весь виріб
-        $this->price = $this->utils->atLeast($price, 0); // Utils
+        $this->price = $this->utils->atLeastFloat($price, 0); // Utils
     }
 
     public function getNote(): string {

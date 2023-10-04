@@ -1,7 +1,12 @@
 <?php
 
 class Utils {
-    public function atLeast(int|float $value, int $num): int|float {
+    public function atLeast(int $value, int $num): int {
+        // Перевіряє, чи число value більше num. Якщо ні, то повертає num
+        if ($num > $value) return $num;
+        return $value;
+    }
+    public function atLeastFloat(float $value, int $num): float {
         // Перевіряє, чи число value більше num. Якщо ні, то повертає num
         if ($num > $value) return $num;
         return $value;

@@ -18,7 +18,7 @@ class Goods {
         $this->id = $id;
         $this->utils->validateName($name, 'Конструктор Goods'); // Utils. Викликає помилку, якщо довжина строки = 0
         $this->name = $name;
-        $this->price = $this->utils->atLeast($price, 0); // Utils
+        $this->price = $this->utils->atLeastFloat($price, 0); // Utils
     }
 
     public function getId(): int {
@@ -42,7 +42,7 @@ class Goods {
     }
     public function setPrice(float $price): void {
         // Встановлює ціну товару
-        $this->price = $this->utils->atLeast($price, 0); // Utils
+        $this->price = $this->utils->atLeastFloat($price, 0); // Utils
     }
 
 }
