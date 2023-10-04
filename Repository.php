@@ -31,10 +31,19 @@ class Repository {
             // Якщо ні, винекне помилка
             throw new InvalidArgumentException("addRow: Кількість стовпців і значення не збігаються.");
 
+        // Конвертує об'єкт DateTime у строковий формат
+        foreach ($values as &$value)
+            if ($value instanceof DateTime)
+                $value = $value->format('Y-m-d H:i:s');
+            elseif(is_bool($value))
+                if($value == true) $value = 1;
+                else $value = 0;
+
         $columnString = implode("`, `", $columns);
         $placeholders = implode(", ", array_fill(0, count($values), "?"));
 
         $query = "INSERT INTO `$this->tableName` (`$columnString`) VALUES ($placeholders)";
+        // echo $query;
 
         // Готує SQL-запит. Цей метод повертає об’єкт PDOStatement.
         // Готуючи оператор, налаштовується запит на виконання у спосіб, який захищений від впровадження (injection) SQL.
