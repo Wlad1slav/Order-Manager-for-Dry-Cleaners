@@ -1,7 +1,7 @@
 <?php
 
 class Order {
-    private int $id; // Ідентифікатор замовлення
+    private int $id; // Ідентифікатор замовлення. Встановлюється після збереження замовлення.
     private Customer $customer; // Клієнт, що зробив замовлення
     private User $user; // Сотрудник, що створив замовлення
     private DateTime $dateCreate; // Дата створення замовлення
@@ -14,14 +14,17 @@ class Order {
      */
     private array $productions = []; // Масив виробів замовлення
 
+    private Repository $repository; // Доступ до бази даних
+
+    const COLUMNS = ['id_customer', 'id_user', 'date_create', 'date_end', 'total_price', 'productions', 'is_paid', 'is_completed'];
+
     /**
-     * @param int $id
      * @param Customer $customer
      * @param User $user
      * @param Product[] $productions
      */
-    public function __construct(int $id, Customer $customer, User $user, array $productions) {
-        $this->id = $id;
+    public function __construct(Customer $customer, User $user, array $productions) {
+        $this->id = -1;
         $this->customer = $customer;
         $this->user = $user;
         $this->dateCreate = new DateTime();
@@ -31,12 +34,46 @@ class Order {
         $this->checkProductionsArray($productions, 'Конструктор Order');
         $this->productions = $productions;
         $this->totalPrice = $this->countTotalPrice();
+
+        $this->repository = new Repository('orders');
     }
 
+    public function save(): void {
+        // Зберігає замовлення у базі даних
+        $this->id = $this->repository->addRow($this::COLUMNS, $this->getValues());
+    }
+
+    public function update(): void {
+        // Оновлює замовлення у базі даних
+        $this->repository->updateRow($this->id, $this::COLUMNS, $this->getValues());
+    }
+
+    public function delete(): void {
+        // Видаляє замовлення
+        $this->repository->removeRow($this->id);
+    }
+
+    public function getAll(): array {
+        // Повертає масив усіх замовлень
+        return $this->repository->getAll();
+    }
+
+    public function getValues(): array {
+        return [
+            $this->customer->getId(),                               // id_customer      int
+            $this->user->getId(),                                   // id_user          int
+            $this->dateCreate,                                      // date_create      datetime
+            $this->dateEnd,                                         // date_end         date
+            $this->totalPrice,                                      // total_price      float
+            $this->convertProductionToJSON($this->productions),     // productions      json
+            $this->isPaid,                                          // is_paid          tinyint(1)
+            $this->isCompleted                                      // is_completed     tinyint(1)
+        ];
+    }
 
     public function getId(): int {
         // Повертає Ідентифікатор замовлення
-        return $this->id;
+       return $this->id;
     }
 
     public function getCustomer(): Customer {
@@ -138,25 +175,39 @@ class Order {
                 throw new InvalidArgumentException("$errorPlace: Очікується масив об’єктів класу Product");
         return true;
     }
+    private function convertProductionToJSON(array $productions): string {
+        // Конвертує масив об'єктів класу Product у JSON формат
+        /*
+         {
+             "productions": [
+                 {
+                     "goodID": 1,
+                     "amount": 10,
+                     "price": 720,
+                     "note": "біле"
+                 },
+                 {
+                     "goodID": 4,
+                     "amount": 1,
+                     "price": 40,
+                     "note": ""
+                 }
+             ]
+         }
+        {"productions":[{"goodID":1,"amount":10,"price":170,"note":"\u0431\u0456\u043b\u0435"},{"goodID":2,"amount":2,"price":70,"note":"\u0413\u0430\u043b\u0438\u0447\u0438\u043d\u0430"},{"goodID":1,"amount":1,"price":17,"note":"\u0436\u043e\u0432\u0442\u0435"}]}
+         */
+        $jsonData = ['productions' => []];
 
-    /**
-     * @param Product $product
-     */
-    public function addProduct(Product $product): void {
-        // Додає новий виріб у масив виробів
-        $this->productions[] += $product;
-        $this->totalPrice = $this->countTotalPrice();
-    }
-    /**
-     * @param Product $product
-     */
-    public function removeProduct(Product $product): void {
-        // Видаляє заданий виріб
-        $key = array_search($product, $this->productions);
-        if ($key !== false) {
-            unset($this->productions[$key]);
-            $this->totalPrice = $this->countTotalPrice();
+        foreach ($productions as $production) {
+            $jsonData['productions'][] = [
+                'goodID' => $production->getGoods()->getId(),
+                'amount' => $production->getAmount(),
+                'price' => $production->getPrice(),
+                'note' => $production->getNote(),
+            ];
         }
+
+        return json_encode($jsonData);
     }
 
     public function getComponents() : array {
