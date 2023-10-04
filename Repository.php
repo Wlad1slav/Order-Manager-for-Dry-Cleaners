@@ -31,11 +31,11 @@ class Repository {
             // Якщо ні, винекне помилка
             throw new InvalidArgumentException("addRow: Кількість стовпців і значення не збігаються.");
 
-        // Конвертує об'єкт DateTime у строковий формат
+
         foreach ($values as &$value)
-            if ($value instanceof DateTime)
+            if ($value instanceof DateTime) // Конвертує об'єкт DateTime у строковий формат
                 $value = $value->format('Y-m-d H:i:s');
-            elseif(is_bool($value))
+            elseif(is_bool($value)) // Конвертує t/f у формат, у якому вони зберігаються у БД
                 if($value == true) $value = 1;
                 else $value = 0;
 
@@ -67,6 +67,16 @@ class Repository {
             // Перевіряє, чи однакова кількість стовпців і значень
             // Якщо ні, винекне помилка
             throw new InvalidArgumentException("updateRow: Кількість стовпців і значення не збігаються.");
+
+        if ($id < 1)
+            throw new InvalidArgumentException("updateRow: Замовлення з id $id не існує.");
+
+        foreach ($values as &$value)
+            if ($value instanceof DateTime) // Конвертує об'єкт DateTime у строковий формат
+                $value = $value->format('Y-m-d H:i:s');
+            elseif(is_bool($value)) // Конвертує t/f у формат, у якому вони зберігаються у БД
+                if($value == true) $value = 1;
+                else $value = 0;
 
         $set = [];
         foreach ($columns as $index => $column)
