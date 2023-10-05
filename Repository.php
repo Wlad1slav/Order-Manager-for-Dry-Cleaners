@@ -60,6 +60,14 @@ class Repository {
         $stmt = $this->connection->query("SELECT * FROM $this->tableName"); // stmt - statement
         return $stmt->fetchAll();
     }
+    
+    public function getRow(int $id): array { // Read
+        // Отримує окремий рядок з таблиці, знаходячи його по id
+        $stmt = $this->connection->prepare("SELECT * FROM $this->tableName WHERE id = :id");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
+    }
 
     public function updateRow(int $id, array $columns, array $values): bool { // Update
         // Оновлює певний рядок, визначений ідентифікатором
