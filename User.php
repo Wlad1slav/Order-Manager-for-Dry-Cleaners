@@ -1,13 +1,15 @@
 <?php
 
 class User {
-    private int $id; // Ідентифікатор користувача
-    private string $username; // Логін замовника
-    private string $password; // Пароль замовника
-    private Rights $rights; // Рівень прав користувача
+    use RepositoryTraits;
 
-    protected Repository $repository; // Доступ до бази даних
-    const COLUMNS = ['id_customer', 'id_user', 'date_create', 'date_end', 'total_price', 'productions', 'is_paid', 'is_completed'];
+    private int $id;            // Ідентифікатор користувача
+    private string $username;   // Логін замовника
+    private string $password;   // Пароль замовника
+    private Rights $rights;     // Рівень прав користувача
+
+    const COLUMNS = ['username', 'password', 'id_rights'];
+    const TABLE = 'users';      // Назва таблиці, у якої зберігаються данні
 
     /**
      * @param int $id
@@ -24,7 +26,24 @@ class User {
         $this->password = $password;
         $this->rights = $rights;
 
-        $this->repository = new Repository('orders', self::COLUMNS);
+        $this->repository = new Repository(self::TABLE, self::COLUMNS);
+    }
+
+    public static function get($id): User {
+        // Повертає користувача у вигляді об'єкту
+        $repository = new Repository('users', self::COLUMNS);
+        $orderValues = $repository->getRow($id);
+        return new User(
+            $orderValues['username'],
+            $orderValues['password'],
+            User::getRight($orderValues['id_rights']),
+            $orderValues['id']
+        );
+    }
+
+    public static function getRight(int $id): Rights {
+        $rights = require 'rightsList.php';
+        return $rights[$id-1];
     }
 
     public function getValues(): array {

@@ -5,20 +5,21 @@ require 'RepositoryTraits.php';
 class Order {
     use RepositoryTraits; // Черта для операцій класу з бд
 
-    private int $id; // Ідентифікатор замовлення. Встановлюється після збереження замовлення.
-    private Customer $customer; // Клієнт, що зробив замовлення
-    private User $user; // Сотрудник, що створив замовлення
-    private DateTime $dateCreate; // Дата створення замовлення
-    private DateTime $dateEnd; // Дедлайн замовлення
-    private bool $isPaid; // Чи оплачено замовлення
-    private bool $isCompleted; // Чи виконано/закрите замовлення
-    private float $totalPrice; // Загальна ціна замовлення
+    private int $id;                // Ідентифікатор замовлення. Встановлюється після збереження замовлення.
+    private Customer $customer;     // Клієнт, що зробив замовлення
+    private User $user;             // Сотрудник, що створив замовлення
+    private DateTime $dateCreate;   // Дата створення замовлення
+    private DateTime $dateEnd;      // Дедлайн замовлення
+    private bool $isPaid;           // Чи оплачено замовлення
+    private bool $isCompleted;      // Чи виконано/закрите замовлення
+    private float $totalPrice;      // Загальна ціна замовлення
     /** Очікується, що $productions буде зберігати масив об'єктів класу Product
      * @var Product[]
      */
     private array $productions = []; // Масив виробів замовлення
 
     const COLUMNS = ['id_customer', 'id_user', 'date_create', 'date_end', 'total_price', 'productions', 'is_paid', 'is_completed'];
+    const TABLE = 'orders'; // Назва таблиці, у якої зберігаються данні
 
     /**
      * @param Customer $customer
@@ -38,7 +39,7 @@ class Order {
         $this->productions = $productions;
         $this->totalPrice = $this->countTotalPrice();
 
-        $this->repository = new Repository('orders', self::COLUMNS);
+        $this->repository = new Repository(self::TABLE, self::COLUMNS);
     }
 
     public static function get($id): Order {
@@ -46,33 +47,23 @@ class Order {
         $repository = new Repository('orders', self::COLUMNS);
         $orderValues = $repository->getRow($id);
         return new Order(
-            new Customer($orderValues['id_customer'], '12345678', '12345678', 0),
-            new User(
-                'aaaaaaaaaa',
-                '12345678',
-                new Rights(1, 'a', []),
-                $orderValues['id_user'],
-            ),
-            [new Product(
-                1,
-                '',
-                [],
-                new Goods(1, 'a', 100)
-            )],
+            Customer::get($orderValues['id_customer']),
+            User::get($orderValues['id_user']),
+            Product::pullFromDB($orderValues['id']),
             $orderValues['id'],
         );
     }
 
     public function getValues(): array {
         return [
-            $this->customer->getId(),                               // id_customer      int
-            $this->user->getId(),                                   // id_user          int
-            $this->dateCreate,                                      // date_create      datetime
-            $this->dateEnd,                                         // date_end         date
-            $this->totalPrice,                                      // total_price      float
-            $this->convertProductionToJSON($this->productions),     // productions      json
-            $this->isPaid,                                          // is_paid          tinyint(1)
-            $this->isCompleted                                      // is_completed     tinyint(1)
+            $this->customer->getId(),                                           // id_customer      int
+            $this->user->getId(),                                               // id_user          int
+            $this->dateCreate,                                                  // date_create      datetime
+            $this->dateEnd,                                                     // date_end         date
+            $this->totalPrice,                                                  // total_price      float
+            $this->convertProductionToJSON($this->productions),       // productions      json
+            $this->isPaid,                                                      // is_paid          tinyint(1)
+            $this->isCompleted                                                  // is_completed     tinyint(1)
         ];
     }
 
