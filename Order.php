@@ -1,6 +1,10 @@
 <?php
 
+require 'RepositoryTraits.php';
+
 class Order {
+    use RepositoryTraits; // Черта для операцій класу з бд
+
     private int $id; // Ідентифікатор замовлення. Встановлюється після збереження замовлення.
     private Customer $customer; // Клієнт, що зробив замовлення
     private User $user; // Сотрудник, що створив замовлення
@@ -14,17 +18,16 @@ class Order {
      */
     private array $productions = []; // Масив виробів замовлення
 
-    private Repository $repository; // Доступ до бази даних
-
     const COLUMNS = ['id_customer', 'id_user', 'date_create', 'date_end', 'total_price', 'productions', 'is_paid', 'is_completed'];
 
     /**
      * @param Customer $customer
      * @param User $user
      * @param Product[] $productions
+     * @param int $id
      */
-    public function __construct(Customer $customer, User $user, array $productions) {
-        $this->id = -1;
+    public function __construct(Customer $customer, User $user, array $productions, int $id = -1) {
+        $this->id = $id;
         $this->customer = $customer;
         $this->user = $user;
         $this->dateCreate = new DateTime();
@@ -35,27 +38,29 @@ class Order {
         $this->productions = $productions;
         $this->totalPrice = $this->countTotalPrice();
 
-        $this->repository = new Repository('orders');
+        $this->repository = new Repository('orders', self::COLUMNS);
     }
 
-    public function save(): void {
-        // Зберігає замовлення у базі даних
-        $this->id = $this->repository->addRow($this::COLUMNS, $this->getValues());
-    }
-
-    public function update(): void {
-        // Оновлює замовлення у базі даних
-        $this->repository->updateRow($this->id, $this::COLUMNS, $this->getValues());
-    }
-
-    public function delete(): void {
-        // Видаляє замовлення
-        $this->repository->removeRow($this->id);
-    }
-
-    public function getAll(): array {
-        // Повертає масив усіх замовлень
-        return $this->repository->getAll();
+    public static function get($id): Order {
+        // Повертає замовлення у вигляді об'єкту
+        $repository = new Repository('orders', self::COLUMNS);
+        $orderValues = $repository->getRow($id);
+        return new Order(
+            new Customer($orderValues['id_customer'], '12345678', '12345678', 0),
+            new User(
+                'aaaaaaaaaa',
+                '12345678',
+                new Rights(1, 'a', []),
+                $orderValues['id_user'],
+            ),
+            [new Product(
+                1,
+                '',
+                [],
+                new Goods(1, 'a', 100)
+            )],
+            $orderValues['id'],
+        );
     }
 
     public function getValues(): array {
