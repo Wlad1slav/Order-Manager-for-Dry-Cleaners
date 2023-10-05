@@ -5,13 +5,13 @@ class Repository {
     // basic CRUD (Create, Read, Update, Delete)
     private PDO $connection; // властивість, що містить об’єкт з’єднання PDO
     private string $tableName; // властивість, яка відстежує назву таблиці, над якою виконуватимуться операції CRUD
+    private array $columns; // властивість, що містить масив усіх столбців бд з яким потрібно роботати
 
     /**
      * @param string $tableName
+     * @param array $columns
      */
-    public function __construct(string $tableName) {
-        $this->tableName = $tableName;
-
+    public function __construct(string $tableName, array $columns) {
         // Завантажує параметри підключення до бази даних із конфігураційного файлу
         $config = require 'settings.php';
         $dsn = "mysql:host={$config['host']};dbname={$config['dbname']};charset=utf8";
@@ -22,11 +22,16 @@ class Repository {
             PDO::ATTR_EMULATE_PREPARES   => false,
         ];
         $this->connection = new PDO($dsn, $config['user'], $config['pass'], $options);
+
+        // Дані о таблиці з якою потрібно буде роботати
+        $this->checkTable($tableName);
+        $this->tableName = $tableName;
+        $this->columns = $columns;
     }
 
-    public function addRow(array $columns, array $values): int { // Create
+    public function addRow(array $values): int { // Create
         // Вставляє новий рядок у таблицю.
-        if (count($columns) !== count($values))
+        if (count($this->columns) !== count($values))
             // Перевіряє, чи однакова кількість стовпців і значень
             // Якщо ні, винекне помилка
             throw new InvalidArgumentException("addRow: Кількість стовпців і значення не збігаються.");
@@ -39,7 +44,7 @@ class Repository {
                 if($value == true) $value = 1;
                 else $value = 0;
 
-        $columnString = implode("`, `", $columns);
+        $columnString = implode("`, `", $this->columns);
         $placeholders = implode(", ", array_fill(0, count($values), "?"));
 
         $query = "INSERT INTO `$this->tableName` (`$columnString`) VALUES ($placeholders)";
@@ -55,9 +60,29 @@ class Repository {
         return $stmt->execute($values) ? $this->connection->lastInsertId() : 0;
     }
 
+    private function checkTable(string $tableName): void { // Read-Create
+        // Перевіряє, чи існує таблиця в базі даних
+        $query = "SHOW TABLES LIKE " . $this->connection->quote($tableName);
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            $this->tableName = $tableName;
+        }
+        else { // Якщо ні, то назва таблиці шукається у масиві заготовок, після чого створюється на основі заготовки
+            $tables = require 'defaultTables.php';
+            foreach ($tables as $table => $query)
+                if ($table == $tableName) {
+                    $this->connection->exec($query);
+                    return;
+                }
+            // Якщо немає заготовки для таблиці, то виникає помилка
+            throw new InvalidArgumentException("checkTable(string $tableName): Таблиці $tableName не існує. Ймовірно, вона була випадково видалена, створить нову, будь ласка.");
+        }
+    }
+
     public function getAll(): array { // Read
         // Отримує всі рядки з таблиці
-        $stmt = $this->connection->query("SELECT * FROM $this->tableName"); // stmt - statement
+        $stmt = $this->connection->query("SELECT * FROM $this->tableName");
         return $stmt->fetchAll();
     }
     
@@ -69,9 +94,9 @@ class Repository {
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
     }
 
-    public function updateRow(int $id, array $columns, array $values): bool { // Update
+    public function updateRow(int $id, array $values): bool { // Update
         // Оновлює певний рядок, визначений ідентифікатором
-        if (count($columns) !== count($values))
+        if (count($this->columns) !== count($values))
             // Перевіряє, чи однакова кількість стовпців і значень
             // Якщо ні, винекне помилка
             throw new InvalidArgumentException("updateRow: Кількість стовпців і значення не збігаються.");
@@ -87,7 +112,7 @@ class Repository {
                 else $value = 0;
 
         $set = [];
-        foreach ($columns as $index => $column)
+        foreach ($this->columns as $index => $column)
             $set[] = "`$column` = ?";
 
         $setString = implode(", ", $set);
