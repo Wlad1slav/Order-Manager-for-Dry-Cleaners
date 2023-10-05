@@ -6,8 +6,6 @@ class Customer {
     private string $phoneNumber; // Номер телефону замовника
     private float $discount; // Знижка, що має замовник
 
-    private Utils $utils;
-
     /**
      * @param int $id
      * @param string $fullName
@@ -15,8 +13,6 @@ class Customer {
      * @param float $discount
      */
     public function __construct(int $id, string $fullName, string $phoneNumber, float $discount) {
-        $this->utils = new Utils(); // додаткові утіліти
-
         $this->id = $id;
         if (strlen($fullName) == 0)
             throw new InvalidArgumentException('Конструктор Customer: Очікується, що fullName не буде пустим.');
@@ -24,7 +20,7 @@ class Customer {
         if (strlen($phoneNumber) == 0)
             throw new InvalidArgumentException('Конструктор Customer: Очікується, що password не буде пустим.');
         $this->phoneNumber = $phoneNumber;
-        $this->discount = $this->utils->atLeastFloat($discount, 0);
+        $this->discount = Utils::atLeastFloat($discount, 0);
     }
 
     public function getId(): int {
@@ -61,6 +57,6 @@ class Customer {
 
     public function setDiscount(float $discount): void {
         // Встановлює знижку клієнта
-        $this->discount = $this->utils->atLeastFloat($discount, 0);
+        $this->discount = Utils::atLeastFloat($discount, 0);
     }
 }

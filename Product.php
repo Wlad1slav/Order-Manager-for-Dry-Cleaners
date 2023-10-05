@@ -7,8 +7,6 @@ class Product {
     private array $params; // Словник додоткових параметрыв виробу
     private Goods $goods; // Продукт виробу
 
-    private Utils $utils;
-
     /**
      * @param int $amount
      * @param string $note
@@ -16,9 +14,7 @@ class Product {
      * @param Goods $goods
      */
     public function __construct(int $amount, string $note, array $params, Goods $goods) {
-        $this->utils = new Utils(); // додаткові утіліти
-
-        $this->amount = $this->utils->atLeast($amount, 1); // Utils
+        $this->amount = Utils::atLeast($amount, 1); // Utils
         $this->note = $note;
         $this->params = $params;
         $this->goods = $goods;
@@ -32,7 +28,7 @@ class Product {
     }
     public function setAmount(int $amount): void {
         // Встановлює кількість продукту в виробі
-        $this->amount = $this->utils->atLeast($amount, 1); // Utils
+        $this->amount = Utils::atLeast($amount, 1); // Utils
     }
 
     public function getPrice(): float {
@@ -41,7 +37,7 @@ class Product {
     }
     public function setPrice(float $price): void {
         // Встановлює ціну за весь виріб
-        $this->price = $this->utils->atLeastFloat($price, 0); // Utils
+        $this->price = Utils::atLeastFloat($price, 0); // Utils
     }
 
     public function getNote(): string {

@@ -6,7 +6,8 @@ class User {
     private string $password; // Пароль замовника
     private Rights $rights; // Рівень прав користувача
 
-    private Utils $utils;
+    protected Repository $repository; // Доступ до бази даних
+    const COLUMNS = ['id_customer', 'id_user', 'date_create', 'date_end', 'total_price', 'productions', 'is_paid', 'is_completed'];
 
     /**
      * @param int $id
@@ -14,9 +15,7 @@ class User {
      * @param string $password
      * @param Rights $rights
      */
-    public function __construct(int $id, string $username, string $password, Rights $rights) {
-        $this->utils = new Utils(); // додаткові утіліти
-
+    public function __construct(string $username, string $password, Rights $rights, int $id = -1) {
         $this->id = $id;
         $this->validateUsername($username); // Перевіряє, чи відповідає логін нормам
         $this->username = $username;
@@ -24,6 +23,16 @@ class User {
             throw new InvalidArgumentException('Конструктор User: Очікується, що довжина паролю >= 8 символів');
         $this->password = $password;
         $this->rights = $rights;
+
+        $this->repository = new Repository('orders', self::COLUMNS);
+    }
+
+    public function getValues(): array {
+        return [
+            $this->username,            // username     varchar
+            $this->password,            // password     varchar
+            $this->rights->getId()      // id_rights    int
+        ];
     }
 
     public function getId(): int {
@@ -42,7 +51,7 @@ class User {
     }
     private function validateUsername(string $username): void {
         // Перевіряє, чи складається username тільки з латинських літер, і чи містить заборонені символи
-        $this->utils->validateName($username, "validateUsername(string $username)"); // Utils. Викликає помилку, якщо довжина строки = 0
+        Utils::validateName($username, "validateUsername(string $username)"); // Utils. Викликає помилку, якщо довжина строки = 0
         if (!preg_match('/^[a-zA-Z]+$/', $username))
             throw new InvalidArgumentException('validateUsername(string $username): Очікується, що username буде містити тільки латинські літери');
     }
@@ -66,5 +75,4 @@ class User {
         // Встановлює права користувача
         $this->rights = $rights;
     }
-
 }
