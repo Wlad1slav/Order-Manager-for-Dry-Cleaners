@@ -23,6 +23,6 @@ trait RepositoryTraits {
         return $this->repository->getAll();
     }
 
-    abstract public function get(): array; // Метод, що повертає об'єкт замовлення
-    abstract public function getValues(): array; // Метод, що повертає масив усіх даних, які потрібно ввести у базу даних
+    abstract static public function get();          // Метод, що повертає об'єкт замовлення
+    abstract public function getValues(): array;    // Метод, що повертає масив усіх даних, які потрібно ввести у базу даних
 }
