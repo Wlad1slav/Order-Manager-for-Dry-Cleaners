@@ -18,9 +18,10 @@ trait RepositoryTraits {
         $this->repository->removeRow($this->id);
     }
 
-    public function getAll(): array {
+    public static function getAll(): array {
         // Повертає масив усіх замовлень
-        return $this->repository->getAll();
+        $repository = new Repository(self::TABLE, self::COLUMNS);
+        return $repository->getAll();
     }
 
     abstract static public function get();          // Метод, що повертає об'єкт замовлення
