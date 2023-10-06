@@ -1,0 +1,11 @@
+footer {
+    background-color: var(--base-color);
+    color: var(--white);
+    padding: var(--medium-padding);
+    margin-top: var(--medium-padding);
+}
+
+footer a {
+    color: var(--white);
+}
+

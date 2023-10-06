@@ -1,0 +1,48 @@
+body {
+    background-color: var(--background-color);
+    margin: 0;
+    height: 100%;
+}
+
+* {
+    font-family: var(--font-family);
+}
+
+.content {
+    margin-left: var(--large-padding);
+}
+
+p, a, li {
+    font-size: var(--font-size);
+    font-weight: var(--font-weight);
+    text-decoration: none;
+    line-height: var(--line-height);
+}
+
+h1 {
+    font-size: var(--h1-size);
+    color: var(--h1-color);
+}
+
+h2 {
+    font-size: var(--h2-size);
+    color: var(--h2-color);
+}
+
+h3 {
+    font-size: var(--h3-size);
+    color: var(--h3-color);
+}
+
+form {
+    display: grid;
+}
+
+label {
+    margin-bottom: var(--small-padding);
+}
+
+.page-container {
+    display: flex;
+    min-height: 100vh;
+}

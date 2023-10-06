@@ -1,0 +1,39 @@
+:root {
+    /* КОЛЬОРИ */
+    --base-color: #646464; /* Середній відтінок сірого */
+    --accent-color: #006699; /* Темно-синій */
+    --cta-color: #FF4500; /* Яскравий оранжевий для виклику до дії */
+    --light-gray: #EAEAEA; /* Легкий відтінок сірого */
+    --white: #FFFFFF; /* Білий */
+    --background-color: #F5F5F5; /* Колір фону сайту */
+
+    /* ТЕКСТ */
+    --font-size: 16px;
+    --text-color: rgb(60, 60, 60);
+    --font-family: 'Arial', sans-serif;
+    --line-height: 1.5; /* Висота рядка */
+    --font-weight: 400; /* Товщина тексту */
+    --link-color: var(--accent-color); /* Колір посилань */
+    --link-hover-color: var(--cta-color); /* Колір посилань при наведенні */
+
+    /* ЗАГОЛОВКИ */
+    --h1-size: 40px;
+    --h1-color: var(--text-color);
+    --h2-size: 30px;
+    --h2-color: var(--accent-color);
+    --h3-size: 20px;
+    --h3-color: var(--text-color);
+
+    /* ВІДСТУПИ */
+    --small-padding: 8px;
+    --medium-padding: 16px;
+    --large-padding: 32px;
+
+    /* КНОПКИ */
+    --btn-font-size: 16px;
+    --btn-text-color: var(--white);
+    --btn-background-color: var(--cta-color);
+    --btn-hover-background-color: darken(var(--cta-color), 10%);
+    --btn-padding: var(--small-padding) var(--medium-padding);
+    --btn-border-radius: 5px;
+}
