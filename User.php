@@ -32,17 +32,17 @@ class User {
     public static function get($id): User {
         // Повертає користувача у вигляді об'єкту
         $repository = new Repository('users', self::COLUMNS);
-        $orderValues = $repository->getRow($id);
+        $userValues = $repository->getRow($id);
         return new User(
-            $orderValues['username'],
-            $orderValues['password'],
-            User::getRight($orderValues['id_rights']),
-            $orderValues['id']
+            $userValues['username'],
+            $userValues['password'],
+            User::getRight($userValues['id_rights']),
+            $userValues['id']
         );
     }
 
     public static function getRight(int $id): Rights {
-        $rights = require 'rightsList.php';
+        $rights = require 'settings/rights_list.php';
         return $rights[$id-1];
     }
 

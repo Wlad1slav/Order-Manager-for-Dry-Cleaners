@@ -13,7 +13,7 @@ class Repository {
      */
     public function __construct(string $tableName, array $columns) {
         // Завантажує параметри підключення до бази даних із конфігураційного файлу
-        $config = require 'settings.php';
+        $config = require 'settings/db_config.php';
         $dsn = "mysql:host={$config['host']};dbname={$config['dbname']};charset=utf8";
 
         $options = [
@@ -69,7 +69,7 @@ class Repository {
             $this->tableName = $tableName;
         }
         else { // Якщо ні, то назва таблиці шукається у масиві заготовок, після чого створюється на основі заготовки
-            $tables = require 'defaultTables.php';
+            $tables = require 'settings/table_templates.php';
             foreach ($tables as $table => $query)
                 if ($table == $tableName) {
                     $this->connection->exec($query);
