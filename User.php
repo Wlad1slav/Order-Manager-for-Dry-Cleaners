@@ -31,7 +31,7 @@ class User {
 
     public static function get($id): User {
         // Повертає користувача у вигляді об'єкту
-        $repository = new Repository('users', self::COLUMNS);
+        $repository = new Repository(self::TABLE, self::COLUMNS);
         $userValues = $repository->getRow($id);
         return new User(
             $userValues['username'],
