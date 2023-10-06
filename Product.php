@@ -33,7 +33,7 @@ class Product {
                 $productions['productions'][$i]['amount'],
                 $productions['productions'][$i]['note'],
                 $productions['productions'][$i]['params'],
-                new Goods($productions['productions'][$i]['goodID'], 'a', 100)
+                Goods::get($productions['productions'][$i]['goodID'])
             )];
 
         return $result;
