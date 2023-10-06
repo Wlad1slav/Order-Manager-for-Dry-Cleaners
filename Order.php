@@ -1,7 +1,5 @@
 <?php
 
-require 'RepositoryTraits.php';
-
 class Order {
     use RepositoryTraits; // Черта для операцій класу з бд
 
@@ -44,7 +42,7 @@ class Order {
 
     public static function get($id): Order {
         // Повертає замовлення у вигляді об'єкту
-        $repository = new Repository('orders', self::COLUMNS);
+        $repository = new Repository(self::TABLE, self::COLUMNS);
         $orderValues = $repository->getRow($id);
         return new Order(
             Customer::get($orderValues['id_customer']),
@@ -173,40 +171,22 @@ class Order {
     }
     private function convertProductionToJSON(array $productions): string {
         // Конвертує масив об'єктів класу Product у JSON формат
-        /*
-         {
-             "productions": [
-                 {
-                     "goodID": 1,
-                     "amount": 10,
-                     "price": 720,
-                     "note": "біле"
-                 },
-                 {
-                     "goodID": 4,
-                     "amount": 1,
-                     "price": 40,
-                     "note": ""
-                 }
-             ]
-         }
-        {"productions":[{"goodID":1,"amount":10,"price":170,"note":"\u0431\u0456\u043b\u0435"},{"goodID":2,"amount":2,"price":70,"note":"\u0413\u0430\u043b\u0438\u0447\u0438\u043d\u0430"},{"goodID":1,"amount":1,"price":17,"note":"\u0436\u043e\u0432\u0442\u0435"}]}
-         */
         $jsonData = ['productions' => []];
 
         foreach ($productions as $production) {
             $jsonData['productions'][] = [
-                'goodID' => $production->getGoods()->getId(),
-                'amount' => $production->getAmount(),
-                'price' => $production->getPrice(),
-                'note' => $production->getNote(),
+                'goodID' => $production->getGoods()->getId(),   // ID товару, сервісу
+                'amount' => $production->getAmount(),           // Кількісь товару
+                'price' => $production->getPrice(),             // Загальна ціна за виріб
+                'note' => $production->getNote(),               // Нотатки
+                'params' => $production->getParams()            // Додаткові, кастомні параметри користувача
             ];
         }
 
         return json_encode($jsonData);
     }
 
-    public function getComponents() : array {
+    public function getComponents(): array {
         // Надає словник з подробной інформацією о замовлені
         $num = 0;
         $components = [];
