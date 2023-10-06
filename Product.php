@@ -1,11 +1,11 @@
 <?php
 
 class Product {
-    private int $amount; // Кількість шт.
-    private float $price; // Ціна за виріб
-    private string $note; // Примітки щодо товару
-    private array $params; // Словник додоткових параметрыв виробу
-    private Goods $goods; // Продукт виробу
+    private int $amount;        // Кількість шт.
+    private float $price;       // Ціна за виріб
+    private string $note;       // Примітки щодо товару
+    private array $params;      // Словник додоткових параметрыв виробу
+    private Goods $goods;       // Продукт виробу
 
     /**
      * @param int $amount
@@ -21,6 +21,23 @@ class Product {
         $this->price = $this->goods->getPrice() * $this->amount;
     }
 
+    public static function pullFromDB(int $id_order): array {
+        // Витягує з бази даних масив виробів заданого замовлення
+        $repository = new Repository('orders', Order::COLUMNS);
+        $orderValues = $repository->getRow($id_order);
+        $productions = json_decode($orderValues['productions'], true);
+
+        $result = [];
+        for ($i = 0; $i < count($productions['productions']); $i++)
+            $result = [new Product(
+                $productions['productions'][$i]['amount'],
+                $productions['productions'][$i]['note'],
+                $productions['productions'][$i]['params'],
+                new Goods($productions['productions'][$i]['goodID'], 'a', 100)
+            )];
+
+        return $result;
+    }
 
     public function getAmount(): int {
         // Повертає кількість товару в виробі
