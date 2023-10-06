@@ -34,13 +34,13 @@ class Customer {
 
     public static function get(int $id): Customer {
         // Повертає клієнта у вигляді об'єкту
-        $repository = new Repository('customers', self::COLUMNS);
-        $orderValues = $repository->getRow($id);
+        $repository = new Repository(self::TABLE, self::COLUMNS);
+        $customerValues = $repository->getRow($id);
         return new Customer(
-            $orderValues['full_name'],
-            $orderValues['phone_number'],
-            $orderValues['discount'],
-            $orderValues['id']
+            $customerValues['full_name'],
+            $customerValues['phone_number'],
+            $customerValues['discount'],
+            $customerValues['id']
         );
     }
 
