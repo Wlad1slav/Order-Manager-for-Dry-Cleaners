@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $pageTitle . ' - ' . $config['Назва ПЗ']; ?></title>
+    <script src="../static/javascript/utils.js"></script>
 </head>
 <body>
 

@@ -1,7 +1,7 @@
 <?php
 include('base/include.php');
-$pageTitle = "Користувачі";
 
+$pageTitle = "Користувачі";
 include('base/header.php');
 include('base/sidebar.php');
 
@@ -10,8 +10,8 @@ const COLUMNS = ['username', 'rights'];
 
 <div>
     <!--Форма створення користувачів-->
-    <form method="post" class="userForm">
-        <h1>Корристувачі</h1>
+    <form action="../forms/userCreate.php" method="post" class="userForm">
+        <h1><?php echo $pageTitle?></h1>
         <h2>Форма створення</h2>
         <label>
             <input name="username" type="text" placeholder="Логін" required>
@@ -58,8 +58,7 @@ const COLUMNS = ['username', 'rights'];
                         echo "<th>$value</th>";
                     $column++;
                 }
-                echo "<th><a href='edit/". $user['id'] . "'>Редагувати</a></th>";
-                echo "<th><a class='red-text' href='delete/". $user['id'] . "'>X</a></th>";
+                echo "<th><a class='red-text' href='javascript:void(0);' onclick='confirmAndDelete(". $user['id'] . ")'>X</a></th>"; // Функція видалення користувача
                 echo '</tr>';
             }
             ?>
@@ -67,5 +66,9 @@ const COLUMNS = ['username', 'rights'];
     </table>
     
 </div>
+
+<script>
+
+</script>
 
 <?php include('base/footer.php'); ?>
