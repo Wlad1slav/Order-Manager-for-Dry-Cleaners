@@ -94,6 +94,16 @@ class Repository {
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
     }
 
+    public function isThereRow(string $column, string $rowElement): bool { // Read
+        // Перевіряє, чи існує рядок з заданим елементом у певной колонці
+        $query = "SELECT * FROM `$this->tableName` WHERE `$column` = :element";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bindParam(':element', $rowElement, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->rowCount() > 0;
+    }
+
     public function updateRow(int $id, array $values): bool { // Update
         // Оновлює певний рядок, визначений ідентифікатором
         if (count($this->columns) !== count($values))

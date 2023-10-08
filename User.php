@@ -17,16 +17,20 @@ class User {
      * @param string $password
      * @param Rights $rights
      */
-    public function __construct(string $username, string $password, Rights $rights, int $id = -1) {
+    public function __construct(string $username, string $password, Rights $rights, int $id = -1, $checkCompliance = true) {
+        $this->repository = new Repository(self::TABLE, self::COLUMNS);
+
+        if ($checkCompliance) {
+            // checkCompliance - Чи потрібно проводити перевірку властивостей об'єкту при створенні
+            $this->validateUsername($username); // Перевіряє, чи відповідає логін нормам
+            if (strlen($password) < 8)
+                throw new InvalidArgumentException('Конструктор User: Очікується, що довжина паролю >= 8 символів');
+        }
+
         $this->id = $id;
-        $this->validateUsername($username); // Перевіряє, чи відповідає логін нормам
         $this->username = $username;
-        if (strlen($password) < 8)
-            throw new InvalidArgumentException('Конструктор User: Очікується, що довжина паролю >= 8 символів');
         $this->password = $password;
         $this->rights = $rights;
-
-        $this->repository = new Repository(self::TABLE, self::COLUMNS);
     }
 
     public static function get($id): User {
@@ -37,7 +41,8 @@ class User {
             $userValues['username'],
             $userValues['password'],
             User::getRight($userValues['id_rights']),
-            $userValues['id']
+            $userValues['id'],
+            false // не превіряти властивості класу при стовренні
         );
     }
 
@@ -72,7 +77,10 @@ class User {
         // Перевіряє, чи складається username тільки з латинських літер, і чи містить заборонені символи
         Utils::validateName($username, "validateUsername(string $username)"); // Utils. Викликає помилку, якщо довжина строки = 0
         if (!preg_match('/^[a-zA-Z]+$/', $username))
-            throw new InvalidArgumentException('validateUsername(string $username): Очікується, що username буде містити тільки латинські літери');
+            throw new InvalidArgumentException("validateUsername(string $username): Очікується, що username буде містити тільки латинські літери");
+
+        if ($this->repository->isThereRow('username', $username)) // Перевірка, чи існує користувач
+            throw new InvalidArgumentException("validateUsername(string $username): Користувач з логіном $username вже існує.");
     }
 
     public function getPassword(): string {
