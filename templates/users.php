@@ -6,6 +6,8 @@ include('base/header.php');
 include('base/sidebar.php');
 
 const COLUMNS = ['username', 'rights'];
+
+session_start();
 ?>
 
 <div>
@@ -38,6 +40,18 @@ const COLUMNS = ['username', 'rights'];
 
     </form>
 </div>
+
+<?php
+if (isset($_SESSION['error'])) {
+    echo "<div class='error-message'>";
+
+    echo '<h3>ERROR</h3>';
+    echo '<p>' . $_SESSION['error'] . '</p>';
+    unset($_SESSION['error']);
+
+    echo '</div>';
+}
+?>
 
 <div>
     <!--ТАБЛИЦЯ КОРИСТУВАЧІВ-->

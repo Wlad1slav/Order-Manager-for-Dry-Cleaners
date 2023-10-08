@@ -5,8 +5,10 @@
     --cta-color: #c95e22; /* Яскравий оранжевий для виклику до дії */
     --background-color: #fafafa; /* Колір фону сайту */
     --red: rgb(185, 45, 45);
+    --light-red: rgb(220, 165, 165);
     --white: #FFFFFF;
     --light-gray: #f0f0f0;
+    --gray: #e6e6e6;
 
     /* ТЕКСТ */
     --font-size: 16px;
@@ -34,7 +36,8 @@
     --btn-font-size: 16px;
     --btn-text-color: var(--white);
     --btn-background-color: var(--cta-color);
-    --btn-hover-background-color: darken(var(--cta-color), 10%);
+    --btn-hover-background-color: var(--gray);
+    --btn-hover-animation: background-color 0.2s ease;
     --btn-padding: var(--small-padding) var(--medium-padding);
     --btn-border-radius: 5px;
     --btn-border: 1px solid black;
