@@ -1,3 +1,6 @@
 .sidebar a {
     color: var(--text-color);
 }
+.sidebar {
+    min-width: 15%;
+}
