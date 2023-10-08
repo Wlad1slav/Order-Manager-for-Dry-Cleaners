@@ -20,7 +20,10 @@ class Router {
                 break;
             }
         }
-        if (!$matches) echo '404';
+        if (!$matches) {
+            $errNum = 404;
+            require_once 'templates/error-page.php';
+        }
     }
 
     protected function add(string $uri, string $controller, string $method): void {

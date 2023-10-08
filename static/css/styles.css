@@ -82,8 +82,18 @@ tr:hover {
     font-weight: 600;
 }
 
+img {
+    border-radius: var(--img-border-radius);
+    width: var(--img-max-width);
+}
+
 .red-text {
     color: var(--red);
+}
+
+.error-num {
+    color: var(--red);
+    font-size: calc(var(--h1-size) + 35px);
 }
 
 input[type="submit"], input[type="text"], input[type="password"], select {

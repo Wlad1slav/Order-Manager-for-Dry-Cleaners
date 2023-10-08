@@ -43,4 +43,8 @@
     /* ТІНІ */
     --shadow-selection: 0 0 5px var(--base-color);
     --shadow-selection-animation: box-shadow 0.1s ease;
+
+    /* ЗОБРАЖЕННЯ */
+    --img-border-radius: 15px;
+    --img-max-width: 50%;
 }
