@@ -9,6 +9,6 @@ function confirmAndDelete(id) {
 
     if (isConfirmed) {
         // Якщо підтверджено, відбувається редірект до точки видалення з ідентифікатором об'єкту
-        window.location.href = 'userDelete.php?id=' + id;
+        window.location.href = 'users/delete?id=' + id;
     }
 }

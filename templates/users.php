@@ -24,7 +24,10 @@ const COLUMNS = ['username', 'rights'];
         <label>
             <select name="rights" required>
                 <?php
-                $rights = require '../settings/rights_list.php';
+                /**
+                 * @var $DIR
+                 */
+                $rights = require "$DIR/settings/rights_list.php";
                 foreach ($rights as $right)
                     echo "<option value='" . $right->getId() ."'>" . $right->getSlug() . "</option>";
                 ?>

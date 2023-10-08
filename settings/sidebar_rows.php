@@ -1,13 +1,12 @@
 <?php
-$url = $config['url_placeholder'];
 return [
-    'Головна' => "$url/",
+    'Головна' => "/",
     '1' => '',
-    'Замовлення' => "$url/orders.php",
-    'Клієнти' => "$url/customers.php",
-    'Сервіси' => "$url/products.php",
-    'Нове замовлення' => "$url/new-order.php",
+    'Замовлення' => "/orders",
+    'Клієнти' => "/customers",
+    'Сервіси' => "/products",
+    'Нове замовлення' => "/order/new",
     '2' => '',
-    'Аналітика' => "$url/analytic.php",
-    'Користувачі' => "$url/templates/users.php"
+    'Аналітика' => "/analytic",
+    'Користувачі' => "/users"
 ];

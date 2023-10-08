@@ -12,5 +12,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 <script src="../static/javascript/utils.js"></script>
 <script>
-    redirectTo('/templates/users.php');
+    redirectTo('/users');
 </script>

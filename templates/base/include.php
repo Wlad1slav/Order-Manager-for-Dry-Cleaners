@@ -1,18 +1,21 @@
 <?php
 include 'styles.php';
 
-include '../Repository.php';
-include '../RepositoryTraits.php';
-
-include '../Utils.php';
-
-include '../Goods.php';
-include '../Rights.php';
-include '../User.php';
-include '../Customer.php';
-include '../Product.php';
-include '../Order.php';
+$config = require "D:\DEV\Ampps\www\settings\config.php";
+global $DIR;
+$DIR = $config['ROOT_FOLDER'];
 
 
-$config = require '../settings/config.php';
-$sidebar = require '../settings/sidebar_rows.php';
+$sidebar = require "$DIR\settings\sidebar_rows.php";
+
+include "$DIR\Repository.php";
+include "$DIR\RepositoryTraits.php";
+
+include "$DIR\Utils.php";
+
+include "$DIR\Goods.php";
+include "$DIR\Rights.php";
+include "$DIR\User.php";
+include "$DIR\Customer.php";
+include "$DIR\Product.php";
+include "$DIR\Order.php";
