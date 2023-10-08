@@ -65,21 +65,19 @@ table {
 }
 
 th, td {
-    border: 1px solid black;
+    border: 1px solid var(--base-color);
     padding: 8px;
     text-align: center;
 }
 
 th {
-    background-color: #f2f2f2;
-}
-
-tr:hover {
-    background-color: #f5f5f5;
+    background-color: var(--table-rows-color);
 }
 
 .firsts-row th {
-    font-weight: 600;
+    font-weight: var(--table-firsts-row-weight);
+    color: var(--table-firsts-row-text-color);
+    background-color: var(--table-firsts-row-color);
 }
 
 img {

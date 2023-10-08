@@ -3,11 +3,10 @@
     --base-color: #646464; /* Середній відтінок сірого */
     --accent-color: #006699; /* Темно-синій */
     --cta-color: #c95e22; /* Яскравий оранжевий для виклику до дії */
-    --background-color: #F5F5F5; /* Колір фону сайту */
+    --background-color: #fafafa; /* Колір фону сайту */
     --red: rgb(185, 45, 45);
     --white: #FFFFFF;
-    --dark-white: #e6e6e6; /* Темно-білий */
-    --light-gray: #EAEAEA;
+    --light-gray: #f0f0f0;
 
     /* ТЕКСТ */
     --font-size: 16px;
@@ -47,4 +46,10 @@
     /* ЗОБРАЖЕННЯ */
     --img-border-radius: 15px;
     --img-max-width: 50%;
+
+    /* ТАБЛИЦІ */
+    --table-firsts-row-weight: 600;
+    --table-firsts-row-color: var(--base-color);
+    --table-firsts-row-text-color: var(--white);
+    --table-rows-color: var(--light-gray);
 }
