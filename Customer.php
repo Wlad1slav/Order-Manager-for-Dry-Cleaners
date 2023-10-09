@@ -7,27 +7,30 @@ class Customer {
     private string $fullName; // Ім'я замовника
     private string $phoneNumber; // Номер телефону замовника
     private float $discount; // Знижка, що має замовник
+    private string $advertisingCompany; // Рекламна кампанія, звідки клієнт дізнався о нас
 
-    const COLUMNS = ['full_name', 'phone_number', 'discount'];
+    const COLUMNS = ['name', 'phone', 'discount', 'advertising_company'];
     const TABLE = 'customers'; // Назва таблиці, у якої зберігаються данні
 
     /**
-     * @param int $id
      * @param string $fullName
      * @param string $phoneNumber
      * @param float $discount
+     * @param string $advertisingCompany
+     * @param int $id
      */
-    public function __construct(string $fullName, string $phoneNumber, float $discount, int $id = -1) {
+    public function __construct(string $fullName, string $phoneNumber, float $discount, string $advertisingCompany, int $id = -1) {
         $this->id = $id;
         if (strlen($fullName) == 0 || strlen($fullName) > 30)
-            throw new InvalidArgumentException('Конструктор Customer: Очікується, що fullName не буде пустим і буде містити меньш, ніж 30 символів.');
+            throw new InvalidArgumentException("Конструктор Customer: Очікується, що ім'я $fullName не буде пустим і буде містити меньш, ніж 30 символів.");
         $this->fullName = $fullName;
         if (strlen($phoneNumber) == 0 || strlen($phoneNumber) > 20)
-            throw new InvalidArgumentException('Конструктор Customer: Очікується, що password не буде пустим і буде містити меньш, ніж 20 символів.');
+            throw new InvalidArgumentException("Конструктор Customer: Очікується, що номер телефону $phoneNumber не буде пустим і буде містити меньш, ніж 20 символів.");
         $this->phoneNumber = $phoneNumber;
         if ($discount > 100)
             throw new InvalidArgumentException('Конструктор Customer: Знижка не може бути більше 99%.');
         $this->discount = Utils::atLeastFloat($discount, 0);
+        $this->advertisingCompany = $advertisingCompany;
 
         $this->repository = new Repository(self::TABLE, self::COLUMNS);
     }
@@ -37,18 +40,20 @@ class Customer {
         $repository = new Repository(self::TABLE, self::COLUMNS);
         $customerValues = $repository->getRow($id);
         return new Customer(
-            $customerValues['full_name'],
-            $customerValues['phone_number'],
+            $customerValues['name'],
+            $customerValues['phone'],
             $customerValues['discount'],
+            $customerValues['advertising_company'],
             $customerValues['id']
         );
     }
 
     public function getValues(): array {
         return [
-            $this->fullName,        // full_name        varchar
-            $this->phoneNumber,     // phone_number     varchar
-            $this->discount         // discount         float
+            $this->fullName,                // full_name                varchar
+            $this->phoneNumber,             // phone_number             varchar
+            $this->discount,                // discount                 float
+            $this->advertisingCompany,      // advertisingCompany       varchar
         ];
     }
 
@@ -89,5 +94,15 @@ class Customer {
         if ($discount > 100)
             throw new InvalidArgumentException("setDiscount(float $discount): Знижка не може бути більше 99%.");
         $this->discount = Utils::atLeastFloat($discount, 0);
+    }
+
+    public function getAdvertisingCompany(): string {
+        // Повертає рекламну кампанію клієнта
+        return $this->advertisingCompany;
+    }
+
+    public function setAdvertisingCompany(string $advertisingCompany): void {
+        // Змінює рекламну кампанію клієнта
+        $this->advertisingCompany = $advertisingCompany;
     }
 }
