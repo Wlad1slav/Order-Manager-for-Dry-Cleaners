@@ -1,0 +1,37 @@
+form {
+    margin-bottom: var(--large-padding);
+}
+
+label {
+    margin-bottom: var(--small-padding);
+}
+
+input[type="submit"], input[type="text"], input[type="password"], input[type="tel"], input[type="number"], select {
+    transition: var(--shadow-selection-animation);
+    font-size: var(--btn-font-size);
+    /*color: var(--btn-text-color);*/
+    /*background-color: var(--btn-background-color);*/
+    border-radius: var(--btn-border-radius);
+    padding: var(--btn-padding);
+    border: var(--btn-border);
+    margin-bottom: var(--small-padding);
+}
+
+input[type="submit"] {
+    transition: var(--btn-hover-animation)!important;
+}
+
+input[type="submit"]:hover {
+    cursor: pointer;
+    background-color: var(--btn-hover-background-color);
+}
+
+input[type="number"] {
+    max-width: 8%;
+    text-align: center;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, select:focus {
+    outline: 0 solid;
+    box-shadow: var(--shadow-selection);
+}

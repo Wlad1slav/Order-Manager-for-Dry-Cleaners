@@ -3,3 +3,4 @@
 <link rel="stylesheet" href="../../static/css/footer.css">
 <link rel="stylesheet" href="../../static/css/root.css">
 <link rel="stylesheet" href="../../static/css/sidebar.css">
+<link rel="stylesheet" href="../../static/css/form.css">
