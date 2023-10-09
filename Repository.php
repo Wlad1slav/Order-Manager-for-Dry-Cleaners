@@ -88,6 +88,8 @@ class Repository {
     
     public function getRow(int $id): array { // Read
         // Отримує окремий рядок з таблиці, знаходячи його по id
+        if (!$this->isThereRow('id', $id))
+            throw new InvalidArgumentException("getRow(int $id): Рядка з id $id в таблиці $this->tableName не існує.");
         $stmt = $this->connection->prepare("SELECT * FROM $this->tableName WHERE id = :id");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
