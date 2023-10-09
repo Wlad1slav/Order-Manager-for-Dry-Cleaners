@@ -5,14 +5,12 @@ $pageTitle = "Користувачі";
 include('base/header.php');
 include('base/sidebar.php');
 
-const COLUMNS = ['username', 'rights'];
-
 session_start();
 ?>
 
 <div>
     <!--Форма створення користувачів-->
-    <form action="../forms/userCreate.php" method="post" class="userForm">
+    <form action="../forms/userCreate.php" method="post">
         <h1><?php echo $pageTitle?></h1>
         <h2>Форма створення</h2>
         <label>
@@ -41,7 +39,7 @@ session_start();
     </form>
 </div>
 
-<?php
+<?php // Обробчик помилок, що можуть виникнути при створенні користувача
 if (isset($_SESSION['error'])) {
     echo "<div class='error-message'>";
 
@@ -62,6 +60,7 @@ if (isset($_SESSION['error'])) {
                 <th>ID</th>
                 <th>Username</th>
                 <th>Рівень прав</th>
+                <th></th>
             </tr>
         </thead>
         <thead>
@@ -75,7 +74,7 @@ if (isset($_SESSION['error'])) {
                         echo "<th>$value</th>";
                     $column++;
                 }
-                echo "<th><a class='red-text' href='javascript:void(0);' onclick='confirmAndDelete(". $user['id'] . ")'>X</a></th>"; // Функція видалення користувача
+                echo "<th><a class='red-text' href='javascript:void(0);' onclick='confirmAndDelete(". $user['id'] . ", \"users\")'>X</a></th>"; // Функція видалення користувача
                 echo '</tr>';
             }
             ?>
@@ -83,9 +82,5 @@ if (isset($_SESSION['error'])) {
     </table>
     
 </div>
-
-<script>
-
-</script>
 
 <?php include('base/footer.php'); ?>
