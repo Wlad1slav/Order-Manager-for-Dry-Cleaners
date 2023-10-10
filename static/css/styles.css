@@ -14,6 +14,8 @@ html {
 
 .content {
     margin-left: var(--large-padding);
+    margin-top: var(--large-padding);
+    margin-bottom: var(--large-padding);
 }
 
 p, a, li, th {
@@ -59,7 +61,7 @@ table {
     border-collapse: collapse;
     width: 90%;
     table-layout: fixed;
-    margin-bottom: calc(var(--large-padding) + var(--small-padding));
+    margin-bottom: var(--large-padding);
 }
 
 th, td {
@@ -116,6 +118,10 @@ img {
     color: var(--cta-color);
     font-weight: 600;
     font-size: calc(var(--font-size) + 15px);
+}
+
+.cta-underline {
+    text-decoration: underline var(--cta-color);
 }
 
 

@@ -1,10 +1,14 @@
 footer {
     background-color: var(--base-color);
     padding: var(--medium-padding);
-    margin-top: var(--medium-padding);
+    /*margin-top: var(--medium-padding);*/
 }
 
 footer p, footer a, footer i {
     color: var(--white);
+}
+
+footer i {
+    font-size: calc(var(--font-size) - 3px);
 }
 

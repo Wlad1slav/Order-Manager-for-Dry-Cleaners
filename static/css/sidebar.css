@@ -1,6 +1,33 @@
-.sidebar a {
-    color: var(--text-color);
+.sidebar a, .sidebar b, .sidebar p {
+    box-sizing: border-box; /* Вказує, що padding та border включені у загальний розмір елемента */
+    display: block;
+    margin: 0;
+    border-bottom: 1px solid var(--base-color-transparent);
 }
+
+.sidebar a, .sidebar b {
+    padding: var(--medium-padding);
+}
+
+.sidebar p, .sidebar a {
+    color: var(--white);
+}
+
+.sidebar a:hover {
+    background-color: var(--base-color-transparent);
+}
+.sidebar b {
+    background-color: var(--base-color);
+    cursor: pointer;
+}
+
 .sidebar {
     min-width: 15%;
+    background-color: var(--dark-gray);
+    box-shadow: 0 0 5px var(--base-color);
+    /*position: fixed;*/
+    /*top: 0;*/
+    /*left: 0;*/
+    /*overflow-y: auto;*/
 }
+

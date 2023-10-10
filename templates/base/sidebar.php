@@ -1,18 +1,18 @@
 <div class="sidebar">
-    <ul>
+
         <?php
+        /**
+         * @var $sidebar
+         * @var $pageTitle
+         */
         foreach ($sidebar as $row => $link) {
-            if ($link == '') {
-                echo '<hr>';
-                continue;
-            } elseif ($row == $pageTitle) {
-                echo "<li><b>$row</b></li>";
+            if ($row == $pageTitle) {
+                echo "<p><b>$row</b></p>";
                 continue;
             }
-            echo "<li><a href=\"$link\">$row</a></li>";
+            echo "<p><a href=\"$link\">$row</a></p>";
         }
         ?>
-    </ul>
 </div>
 
 <div class="content">
