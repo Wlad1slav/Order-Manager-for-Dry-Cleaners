@@ -1,5 +1,9 @@
 <?php
 
+require_once 'RepositoryTraits.php';
+require_once 'Utils.php';
+require_once 'Repository.php';
+
 class Customer {
     use RepositoryTraits;
 
@@ -19,13 +23,13 @@ class Customer {
      * @param string $advertisingCompany
      * @param int $id
      */
-    public function __construct(string $fullName, string $phoneNumber, float $discount, string $advertisingCompany, int $id = -1) {
+    public function __construct(string $fullName, string $phoneNumber, float $discount=0, string $advertisingCompany='', int $id = -1) {
         $this->id = $id;
-        if (strlen($fullName) == 0 || strlen($fullName) > 30)
-            throw new InvalidArgumentException("Конструктор Customer: Очікується, що ім'я $fullName не буде пустим і буде містити меньш, ніж 30 символів.");
+        if (strlen($fullName) == 0 || strlen($fullName) > 70)
+            throw new InvalidArgumentException("Конструктор Customer: Очікується, що ім'я $fullName не буде пустим і буде містити меньш, ніж 70 символів.");
         $this->fullName = $fullName;
-        if (strlen($phoneNumber) == 0 || strlen($phoneNumber) > 20)
-            throw new InvalidArgumentException("Конструктор Customer: Очікується, що номер телефону $phoneNumber не буде пустим і буде містити меньш, ніж 20 символів.");
+        if (strlen($phoneNumber) > 20)
+            throw new InvalidArgumentException("Конструктор Customer: Очікується, що номер телефону $phoneNumber буде містити меньш, ніж 20 символів.");
         $this->phoneNumber = $phoneNumber;
         if ($discount > 100)
             throw new InvalidArgumentException('Конструктор Customer: Знижка не може бути більше 99%.');
