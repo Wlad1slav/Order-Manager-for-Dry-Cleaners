@@ -7,6 +7,12 @@
 
 .sidebar a, .sidebar b {
     padding: var(--medium-padding);
+    display: flex;
+}
+
+.sidebar svg {
+    margin-top: 2px;
+    color: white;
 }
 
 .sidebar p, .sidebar a {
