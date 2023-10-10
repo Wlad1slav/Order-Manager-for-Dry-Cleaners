@@ -63,7 +63,7 @@ if (isset($_SESSION['error'])) {
                 <th></th>
             </tr>
         </thead>
-        <thead>
+        <tbody>
             <?php
             foreach(User::getAll() as $user) {
                 echo '<tr>';
@@ -78,7 +78,7 @@ if (isset($_SESSION['error'])) {
                 echo '</tr>';
             }
             ?>
-        </thead>
+        </tbody>
     </table>
     
 </div>
