@@ -1,12 +1,12 @@
 form {
-    margin-bottom: var(--large-padding);
+    /*margin-bottom: var(--large-padding);*/
 }
 
 label {
     margin-bottom: var(--small-padding);
 }
 
-input[type="submit"], input[type="text"], input[type="password"], input[type="tel"], input[type="number"], select {
+input[type="submit"], input[type="text"], input[type="password"], input[type="tel"], input[type="number"], input[type="file"], select {
     transition: var(--shadow-selection-animation);
     font-size: var(--btn-font-size);
     /*color: var(--btn-text-color);*/

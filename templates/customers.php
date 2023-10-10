@@ -78,6 +78,7 @@ if (isset($_SESSION['error'])) {
 
                 $column = 0;
                 foreach ($customer as $value) {
+                    if ($value === "None") $value = '';
                     echo "<th>$value</th>";
                     $column++;
                 }
