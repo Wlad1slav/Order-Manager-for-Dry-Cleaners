@@ -1,11 +1,11 @@
 <?php
+session_start();
+
 include('base/include.php');
 
 $pageTitle = "Клієнти";
 include('base/header.php');
 include('base/sidebar.php');
-
-session_start();
 ?>
 
 <div>
