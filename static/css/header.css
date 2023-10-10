@@ -8,3 +8,13 @@
 .header p, .header h1 {
     color: var(--white);
 }
+
+.header h1 {
+    text-decoration: underline var(--cta-color);
+}
+
+h1.UA {
+    margin-left: auto;
+    color: #6aa8ff;
+    text-decoration: underline yellow;
+}

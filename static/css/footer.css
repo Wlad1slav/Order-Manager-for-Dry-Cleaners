@@ -4,7 +4,7 @@ footer {
     margin-top: var(--medium-padding);
 }
 
-footer p, footer a {
+footer p, footer a, footer i {
     color: var(--white);
 }
 
