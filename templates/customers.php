@@ -80,11 +80,9 @@ if (isset($_SESSION['error'])) {
             foreach(array_reverse(Customer::getAll()) as $customer) {
                 echo '<tr>';
 
-                $column = 0;
                 foreach ($customer as $value) {
                     if ($value === "None") $value = '';
                     echo "<th>$value</th>";
-                    $column++;
                 }
                 echo "<th><a onclick=\"editCustomer('" . // Функція редагування клієнта
                     $customer['id'] . "','" .
