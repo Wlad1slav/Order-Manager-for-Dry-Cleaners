@@ -1,5 +1,17 @@
 <?php
 
+return [
+    "Головна" => '/',
+    "Замовлення" => '/orders',
+    "Клієнти" => "/customers",
+    "Сервіси" => "/products",
+    "Аналітика" => "/analytic",
+    "Користувачі" => "/users",
+    "Налаштування" => "/settings",
+    "Профіль" => "/profile",
+];
+
+/* // Версія sidebar-y з іконками. Мені здалося, що вони, все ж таки, зайві.
 $homepageSVG = '
 <svg style="margin-left: -4px; margin-right: 5px; margin-top: 0;" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
   <path fill="white" d="M12 0l12 12-4 0-1 12-7 -8 -7 8 -1 -12l-4 0z"/>
@@ -80,3 +92,4 @@ return [
     "$settingsSVG Налаштування" => "/settings",
     "$profileSVG Профіль" => "/profile",
 ];
+*/
