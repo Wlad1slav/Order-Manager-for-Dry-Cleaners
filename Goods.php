@@ -49,7 +49,7 @@ class Goods {
         $products = [];
         while (($data = fgetcsv($file, 1000, ",")) !== FALSE)
             // Читайте дані з файлу рядок за рядком
-            $products = $data;
+            $products[] = $data;
         fclose($file);
 
         return $products;

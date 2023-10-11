@@ -12,6 +12,9 @@ $router->get('users/delete', 'templates/userDelete.php');
 $router->get('customers', 'templates/customers.php');
 $router->get('customers/delete', 'templates/customerDelete.php');
 
+// СЕРВІСИ
+$router->get('products', 'templates/products.php');
+
 // ІНШЕ
 $router->get('error', 'templates/error-page.php');
 
