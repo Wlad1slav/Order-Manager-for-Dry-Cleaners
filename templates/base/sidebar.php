@@ -1,12 +1,13 @@
+<?php
+?>
 <div class="sidebar">
-
         <?php
         /**
          * @var $sidebar
          * @var $pageTitle
          */
         foreach ($sidebar as $row => $link) {
-            if ($row == $pageTitle) {
+            if ($link == $_SERVER['REQUEST_URI']) {
                 echo "<p><b>$row</b></p>";
                 continue;
             }
