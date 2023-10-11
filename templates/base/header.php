@@ -6,7 +6,19 @@
     <title><?php echo $pageTitle . ' :: ' . $config['Назва ПЗ']; ?></title>
     <script src="../static/javascript/utils.js"></script>
     <script src="../static/javascript/convertTableToCSV.js"></script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- DataTables CSS and JS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+    <!-- Налаштування DataTables -->
+    <script src="../../static/javascript/dataTablesConfig.js"></script>
+
 </head>
+
 <body>
 
 <div class="header">

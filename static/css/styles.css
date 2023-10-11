@@ -23,9 +23,7 @@ html {
 }
 
 .content {
-    margin-left: var(--large-padding);
-    margin-top: var(--large-padding);
-    margin-bottom: var(--large-padding);
+    padding: var(--large-padding);
 }
 
 p, a, li, th {
@@ -68,13 +66,15 @@ h3 {
 }
 
 table {
+    /* стилі таблиці, фактично, не використовуються через плагин DataTables */
     border-collapse: collapse;
-    width: 90%;
+    width: 100%; /* при оновленні сторінці база таблиця буде нормального розміру */
     table-layout: fixed;
     margin-bottom: var(--large-padding);
 }
 
 th, td {
+    /* стилі таблиці, фактично, не використовуються через плагин DataTables */
     border: 1px solid var(--base-color);
     padding: 8px;
     text-align: center;
@@ -82,10 +82,12 @@ th, td {
 }
 
 th {
+    /* стилі таблиці, фактично, не використовуються через плагин DataTables */
     background-color: var(--table-rows-color);
 }
 
 thead th {
+    /* стилі таблиці, фактично, не використовуються через плагин DataTables */
     font-weight: var(--table-firsts-row-weight);
     color: var(--table-firsts-row-text-color);
     background-color: var(--table-firsts-row-color);

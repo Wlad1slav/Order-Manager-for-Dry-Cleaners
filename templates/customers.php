@@ -49,23 +49,27 @@ if (isset($_SESSION['error'])) {
 
     <div>
         <!--ТАБЛИЦЯ КЛІЄНТІВ-->
-        <div>
-            <h2>Список</h2>
-            <b> :: </b>
-            <a href="#import" class="cta-text">Імпортувати</a>
-            <b> :: </b>
-            <a href="/settings/templates/customers_template.csv" class="cta-text">Шаблон для імпорту</a>
-            <b> :: </b>
-            <a onclick="convertAndDownloadTable('customers')" href="javascript:void(0);" class="cta-text">Експортувати</a>
-            <b> :: </b>
-        </div>
+        <script>
+            <!--Налаштування таблиці-->
+            $(document).ready( function () {
+                $('#customers').DataTable({
+                    columnDefs: [
+                        { width: '3%', targets: 0 },
+                        { width: '8%', targets: 3 },
+                        { width: '8%', targets: 5 },
+                        { width: '3%', targets: 6 }
+                    ],
+                });
+            });
+        </script>
+
         <table id="customers">
             <thead>
             <tr>
                 <th>ID</th>
                 <th>Ім'я</th>
                 <th>Номер телефону</th>
-                <th>Знижка %</th>
+                <th>Знижка</th>
                 <th>Звідки дізнався о нас</th>
                 <th></th>
                 <th></th>
@@ -97,6 +101,7 @@ if (isset($_SESSION['error'])) {
             ?>
             </tbody>
         </table>
+
     </div>
 
     <script src="../static/javascript/edit.js"></script>
@@ -131,8 +136,13 @@ if (isset($_SESSION['error'])) {
     </div>
 
 <div>
+    <h2>Імпорт клієнтів</h2>
+    <b> :: </b>
+    <a href="/settings/templates/customers_template.csv" class="cta-text">Шаблон для імпорту</a>
+    <b> :: </b>
+    <a onclick="convertAndDownloadTable('customers')" href="javascript:void(0);" class="cta-text">Експортувати</a>
+    <b> :: </b>
     <form action="../forms/customersUpload.php" method="post" enctype="multipart/form-data" id="import">
-        <h2>Імпорт клієнтів</h2>
         <input type="file" name="fileToUpload" id="fileToUpload">
         <input type="submit" value="Завантажити" name="submit">
     </form>

@@ -53,8 +53,20 @@ if (isset($_SESSION['error'])) {
 
 <div>
     <!--ТАБЛИЦЯ КОРИСТУВАЧІВ-->
-    <h2>Список</h2>
-    <table>
+    <script>
+        <!--Налаштування таблиці-->
+        $(document).ready( function () {
+            $('#users').DataTable({
+                columnDefs: [
+                    { width: '3%', targets: 0 },
+                    { width: '10%', targets: 2 },
+                    { width: '3%', targets: 3 },
+                ],
+            });
+        });
+    </script>
+
+    <table id="users">
         <thead>
             <tr class="firsts-row">
                 <th>ID</th>
