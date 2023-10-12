@@ -1,5 +1,7 @@
 <?php
 include '../templates/users.php';
+require_once '../Router.php';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
@@ -12,8 +14,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['error'] = '<b>Помилка при створенні користувача</b><br>' . $e->getMessage();
     }
 }
-?>
-<script src="../static/javascript/utils.js"></script>
-<script>
-    redirectTo('/users');
-</script>
+
+Router::redirect('/users');
