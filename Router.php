@@ -1,9 +1,10 @@
 <?php
+session_start();
 
 class Router {
-    protected array $routes;           // Масив усіх машрутів
-    protected string $uri;          // Строка запиту
-    protected string $method;       // Метод HTTP (наприклад, GET, POST тощо) запиту
+    protected array $routes;            // Масив усіх машрутів
+    protected string $uri;              // Строка запиту
+    protected string $method;           // Метод HTTP (наприклад, GET, POST тощо) запиту
 
     public function __construct() {
         $this->uri = trim(parse_url($_SERVER['REQUEST_URI'])['path'], '/');
@@ -48,6 +49,12 @@ class Router {
     public function delete(string $uri, string $controller) {
         // Додає в масив маршрутів маршрут з методом DELETE
         $this->add($uri, $controller, 'DELETE');
+    }
+
+    public static function redirect(string $path) {
+        // Функція редіректу на іншу сторінку
+        header("Location: $path");
+        die();
     }
 
 }
