@@ -5,6 +5,7 @@ $(document).ready(function() {
         "pageLength": 100, // Максимальна кількість рядків у таблиці
         "lengthChange": false,
         autoWidth: false,
+        "order": [[ 0, "desc" ]],
         language: {
             processing: "Завантаження...",
             search: "Пошук:",
