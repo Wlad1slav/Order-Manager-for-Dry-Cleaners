@@ -1,5 +1,7 @@
 <?php
 
+//require_once 'settings/rights_list.php';
+
 class Rights {
     private int $id; // Ідентифікатор рівня прав
     private string $slug; // Найменування рівня прав
@@ -15,6 +17,11 @@ class Rights {
         $this->validateSlug($slug); // Перевіряє, чи відповідає слаг нормам
         $this->slug = $slug;
         $this->perms = $perms;
+    }
+
+    public static function get(int $id): Rights {
+        $rights = require 'settings/rights_list.php';
+        return $rights[$id-1];
     }
 
     public function getId(): int {
