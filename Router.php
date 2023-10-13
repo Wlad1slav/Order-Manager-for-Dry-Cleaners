@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 class Router {
     protected array $routes;            // Масив усіх машрутів

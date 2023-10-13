@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 include '../templates/users.php';
 require_once '../Router.php';
 
@@ -15,4 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-Router::redirect('/users');
+?>
+<script src="../static/javascript/utils.js"></script>
+<script>
+    redirectTo('/users');
+</script>

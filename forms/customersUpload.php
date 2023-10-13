@@ -1,4 +1,6 @@
 <?php // Імпорт таблиці клієнтів у базу даних
+session_start();
+
 require_once '../Router.php';
 
 set_time_limit(70); // Скільки секунд може викониватися скрипт
