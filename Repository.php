@@ -86,13 +86,15 @@ class Repository {
         return $stmt->fetchAll();
     }
     
-    public function getRow(int $id): array { // Read
-        // Отримує окремий рядок з таблиці, знаходячи його по id
-        if (!$this->isThereRow('id', $id))
-            throw new InvalidArgumentException("getRow(int $id): Рядка з id $id в таблиці $this->tableName не існує.");
-        $stmt = $this->connection->prepare("SELECT * FROM $this->tableName WHERE id = :id");
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    public function getRow($element, $column='id'): array { // Read
+        // Отримує окремий рядок з таблиці, знаходячи його по $column
+        if (!$this->isThereRow($column, $element))
+            throw new InvalidArgumentException("getRow($element): Рядка з $column $element в таблиці $this->tableName не існує.");
+
+        $stmt = $this->connection->prepare("SELECT * FROM $this->tableName WHERE $column = :element");
+        $stmt->bindParam(":element", $element, PDO::PARAM_INT);
         $stmt->execute();
+
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
     }
 
