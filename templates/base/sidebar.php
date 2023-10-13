@@ -1,4 +1,6 @@
 <?php
+if (empty($_SESSION['user']['id']))
+    Router::redirect('/login');
 ?>
 <div class="sidebar">
         <?php

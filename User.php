@@ -1,4 +1,8 @@
 <?php
+require_once 'RepositoryTraits.php';
+require_once 'Repository.php';
+require_once 'Rights.php';
+require_once 'Utils.php';
 
 class User {
     use RepositoryTraits;
@@ -12,10 +16,11 @@ class User {
     const TABLE = 'users';      // Назва таблиці, у якої зберігаються данні
 
     /**
-     * @param int $id
      * @param string $username
      * @param string $password
      * @param Rights $rights
+     * @param int $id
+     * @param bool $checkCompliance
      */
     public function __construct(string $username, string $password, Rights $rights, int $id = -1, $checkCompliance = true) {
         $this->repository = new Repository(self::TABLE, self::COLUMNS);
@@ -29,7 +34,7 @@ class User {
 
         $this->id = $id;
         $this->username = $username;
-        $this->password = $password;
+        $this->password = $password; //password_hash($password, PASSWORD_DEFAULT);
         $this->rights = $rights;
     }
 
@@ -44,6 +49,39 @@ class User {
             $userValues['id'],
             false // не превіряти властивості класу при стовренні
         );
+    }
+
+    public static function getByLogin($login): User {
+        // Повертає користувача у вигляді об'єкту
+        $repository = new Repository(self::TABLE, self::COLUMNS);
+        $userValues = $repository->getRow($login, 'username');
+        return new User(
+            $userValues['username'],
+            $userValues['password'],
+            User::getRight($userValues['id_rights']),
+            $userValues['id'],
+            false // не превіряти властивості класу при стовренні
+        );
+    }
+
+    public static function authorization(string $login, string $password): void {
+        // Статичний метод для авторизації користувача
+
+        try {
+            // Чи існує користувач
+            $user = User::getByLogin($login);
+        } catch (Exception $e) {
+            $_SESSION['error'] = '<b>Проблема під час входу в обліковий запис</b><br>' . $e->getMessage();
+            Router::redirect('/login');
+        }
+
+        if($password != $user->getPassword()) {
+            $_SESSION['error'] = '<b>Проблема під час входу в обліковий запис</b><br>Неправильний пароль.';
+            Router::redirect('/login');
+        }
+
+        $_SESSION['user']['id'] = $user->getId();
+        Router::redirect('/profile');
     }
 
     public static function getRight(int $id): Rights {
@@ -91,10 +129,10 @@ class User {
         // Встановлює пароль користувачу
         if (strlen($password) <= 8)
             throw new InvalidArgumentException('setPassword(string $password): Очікується, що довжина паролю >= 8 символів');
-        $this->password = $password;
+        $this->password = $password; // password_hash($password, PASSWORD_DEFAULT);
     }
 
-    public function getRights(): Rights {
+    public function getUserRights(): Rights {
         // Повертає права користувача
         return $this->rights;
     }

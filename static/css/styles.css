@@ -98,6 +98,11 @@ img {
     width: var(--img-max-width);
 }
 
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .red-text {
     color: var(--red);
 }
@@ -116,13 +121,14 @@ img {
     padding: 10px;
     /*width: 30%;*/
     border-radius: 10px;
+    margin-bottom: var(--medium-padding);
 }
 
 .error-message h3 {
     font-weight: 600;
 }
 
-.error-message p, h3 {
+.error-message p, .error-message h3 {
     color: var(--red)!important;
 }
 
@@ -134,6 +140,12 @@ img {
 
 .cta-underline {
     text-decoration: underline var(--cta-color);
+}
+
+.rights {
+    text-align: center;
+    border: 2px solid var(--cta-color);
+    padding-right: var(--large-padding);
 }
 
 
