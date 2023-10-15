@@ -5,3 +5,14 @@ function editCustomer(id, name, phone, discount, advertising_company) {
     document.getElementById('discount').value = discount;
     document.getElementById('advertising_company').value = advertising_company;
 }
+
+function switchStatus(column, newStatus, orderID) {
+    $.ajax({
+        type: "GET",
+        url: "/switchStatus",
+        data: {column: column, newStatus: newStatus, orderID: orderID},
+        // success: function(data) {
+        //     alert(data);
+        // }
+    });
+}

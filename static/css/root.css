@@ -57,4 +57,10 @@
     --table-firsts-row-color: var(--base-color);
     --table-firsts-row-text-color: var(--white);
     --table-rows-color: var(--light-gray);
+
+    /* RADIO КНОПКИ */
+    --radio-btn-selected-color: var(--cta-color);
+    --radio-btn-border: 1px solid var(--base-color);
+    --radio-btn-width: 10px;
+    --radio-btn-height: 10px;
 }

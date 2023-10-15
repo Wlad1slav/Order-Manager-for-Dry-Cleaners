@@ -1,5 +1,12 @@
 <?php
 
+require_once 'RepositoryTraits.php';
+require_once 'Repository.php';
+require_once 'Customer.php';
+require_once 'User.php';
+require_once 'Product.php';
+require_once 'Goods.php';
+
 class Order {
     use RepositoryTraits; // Черта для операцій класу з бд
 
@@ -24,15 +31,17 @@ class Order {
      * @param User $user
      * @param Product[] $productions
      * @param int $id
+     * @param bool $isPaid
+     * @param bool $isCompleted
      */
-    public function __construct(Customer $customer, User $user, array $productions, int $id = -1) {
+    public function __construct(Customer $customer, User $user, array $productions, int $id = -1, bool $isPaid = false, bool $isCompleted = false) {
         $this->id = $id;
         $this->customer = $customer;
         $this->user = $user;
         $this->dateCreate = new DateTime();
         $this->dateEnd = (clone $this->dateCreate)->modify('+3 day');
-        $this->isPaid = false;
-        $this->isCompleted = false;
+        $this->isPaid = $isPaid;
+        $this->isCompleted = $isCompleted;
         $this->checkProductionsArray($productions, 'Конструктор Order');
         $this->productions = $productions;
         $this->totalPrice = $this->countTotalPrice();
@@ -49,6 +58,8 @@ class Order {
             User::get($orderValues['id_user']),
             Product::pullFromDB($orderValues['id']),
             $orderValues['id'],
+            $orderValues['is_paid'],
+            $orderValues['is_completed'],
         );
     }
 
