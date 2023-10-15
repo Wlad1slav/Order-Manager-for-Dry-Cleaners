@@ -12,6 +12,10 @@ $router->get('users', 'templates/users.php');                       // Пере�
 $router->post('users', 'forms/users.php');                          // Форма створення нового користувача
 $router->get('users/delete', 'templates/userDelete.php');           // Вилучення користувача
 
+// ЗАМОВЛЕННЯ
+$router->get('orders', 'templates/orders.php');                     // Сторінка з усіма замовленнями
+$router->get('switchStatus', 'forms/switchStatus.php');             // Сторінка зміни статусу замовлення
+
 // КЛІЄНТИ
 $router->get('customers', 'templates/customers.php');               // Сторінка з усіма клієнтами
 $router->get('customers/delete', 'templates/customerDelete.php');   // Видалення клієнта
