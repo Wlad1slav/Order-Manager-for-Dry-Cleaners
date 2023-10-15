@@ -23,7 +23,7 @@ class Product {
 
     public static function pullFromDB(int $id_order): array {
         // Витягує з бази даних масив виробів заданого замовлення
-        $repository = new Repository('orders', Order::COLUMNS);
+        $repository = new Repository(Order::TABLE, Order::COLUMNS);
         $orderValues = $repository->getRow($id_order);
         $productions = json_decode($orderValues['productions'], true);
 
