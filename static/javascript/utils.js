@@ -12,3 +12,18 @@ function confirmAndDelete(id, table) {
         window.location.href = table + '/delete?id=' + id;
     }
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Перевіряє, чи пусті поля для CSS стилів
+    var inputs = document.querySelectorAll('.login-form input[type="text"], .login-form input[type="password"]');
+
+    inputs.forEach(function(input) {
+        input.addEventListener('input', function() {
+            if (this.value) {
+                this.classList.add('has-value');
+            } else {
+                this.classList.remove('has-value');
+            }
+        });
+    });
+});

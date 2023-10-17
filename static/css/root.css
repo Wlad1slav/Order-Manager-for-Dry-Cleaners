@@ -8,6 +8,7 @@
     --red: rgb(155, 25, 25);
     --light-red: rgb(220, 165, 165);
     --white: #fafafa;
+    --white-transparent: rgba(255, 255, 255, 0.2);
     --light-gray: #f0f0f0;
     --gray: #e6e6e6;
     --dark-gray: #646464; /* Середній відтінок сірого */
@@ -19,7 +20,7 @@
     --line-height: 1.5; /* Висота рядка */
     --font-weight: 400; /* Товщина тексту */
     --link-color: var(--accent-color); /* Колір посилань */
-    --link-hover-color: var(--cta-color); /* Колір посилань при наведенні */
+    --link-hover-color: #cb6730; /* Колір посилань при наведенні */
 
     /* ЗАГОЛОВКИ */
     --h1-size: 40px;

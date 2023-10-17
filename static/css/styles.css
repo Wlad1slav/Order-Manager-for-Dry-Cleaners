@@ -22,8 +22,27 @@ html {
     font-family: var(--font-family);
 }
 
-.content {
+.page-container { /* sidebar + content */
+    display: flex;
+    min-height: 100vh;
+    /*width: 100%;*/
+    /*flex-direction: column;*/ /* сторінка цікаво виглядає з цім стилем. Є смисл його використовувати для мобільнмх версій */
+}
+
+.content { /* нестатичний вміст сторінки */
     padding: var(--large-padding);
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.container.page-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 p, a, li, th {
@@ -31,7 +50,7 @@ p, a, li, th {
     font-weight: var(--font-weight);
     text-decoration: none;
     line-height: var(--line-height);
-    margin: var(--small-padding) 0;
+    margin-bottom: var(--small-padding);
 }
 
 p, li, th {
@@ -58,11 +77,6 @@ h3 {
     font-size: var(--h3-size);
     color: var(--h3-color);
     margin: var(--small-padding) 0;
-}
-
-.page-container {
-    display: flex;
-    min-height: 100vh;
 }
 
 table {
@@ -96,11 +110,6 @@ thead th {
 img {
     border-radius: var(--img-border-radius);
     width: var(--img-max-width);
-}
-
-.container {
-    display: flex;
-    flex-wrap: wrap;
 }
 
 .red-text {

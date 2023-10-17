@@ -2,7 +2,8 @@ label {
     margin-bottom: var(--small-padding);
 }
 
-input[type="submit"], input[type="text"], input[type="password"], input[type="tel"], input[type="number"], input[type="file"], input[type="search"], select {
+input[type="submit"], input[type="text"], input[type="password"], input[type="tel"], input[type="number"], input[type="file"], input[type="search"],
+input, select {
     transition: var(--shadow-selection-animation);
     font-size: var(--btn-font-size);
     /*color: var(--btn-text-color);*/
@@ -10,11 +11,17 @@ input[type="submit"], input[type="text"], input[type="password"], input[type="te
     border-radius: var(--btn-border-radius);
     padding: var(--btn-padding);
     border: var(--btn-border);
-    margin-bottom: var(--small-padding);
+    margin-bottom: var(--medium-padding);
+}
+
+input[type="text"], input[type="password"], input[type="tel"], input[type="number"], input[type="search"], select {
+    background-color: var(--white);
 }
 
 input[type="submit"] {
+    margin-top: var(--medium-padding);
     transition: var(--btn-hover-animation)!important;
+    text-transform: uppercase;
 }
 
 input[type="submit"]:hover {
@@ -23,14 +30,7 @@ input[type="submit"]:hover {
 }
 
 input[type="number"] {
-    max-width: 8%;
     text-align: center;
-}
-
-.login-form {
-    display: flex;
-    flex-direction: column;
-    align-items: baseline;
 }
 
 input[type="radio"] {
@@ -62,5 +62,127 @@ input[type="radio"]:checked + label:before {
 }
 
 label {
+    margin-right: var(--small-padding);
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    /*width: 70%;*/
+    align-items: center;
+    padding: var(--medium-padding);
+    border: 1px solid var(--white-transparent);
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    /*background-color: transparent;*/
+    background-color: rgba(0,0,0, 0.2);
+}
+
+.login-form h1, p, label, a {
+    color: var(--white);
+}
+
+.login-form h1 {
+    margin-bottom: var(--large-padding);
+}
+
+.login-form a {
+    font-weight: 800;
+    border-bottom: 2px solid var(--cta-color);
+}
+
+.login-form input[type="text"], .login-form input[type="password"] {
+    border: 0;
+    border-radius: 0;
+    border-bottom: 2px solid var(--cta-color);
+    color: var(--white);
+    margin-bottom: calc(var(--medium-padding) + 15px);
+}
+
+.login-form input[type="text"], .login-form input[type="password"],
+.login-form input[type="text"]:visited, .login-form input[type="password"]:visited,
+.login-form input[type="text"]:focus, .login-form input[type="password"]:focus,
+.login-form input[type="text"]:active, .login-form input[type="password"]:active,
+.login-form input[type="text"]:-webkit-autofill, .login-form input[type="password"]:-webkit-autofill {
+    background-color: transparent!important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+    border-bottom: 2px solid var(--cta-color);
+    font-size: var(--font-size);
+    -webkit-text-fill-color: var(--white);
+    -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+
+.login-form label {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    transition: all 0.5s;
+}
+
+.login-form input[type="text"]:focus ~ label,
+.login-form input[type="text"].has-value ~ label,
+.login-form input[type="password"]:focus ~ label,
+.login-form input[type="password"].has-value ~ label{
+    top: -15px;
+    font-size: x-small;
+}
+
+.login-form input[type="text"]:focus, .login-form input[type="password"]:focus {
+    outline: 0;
+}
+
+.login-form input[type="submit"] {
+    border: 0;
+    color: var(--white);
+    background-color: var(--cta-color);
+    border-radius: 30px;
+    width: 55%;
+}
+
+.login-form input[type="submit"]:hover {
+    background-color: var(--link-hover-color);
+}
+
+.login-form input[type="text"]:hover, .login-form input[type="password"]:hover {
+    border-bottom: 2px solid var(--link-hover-color);
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.order-create-form {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+}
+
+.order-create-form .products {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--medium-padding); /* альтернатива margin */
+}
+
+.order-create-form .products .product {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    /*margin-right: var(--medium-padding);*/
+}
+
+.order-create-form .products .product input[type="number"] {
+    width: 112px;
     margin-right: var(--small-padding);
 }
