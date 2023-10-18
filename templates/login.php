@@ -13,10 +13,13 @@ include('base/header.php');
         /*https://www.hdwallpapers.in/download/raccoon_with_stare_look_on_tree_trunk_in_blur_bokeh_background_4k_5k_hd_raccoon-HD.jpg*/
         /*https://wallpaperboat.com/wp-content/uploads/2020/04/funny-raccoon-03.jpg*/
         /*https://cdn.suwalls.com/wallpapers/animals/raccoon-27229-1920x1080.jpg*/
-        background-image: url('https://cdn.suwalls.com/wallpapers/animals/raccoon-27229-1920x1080.jpg');
+        background-image:
+                /*radial-gradient(circle, transparent 50%, var(--base-color) 100%),*/
+                url('https://cdn.suwalls.com/wallpapers/animals/raccoon-27229-1920x1080.jpg');
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center center;
+
     }
 </style>
 

@@ -15,7 +15,7 @@ function confirmAndDelete(id, table) {
 
 document.addEventListener("DOMContentLoaded", function() {
     // Перевіряє, чи пусті поля для CSS стилів
-    var inputs = document.querySelectorAll('.login-form input[type="text"], .login-form input[type="password"]');
+    var inputs = document.querySelectorAll('input');
 
     inputs.forEach(function(input) {
         input.addEventListener('input', function() {

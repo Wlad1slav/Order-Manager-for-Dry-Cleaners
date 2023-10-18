@@ -129,8 +129,9 @@ img {
     background-color: var(--light-red);
     padding: 10px;
     /*width: 30%;*/
-    border-radius: 10px;
+    /*border-radius: 10px;*/
     margin-bottom: var(--medium-padding);
+    border: 5px solid var(--red);
 }
 
 .error-message h3 {

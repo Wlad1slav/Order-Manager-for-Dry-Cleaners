@@ -78,7 +78,7 @@ label {
     background-color: rgba(0,0,0, 0.2);
 }
 
-.login-form h1, p, label, a {
+.login-form h1, .login-form p, .login-form label, .login-form a {
     color: var(--white);
 }
 
@@ -123,7 +123,6 @@ select:-webkit-autofill:focus {
     transition: background-color 5000s ease-in-out 0s;
 }
 
-
 .login-form label {
     position: absolute;
     top: 10px;
@@ -137,6 +136,7 @@ select:-webkit-autofill:focus {
 .login-form input[type="password"].has-value ~ label{
     top: -15px;
     font-size: x-small;
+    /*color: var(--cta-color);*/
 }
 
 .login-form input[type="text"]:focus, .login-form input[type="password"]:focus {
