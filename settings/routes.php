@@ -15,6 +15,7 @@ $router->get('users/delete', 'templates/userDelete.php');           // Вилу�
 // ЗАМОВЛЕННЯ
 $router->get('orders', 'templates/orders.php');                     // Сторінка з усіма замовленнями
 $router->get('switchStatus', 'forms/switchStatus.php');             // Сторінка зміни статусу замовлення
+$router->get('orders/new', 'templates/createOrder.php');            // Сторінка створення замовлення
 
 // КЛІЄНТИ
 $router->get('customers', 'templates/customers.php');               // Сторінка з усіма клієнтами

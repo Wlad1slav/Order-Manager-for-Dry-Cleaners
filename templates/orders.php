@@ -19,6 +19,20 @@ const TABLE_COLUMNS = [
 ?>
 
 <div>
+
+    <h1>Замовлення</h1>
+
+    <b>::</b>
+    <a href="orders/new" style="font-weight: 800">Нове замовлення</a>
+    <b>::</b>
+    <a onclick="convertAndDownloadTable('orders')" href="javascript:void(0);" class="cta-text">Експорт</a>
+    <b>::</b>
+    <a href="#import" class="cta-text">Імпорт</a>
+    <b>::</b>
+
+</div>
+
+<div>
     <!--ТАБЛИЦЯ Замовлень-->
     <script>
         <!--Налаштування таблиці-->
@@ -32,9 +46,6 @@ const TABLE_COLUMNS = [
             });
         });
     </script>
-
-<!--    <input type="radio" onselect="">-->
-
 
     <table id="orders">
         <thead>
@@ -54,14 +65,7 @@ const TABLE_COLUMNS = [
         <tbody>
 
         <script src="../static/javascript/edit.js"></script>
-
-<!--        <script>-->
-<!--            switchStatus('isCompleted', true, 43);-->
-<!--        </script>-->
-
         <?php
-        print_r(Order::getAll()[0]);
-
         foreach(array_reverse(Order::getAll()) as $order) {
             echo '<tr>';
 

@@ -3,7 +3,7 @@ label {
 }
 
 input[type="submit"], input[type="text"], input[type="password"], input[type="tel"], input[type="number"], input[type="file"], input[type="search"],
-input, select {
+input, select, textarea {
     transition: var(--shadow-selection-animation);
     font-size: var(--btn-font-size);
     /*color: var(--btn-text-color);*/
@@ -14,7 +14,11 @@ input, select {
     margin-bottom: var(--medium-padding);
 }
 
-input[type="text"], input[type="password"], input[type="tel"], input[type="number"], input[type="search"], select {
+select, textarea {
+    width: 98%;
+}
+
+input[type="text"], input[type="password"], input[type="tel"], input[type="number"], input[type="search"], select, textarea {
     background-color: var(--white);
 }
 

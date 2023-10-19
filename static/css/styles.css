@@ -158,4 +158,9 @@ img {
     padding-right: var(--large-padding);
 }
 
+.important {
+    font-size: calc(var(--font-size) + 15px);
+    color: var(--cta-color);
+}
+
 
