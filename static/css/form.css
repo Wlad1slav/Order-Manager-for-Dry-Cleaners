@@ -2,30 +2,47 @@ label {
     margin-bottom: var(--small-padding);
 }
 
-input[type="submit"], input[type="text"], input[type="password"], input[type="tel"], input[type="number"], input[type="file"], input[type="search"],
+input[type="text"], input[type="password"], input[type="tel"], input[type="number"], input[type="file"], input[type="search"],
 input, select, textarea {
-    transition: var(--shadow-selection-animation);
+    /*transition: var(--shadow-selection-animation);*/
     font-size: var(--btn-font-size);
     /*color: var(--btn-text-color);*/
     /*background-color: var(--btn-background-color);*/
-    border-radius: var(--btn-border-radius);
-    padding: var(--btn-padding);
-    border: var(--btn-border);
+    border-radius: var(--input-border-radius);
+    padding: var(--input-padding);
+    border: var(--input-border);
+    border-bottom: var(--input-border-bottom);
     margin-bottom: var(--medium-padding);
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: 0;
 }
 
 select, textarea {
     width: 98%;
 }
 
-input[type="text"], input[type="password"], input[type="tel"], input[type="number"], input[type="search"], select, textarea {
-    background-color: var(--white);
+input, select, textarea {
+    background-color: var(--input-background);
+}
+
+select, textarea {
+    border: var(--big-input-border);
 }
 
 input[type="submit"] {
     margin-top: var(--medium-padding);
     transition: var(--btn-hover-animation)!important;
     text-transform: uppercase;
+
+    font-size: var(--btn-font-size);
+    color: var(--btn-text-color);
+    background-color: var(--btn-background-color);
+    border: var(--btn-border);
+    border-radius: var(--btn-border-radius);
+    padding: var(--btn-padding);
+    margin-bottom: var(--medium-padding);
 }
 
 input[type="submit"]:hover {

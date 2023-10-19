@@ -37,12 +37,12 @@
 
     /* КНОПКИ */
     --btn-font-size: 16px;
-    --btn-text-color: var(--white);
-    --btn-background-color: var(--cta-color);
+    --btn-text-color: var(--base-color);
+    --btn-background-color: transparent;
     --btn-hover-background-color: var(--gray);
     --btn-hover-animation: background-color 0.2s ease;
     --btn-padding: var(--small-padding) var(--medium-padding);
-    --btn-border-radius: 5px;
+    --btn-border-radius: 0;
     --btn-border: 1px solid black;
 
     /* ТІНІ */
@@ -64,4 +64,13 @@
     --radio-btn-border: 1px solid var(--base-color);
     --radio-btn-width: 10px;
     --radio-btn-height: 10px;
+
+    /* ПОЛЯ ФОРМ */
+    --input-background: var(--background-color);
+    --input-border: 0;
+    --input-border-bottom: 2px solid var(--base-color);
+    --big-input-border: 1px solid var(--base-color);
+    --input-padding: var(--btn-padding);
+    --input-margin: 0 var(--medium-padding) 0 0;
+    --input-border-radius: 0;
 }
