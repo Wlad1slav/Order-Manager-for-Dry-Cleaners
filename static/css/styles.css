@@ -112,6 +112,7 @@ img {
     width: var(--img-max-width);
 }
 
+/* ФОРМАТУВАННЯ ТЕКСТУ */
 .red-text {
     color: var(--red);
 }
@@ -152,15 +153,23 @@ img {
     text-decoration: underline var(--cta-color);
 }
 
-.rights {
-    text-align: center;
-    border: 2px solid var(--cta-color);
-    padding-right: var(--large-padding);
-}
-
 .important {
     font-size: calc(var(--font-size) + 15px);
     color: var(--cta-color);
+}
+
+.important-2 {
+    padding: 2px 4px;
+    background-color: var(--cta-color);
+    border-radius: 5px;
+}
+
+/* СТИЛІ ПО ОКРЕМИМ СТОРІНКАМ */
+.rights {
+    /* Стилі блоку прав на сторінці профілю */
+    text-align: center;
+    border: 2px solid var(--cta-color);
+    padding-right: var(--large-padding);
 }
 
 

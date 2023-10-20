@@ -2,7 +2,7 @@
     display: flex;
     background-color: var(--base-color);
     padding: var(--medium-padding);
-    /*border-bottom: 1px solid var(--dark-gray);*/
+    align-items: flex-start;
 }
 
 .header p, .header h1 {
