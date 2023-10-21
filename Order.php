@@ -33,15 +33,33 @@ class Order {
      * @param int $id
      * @param bool $isPaid
      * @param bool $isCompleted
+     * @param DateTime|null $dateCreate
+     * @param DateTime|null $dateEnd
+     * @throws Exception
      */
-    public function __construct(Customer $customer, User $user, array $productions, int $id = -1, bool $isPaid = false, bool $isCompleted = false) {
+    public function __construct(
+        Customer $customer, User $user,
+        array $productions, int $id = -1,
+        bool $isPaid = false, bool $isCompleted = false,
+        ?DateTime $dateCreate = null, ?DateTime $dateEnd = null) {
+
         $this->id = $id;
         $this->customer = $customer;
         $this->user = $user;
-        $this->dateCreate = new DateTime();
-        $this->dateEnd = (clone $this->dateCreate)->modify('+3 day');
+
+//        $date = new DateTime('now', new DateTimeZone('UTC'));
+//        $date->setTimezone(new DateTimeZone('Europe/Kiev'));
+
+        if ($dateCreate === null)
+            $this->dateCreate = new DateTime();
+        else $this->dateCreate = $dateCreate;
+        if ($dateEnd === null)
+            $this->dateEnd = (clone $this->dateCreate)->modify('+3 day');
+        else $this->dateEnd = $dateEnd;
+
         $this->isPaid = $isPaid;
         $this->isCompleted = $isCompleted;
+
         $this->checkProductionsArray($productions, 'Конструктор Order');
         $this->productions = $productions;
         $this->totalPrice = $this->countTotalPrice();
@@ -60,6 +78,8 @@ class Order {
             $orderValues['id'],
             $orderValues['is_paid'],
             $orderValues['is_completed'],
+            DateTime::createFromFormat('Y-m-d H:i:s', $orderValues['date_create']),
+            DateTime::createFromFormat('Y-m-d', $orderValues['date_end']),
         );
     }
 
