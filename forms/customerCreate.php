@@ -1,7 +1,8 @@
 <?php
-session_start();
+//session_start();
+global $router;
 
-include '../templates/customers.php';
+require_once 'Customer.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST["name"];
     $phone = $_POST["phone"];
@@ -15,8 +16,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['error'] = '<b>Помилка при створенні клієнта</b><br>' . $e->getMessage();
     }
 }
-?>
-<script src="../static/javascript/utils.js"></script>
-<script>
-    redirectTo('/customers');
-</script>
+
+$router->redirect('customersTable');

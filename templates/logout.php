@@ -1,3 +1,4 @@
 <?php
+global $router;
 unset($_SESSION['user']['id']);
-Router::redirect('/login');
+$router->redirect('login');

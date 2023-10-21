@@ -1,13 +1,12 @@
 <?php
-session_start();
+global $router;
 
-include '../templates/users.php';
-require_once '../Router.php';
+require_once 'Router.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
-    $rights = require '../settings/rights_list.php';
+    $rights = require 'settings/rights_list.php';
     $right = $rights[$_POST["rights"]-1];
     try {
         $user = new User($username, $password, $right);
@@ -17,8 +16,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-?>
-<script src="../static/javascript/utils.js"></script>
-<script>
-    redirectTo('/users');
-</script>
+$router->redirect('usersTable');

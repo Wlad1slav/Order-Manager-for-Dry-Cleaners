@@ -1,4 +1,5 @@
 <?php
+global $router;
 session_start();
 
 require_once '../Router.php';
@@ -17,4 +18,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-Router::redirect('/profile');
+$router->redirect('profile');

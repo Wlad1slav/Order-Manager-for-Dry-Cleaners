@@ -1,5 +1,6 @@
 <?php
 session_start();
+global $router;
 
 require_once 'User.php';
 

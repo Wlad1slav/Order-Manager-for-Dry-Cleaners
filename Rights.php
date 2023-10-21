@@ -1,6 +1,7 @@
 <?php
 
-//require_once 'settings/rights_list.php';
+require_once 'Utils.php';
+require_once 'User.php';
 
 class Rights {
     private int $id; // Ідентифікатор рівня прав

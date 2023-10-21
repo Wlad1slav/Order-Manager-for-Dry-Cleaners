@@ -67,21 +67,22 @@ class User {
     public static function authorization(string $login, string $password): void {
         // Статичний метод для авторизації користувача
 
+        global $router;
         try {
             // Чи існує користувач
             $user = User::getByLogin($login);
         } catch (Exception $e) {
             $_SESSION['error'] = '<b>Проблема під час входу в обліковий запис</b><br>' . $e->getMessage();
-            Router::redirect('/login');
+            $router->redirect('login');
         }
 
         if($password != $user->getPassword()) {
             $_SESSION['error'] = '<b>Проблема під час входу в обліковий запис</b><br>Неправильний пароль.';
-            Router::redirect('/login');
+            $router->redirect('login');
         }
 
         $_SESSION['user']['id'] = $user->getId();
-        Router::redirect('/profile');
+        $router->redirect('profile');
     }
 
     public static function getRight(int $id): Rights {

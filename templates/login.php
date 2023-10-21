@@ -1,6 +1,7 @@
 <?php
+global $router;
 if (!empty($_SESSION['user']['id']))
-    Router::redirect('/profile');
+    $router->redirect('profile');
 
 include('base/include.php');
 

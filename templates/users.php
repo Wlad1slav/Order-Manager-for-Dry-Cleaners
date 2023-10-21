@@ -8,7 +8,7 @@ include('base/sidebar.php');
 
 <div>
     <!--Форма створення користувачів-->
-    <form action="../forms/userCreate.php" method="post">
+    <form method="post">
         <h1><?php echo $pageTitle?></h1>
         <h2>Форма створення</h2>
         <label>

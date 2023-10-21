@@ -1,4 +1,5 @@
 <?php // Імпорт таблиці клієнтів у базу даних
+global $router;
 session_start();
 
 require_once '../Router.php';
@@ -20,7 +21,7 @@ if (isset($_POST["submit"])) {
     if ($fileType != "csv") {// Перевірка, чи в форматі .csv файл
 //        die("<h1>Помилка при імпорті клієнтів</h1><br> На жаль імпорт файлів з розширенням файлу $fileType недоступно. Будь ласка, переконайтесь, що файл у форматі <b><i>.csv</i></b>!");
         $_SESSION['error'] = "<b>Помилка при імпорті клієнтів.</b><br>Формат повинен буте .csv, ви намагалися імпортувати файл із розширенням $fileType!";
-        Router::redirect('/customers');
+        $router->redirect('customersTable');
     }
 
     try {
@@ -28,7 +29,7 @@ if (isset($_POST["submit"])) {
     } catch (Exception $e) {
 //        die("<h1>Помилка при імпорті клієнтів</h1><br>" . $e->getMessage());
         $_SESSION['error'] = '<b>Помилка при імпорті клієнтів</b><br>' . $e->getMessage();
-        Router::redirect('/customers');
+        $router->redirect('customersTable');
     }
 
     $file = fopen($target_file, 'r'); // $target_file = uploads/example.csv
@@ -47,4 +48,4 @@ if (isset($_POST["submit"])) {
     fclose($file); // Закриває файл
 }
 
-Router::redirect('/customers');
+$router->redirect('customersTable');

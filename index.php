@@ -10,6 +10,7 @@ $DIR = __DIR__;
 
 require_once 'Router.php';
 
+global $router;
 $router = new Router();
 require_once 'settings/routes.php';
 

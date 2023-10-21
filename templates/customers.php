@@ -8,7 +8,7 @@ include('base/sidebar.php');
 
 <div>
     <!--Форма створення нових клієнтів-->
-    <form action="../forms/customerCreate.php" method="post">
+    <form method="post">
         <h1><?php echo $pageTitle?></h1>
         <h2>Форма створення</h2>
 
@@ -33,7 +33,7 @@ include('base/sidebar.php');
     </form>
 </div>
 
-<?php // Обробчик помилок, що можуть виникнути при створенні клієнта
+<?php // Обробчик помилок, що можуть виникнути при взаїмодії з клієнтами
 if (isset($_SESSION['error'])) {
     echo "<div class='error-message'>";
 

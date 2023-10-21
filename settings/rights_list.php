@@ -1,4 +1,5 @@
 <?php
+require_once 'Rights.php';
 
 $all = [
     'homepage' =>   ['view'],                                                       // Головна сторінка

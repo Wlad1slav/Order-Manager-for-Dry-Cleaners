@@ -1,6 +1,7 @@
 <?php
+global $router;
 if (empty($_SESSION['user']['id']))
-    Router::redirect('/login');
+    $router->redirect('login');
 ?>
 <div class="sidebar">
         <?php
@@ -9,7 +10,7 @@ if (empty($_SESSION['user']['id']))
          * @var $pageTitle
          */
         foreach ($sidebar as $row => $link) {
-            if ($link == $_SERVER['REQUEST_URI']) {
+            if ("/$link" == $_SERVER['REQUEST_URI']) {
                 echo "<p><b>$row</b></p>";
                 continue;
             }
