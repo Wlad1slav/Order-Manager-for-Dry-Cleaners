@@ -38,6 +38,10 @@ html {
     flex-wrap: wrap;
 }
 
+.container-margin {
+    margin-bottom: var(--large-padding);
+}
+
 .container.page-center {
     position: absolute;
     top: 50%;
