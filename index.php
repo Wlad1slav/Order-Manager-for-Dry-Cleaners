@@ -14,4 +14,6 @@ global $router;
 $router = new Router();
 require_once 'settings/routes.php';
 
-//print_r($router->routes);
+$config = require_once 'settings/config.php';
+
+date_default_timezone_set($config['timezone']);
