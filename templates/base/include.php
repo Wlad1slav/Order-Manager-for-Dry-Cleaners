@@ -1,21 +1,21 @@
 <?php
-include 'styles.php';
+require_once 'styles.php';
 
-$config = require "D:\DEV\Ampps\www\settings\config.php";
+$config = require_once "D:\DEV\Ampps\www\settings\config.php";
 global $DIR;
 $DIR = $config['ROOT_FOLDER'];
 
+global $router;
+$sidebar = require_once "$DIR\settings\sidebar_rows.php";
 
-$sidebar = require "$DIR\settings\sidebar_rows.php";
+require_once "$DIR\Repository.php";
+require_once "$DIR\RepositoryTraits.php";
 
-include "$DIR\Repository.php";
-include "$DIR\RepositoryTraits.php";
+require_once "$DIR\Utils.php";
 
-include "$DIR\Utils.php";
-
-include "$DIR\Goods.php";
-include "$DIR\Rights.php";
-include "$DIR\User.php";
-include "$DIR\Customer.php";
-include "$DIR\Product.php";
-include "$DIR\Order.php";
+require_once "$DIR\Goods.php";
+require_once "$DIR\Rights.php";
+require_once "$DIR\User.php";
+require_once "$DIR\Customer.php";
+require_once "$DIR\Product.php";
+require_once "$DIR\Order.php";
