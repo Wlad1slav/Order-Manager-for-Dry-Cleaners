@@ -67,8 +67,8 @@
 
     /* ПОЛЯ ФОРМ */
     --input-background: var(--background-color);
-    --input-border: 0;
-    --input-border-bottom: 2px solid var(--base-color);
+    --input-border: 1px solid var(--base-color);
+    --input-border-bottom: 3px solid var(--base-color);
     --big-input-border: 1px solid var(--base-color);
     --input-padding: var(--btn-padding);
     --input-margin: 0 var(--medium-padding) 0 0;
