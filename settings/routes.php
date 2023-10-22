@@ -1,6 +1,6 @@
 <?php
 /**     @var $router
-        ФАЙЛ МАРШРУТИЗАЦІЇ СТОРІНОК
+        МАРШРУТИЗАЦІЯ СТОРІНОК
 */
 
 // КОРИСТУВАЧІ
@@ -24,6 +24,11 @@ $router->get('customers/delete', 'templates/customerDelete.php', 'customerDelete
 
 // СЕРВІСИ
 $router->get('products', 'templates/products.php', 'productsList');                     // Сторінка з усіма сервісами
+
+// НАЛАШТУВАННЯ
+$router->get('settings1', 'templates/settingsPage.php', 'settingsPage');                // Сторінка з налаштуваннями
+$router->post('settings1', 'forms/fieldCreate.php', 'fieldAdd');                        // Форма, що додає нове додаткове поле замовлення
+$router->get('settings1/delete', 'templates/fieldRemove.php', 'fieldRemove');               // Видалення додаткового поля замовлення
 
 // ІНШЕ
 $router->get('error', 'templates/error-page.php', 'error');                             // Сторінка помилки

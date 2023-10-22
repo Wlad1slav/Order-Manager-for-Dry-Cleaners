@@ -19,3 +19,4 @@ require_once "$DIR\User.php";
 require_once "$DIR\Customer.php";
 require_once "$DIR\Product.php";
 require_once "$DIR\Order.php";
+require_once "$DIR\ProductAdditionalFields.php";

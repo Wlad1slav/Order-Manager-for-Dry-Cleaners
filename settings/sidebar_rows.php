@@ -8,6 +8,6 @@ return [
     "Сервіси" => $router->url('productsList'),
     "Аналітика" => "/analytic",
     "Користувачі" => $router->url('usersTable'),
-    "Налаштування" => "/settings",
+    "Налаштування" => $router->url('settingsPage'),
     "Профіль" => $router->url('profile'),
 ];

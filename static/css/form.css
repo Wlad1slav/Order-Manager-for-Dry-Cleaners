@@ -19,10 +19,6 @@ input:focus, select:focus, textarea:focus {
     outline: 0;
 }
 
-select, textarea {
-    width: 98%;
-}
-
 input, select, textarea {
     background-color: var(--input-background);
 }
@@ -86,6 +82,11 @@ label {
     margin-right: var(--small-padding);
 }
 
+.input-wrapper {
+    position: relative;
+}
+
+/* ФОРМА ВХОДУ */
 .login-form {
     display: flex;
     flex-direction: column;
@@ -180,10 +181,7 @@ select:-webkit-autofill:focus {
     border-bottom: 2px solid var(--link-hover-color);
 }
 
-.input-wrapper {
-    position: relative;
-}
-
+/* ФОРМА СТВОРЕННЯ ЗАМОВЛЕННЯ */
 .order-create-form {
     display: flex;
     flex-direction: column;
@@ -206,4 +204,15 @@ select:-webkit-autofill:focus {
 .order-create-form .products .product input[type="number"] {
     width: 112px;
     margin-right: var(--small-padding);
+}
+
+.order-create-form select, .order-create-form textarea {
+    width: 98%;
+}
+
+
+.fields-create {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
 }
