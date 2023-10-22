@@ -68,7 +68,7 @@ class Router {
         // Метод, що повертає посилання на сторінку по заданой назві
         foreach ($this->routes as $route)
             if ($route['name'] == $name)
-                return $route['uri'];
+                return '/' . $route['uri'];
         // Якщо маршрут не знайдено, кидає помилку
         throw new InvalidArgumentException("url($name): Посилання з назвою \"$name\" не існує.");
     }
