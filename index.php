@@ -14,6 +14,4 @@ global $router;
 $router = new Router();
 require_once 'settings/routes.php';
 
-$config = require_once 'settings/config.php';
-
-date_default_timezone_set($config['timezone']);
+date_default_timezone_set('Europe/Kiev');

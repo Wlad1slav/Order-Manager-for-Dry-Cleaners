@@ -5,5 +5,4 @@ return [
     "Пошта для зв'язку" => 'vlad.fokin2004.vf@gmail.com',
     'Github Repository' => 'https://github.com/Wlad1slav/Kursaczh-OOP',
     'ROOT_FOLDER' => 'D:\DEV\Ampps\www\\',
-    'timezone' => 'Europe/Kiev',
 ];
