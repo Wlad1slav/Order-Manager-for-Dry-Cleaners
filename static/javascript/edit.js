@@ -9,10 +9,7 @@ function editCustomer(id, name, phone, discount, advertising_company) {
 function switchStatus(column, newStatus, orderID) {
     $.ajax({
         type: "GET",
-        url: "/switchStatus",
+        url: "orders/switchStatus",
         data: {column: column, newStatus: newStatus, orderID: orderID},
-        // success: function(data) {
-        //     alert(data);
-        // }
     });
 }

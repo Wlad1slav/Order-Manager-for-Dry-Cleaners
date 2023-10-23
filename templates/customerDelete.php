@@ -12,5 +12,5 @@ Customer::get($customerID)->delete();
 ?>
 <script src="../static/javascript/utils.js"></script>
 <script>
-    redirectTo('/customers');
+    redirectTo('customers');
 </script>
