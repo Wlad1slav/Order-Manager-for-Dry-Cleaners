@@ -54,10 +54,10 @@ global $router;
         </select>
 
         <label for="defaultFieldValue">Значення за замовчуванням</label>
-        <input type="text" name="defaultFieldValue" id="defaultFieldValue" required>
+        <input type="text" name="defaultFieldValue" id="defaultFieldValue">
 
-        <label for="availableValues">Значення за замовчуванням (через кому)</label>
-        <textarea name="availableValues" id="availableValues" required></textarea>
+        <label for="availableValues">Швидкий вибір значень (через кому)</label>
+        <textarea name="availableValues" id="availableValues"></textarea>
 
         <input type="submit" value="Створити">
     </form>

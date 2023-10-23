@@ -4,9 +4,9 @@ class ProductAdditionalFields {
     const TYPES = [                     // Можливі типи полів
         'text',
         'textarea',
-        'num',
+        'number',
         'dropdown',
-        'checkboxes',
+        'checkbox',
         'radio',
     ];
 
@@ -26,11 +26,25 @@ class ProductAdditionalFields {
             if (!in_array($type, $this::TYPES))
                 throw new InvalidArgumentException("addField(string $name, string $type, string $default = '', array possibleValues = []): Некоретний \"$type\" тип поля.");
         }
-        $this->fields[] = [$name, $type, $default, $possibleValues];
+        $this->fields[] = [
+            'name' => $name,
+            'type' => $type,
+            'default' => $default,
+            'possibleValues' => $possibleValues
+        ];
     }
 
     public function removeField(int $index): void {
         array_splice($this->fields, $index, 1);
+    }
+
+    private function fieldExists(string $name): bool {
+        foreach ($this->fields as $field) {
+            if ($field['name'] === $name) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public function convertFieldsToJson(): string {
@@ -46,12 +60,71 @@ class ProductAdditionalFields {
 
     public static function getJson(): array {
         // Метод, що повертає дані о полях з json у форматі масиву
-        return json_decode(file_get_contents(self::CONFIG_PATH));
+        return json_decode(file_get_contents(self::CONFIG_PATH), true) ?? [];
     }
 
-//    public static function generateHTML(array $field): string {
-//        $result = '';
-//    }
+    public function generateHTML(array $field, int $fieldNum, $productNum): string {
+        // Генерує додаткові поля для замовлення
+        switch ($field['1']) {
+            case 'dropdown':
+                return $this->generateDropdown($field, $fieldNum, $productNum);
+            case 'number':
+            case 'text':
+            case 'textarea':
+                return $this->generateInputOrTextarea($field, $fieldNum, $productNum);
+            case 'checkbox':
+            case 'radio':
+                return $this->generateCheckboxOrRadio($field, $fieldNum, $productNum);
+            default:
+                return print_r($field, true);
+        }
+    }
+
+    private function generateDropdown(array $field, int $fieldNum, int $productNum): string {
+        // SELECT
+        $label = $this->generateLabel($field[0], $fieldNum, $productNum);
+        $input = "<select id='additionalPropertie-$fieldNum-$productNum'>";
+        foreach ($field[3] as $option) {
+            $input .= "<option value='$option'>$option</option>";
+        }
+        $input .= "</select>";
+        return $label . $input;
+    }
+
+    private function generateInputOrTextarea(array $field, int $fieldNum, int $productNum): string {
+        // TEXT, NUMBER, TEXTAREA
+        $label = $this->generateLabel($field[0], $fieldNum, $productNum);
+        if ($field[1] === 'textarea') {
+            $input = "<textarea id='additionalPropertie-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum'></textarea>";
+        } else {
+            $input = "<input type='{$field['1']}' list='additionalPropertie-datalist-$fieldNum-$productNum' id='additionalPropertie-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum'>";
+            if (!empty($field[3])) {
+                $input .= "<datalist id='additionalPropertie-datalist-$fieldNum-$productNum'>";
+                foreach ($field[3] as $option) {
+                    $input .= "<option value='$option'>$option</option>";
+                }
+                $input .= "</datalist>";
+            }
+        }
+        return $label . $input;
+    }
+
+    private function generateCheckboxOrRadio(array $field, int $fieldNum, int $productNum): string {
+        // CHECKBOX, RADIO
+        $label = $this->generateLabel($field[0], $fieldNum, $productNum);
+        $input = "";
+        $optionNum = 0;
+        foreach ($field['3'] as $option) {
+            $optionNum++;
+            $input .= "<label><input type='{$field[1]}' value='$option' id='additionalPropertie-$optionNum-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum'>$option</label>";
+        }
+        return $label . $input;
+    }
+
+    private function generateLabel(string $name, int $fieldNum, int $productNum): string {
+        // LABEL
+        return "<label for='additionalPropertie-$fieldNum-$productNum'>$name</label>";
+    }
 
     public function getFields(): array {
         // Повертає масив полів

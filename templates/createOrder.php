@@ -4,6 +4,8 @@ include('base/include.php');
 $pageTitle = "Нове замовлення";
 include('base/header.php');
 include('base/sidebar.php');
+
+global $router;
 ?>
 
 <h1>Нове замовлення</h1>
@@ -72,7 +74,14 @@ include('base/sidebar.php');
         echo "<textarea name='notes-textarea-$i'></textarea>";
 
         echo '<h3>Додаткові параметри</h3>'; // Додаткові параметри
-        echo '<a href="/settings#additionalProperties" style="font-size: x-small">Налаштувати додаткові параметри</a>';
+        echo '<a href="' . $router->url('settingsPage') . '#additionalProperties" style="font-size: x-small">Налаштувати додаткові параметри</a>';
+
+        $additionalFields = new ProductAdditionalFields();
+        $filedNum = 0;
+        foreach ($additionalFields->getFields() as $field) {
+            $filedNum++;
+            echo $additionalFields->generateHTML($field, $filedNum, $i);
+        }
 
         echo '</div>';
 
