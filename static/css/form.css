@@ -50,33 +50,33 @@ input[type="number"] {
     text-align: center;
 }
 
-input[type="radio"] {
-    display: none;
-}
+/*input[type="radio"] {*/
+/*    display: none;*/
+/*}*/
 
-input[type="radio"] + label {
-    position: relative;
-    padding-left: 15px;
-    cursor: pointer;
-    line-height: 24px;
-}
+/*input[type="radio"] + label {*/
+/*    position: relative;*/
+/*    padding-left: 15px;*/
+/*    cursor: pointer;*/
+/*    line-height: 24px;*/
+/*}*/
 
-input[type="radio"] + label:before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: var(--radio-btn-width);
-    height: var(--radio-btn-height);
-    border: var(--radio-btn-border);
-    border-radius: 50%;
-    background-color: transparent;
-}
+/*input[type="radio"] + label:before {*/
+/*    content: "";*/
+/*    position: absolute;*/
+/*    left: 0;*/
+/*    top: 50%;*/
+/*    transform: translateY(-50%);*/
+/*    width: var(--radio-btn-width);*/
+/*    height: var(--radio-btn-height);*/
+/*    border: var(--radio-btn-border);*/
+/*    border-radius: 50%;*/
+/*    background-color: transparent;*/
+/*}*/
 
-input[type="radio"]:checked + label:before {
-    background-color: var(--radio-btn-selected-color);
-}
+/*input[type="radio"]:checked + label:before {*/
+/*    background-color: var(--radio-btn-selected-color);*/
+/*}*/
 
 label {
     margin-right: var(--small-padding);
