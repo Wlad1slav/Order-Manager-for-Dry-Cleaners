@@ -1,11 +1,13 @@
 <?php
 global $router;
-session_start();
 
-require_once '../Router.php';
+$target_dir = "settings/"; // Каталог для збереження файлу.
 
+// Перевірка існування директорії, якщо немає - створення
+if (!is_dir($target_dir)) {
+    mkdir($target_dir, 0777, true); // true - рекурсивне створення
+}
 
-$target_dir = "../settings/"; // Каталог для збереження файлу.
 $target_file = $target_dir . basename('goods.csv');
 
 $fileType = strtolower(pathinfo($_FILES["fileToUpload"]["name"], PATHINFO_EXTENSION));

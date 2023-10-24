@@ -33,7 +33,8 @@ $router->get(CUSTOMERS_APP.'/delete', 'templates/' .CUSTOMERS_APP. '/delete.php'
 
 // СЕРВІСИ
 const PRODUCTS_APP = 'products';
-$router->get(PRODUCTS_APP, 'templates/products.php', 'productsList');                       // Сторінка з усіма сервісами
+$router->get(PRODUCTS_APP, 'templates/' .PRODUCTS_APP. '/index.php', 'productsList');                           // Сторінка з усіма сервісами
+$router->post(PRODUCTS_APP, 'templates/' .PRODUCTS_APP. '/importForm.php', 'productsImport');                   // Сторінка з усіма сервісами
 
 // НАЛАШТУВАННЯ
 const SETTINGS_APP = 'app-settings';
