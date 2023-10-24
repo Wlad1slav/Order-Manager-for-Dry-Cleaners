@@ -1,37 +1,3 @@
-<?php
-include('base/include.php');
-
-$pageTitle = "Замовлення";
-include('base/header.php');
-include('base/sidebar.php');
-
-const TABLE_COLUMNS = [
-    'id' => 'id',
-    'id_customer' => 'Customer',
-    'id_user' => 'User',
-    'date_create' => 'Date',
-    'date_end' => 'Data',
-    'total_price' => 'Price',
-    'is_paid' => 'Boolean',
-    'is_completed' => 'Boolean'
-];
-
-?>
-
-<div>
-
-    <h1>Замовлення</h1>
-
-    <b>::</b>
-    <a href="orders/new" style="font-weight: 800">Нове замовлення</a>
-    <b>::</b>
-    <a onclick="convertAndDownloadTable('orders')" href="javascript:void(0);" class="cta-text">Експорт</a>
-    <b>::</b>
-    <a href="#import" class="cta-text">Імпорт</a>
-    <b>::</b>
-
-</div>
-
 <div>
     <!--ТАБЛИЦЯ Замовлень-->
     <script>
@@ -64,7 +30,7 @@ const TABLE_COLUMNS = [
         </thead>
         <tbody>
 
-        <script src="../static/javascript/edit.js"></script>
+        <script src="/static/javascript/edit.js"></script>
         <?php
         foreach(array_reverse(Order::getAll()) as $order) {
             echo '<tr>';
@@ -104,5 +70,3 @@ const TABLE_COLUMNS = [
     </table>
 
 </div>
-
-<?php include('base/footer.php'); ?>

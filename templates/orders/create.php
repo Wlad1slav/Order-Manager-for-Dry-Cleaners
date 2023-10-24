@@ -1,9 +1,10 @@
 <?php
-include('base/include.php');
+global $DIR;
+include("$DIR\\templates\base\include.php");
 
 $pageTitle = "Нове замовлення";
-include('base/header.php');
-include('base/sidebar.php');
+include("$DIR\\templates\base\header.php");
+include("$DIR\\templates\base\sidebar.php");
 
 global $router;
 ?>
@@ -13,7 +14,7 @@ global $router;
 <form class="order-create-form">
 
     <!-- Контактні данні клієнта -->
-    <label for="customer-name">Клієнт</label>
+    <label for="customer-name">Клієнт <span class="red-text">*</span></label>
     <input list="customers" name="customer-name" id="customer-name" placeholder="П.І.Б." required>
     <datalist id="customers">
         <?php
@@ -43,7 +44,7 @@ global $router;
         echo "<h2>Виріб $i</h2>";
 
         // Найменування виробу
-        echo "<label for='good-name-$i'>Найменування виробу</label>";
+        echo "<label for='good-name-$i'>Найменування виробу <span class='red-text'>*</span></label>";
         echo "<input list='goods-$i' name='good-name-$i' id='good-name-$i' required>";
         echo "<datalist id='goods-$i'>";
         foreach (Goods::getAll() as $good) {
@@ -56,14 +57,14 @@ global $router;
         echo '</datalist>';
 
         // Кількість
-        echo "<label for='amount-$i'>Кількість</label>";
+        echo "<label for='amount-$i'>Кількість <span class='red-text'>*</span></label>";
         echo '<div>';
         echo "<input type='number' name='amount-$i' id='amount-$i' value='1' min='1' required>";
         echo "<input type='number' name='price-per-one-$i' id='price-per-one-$i' placeholder='₴ за шт.' required>";
         echo '</div>';
 
         // Ціна
-        echo "<label for='price-$i'>Ціна</label>";
+        echo "<label for='price-$i'>Ціна <span class='red-text'>*</span></label>";
         echo "<input type='number' name='price-$i' id='price-$i' min='0' placeholder='X₴' required>";
 
         // Примітки
@@ -96,6 +97,6 @@ global $router;
 
 </form>
 
-<script src="../static/javascript/orderCreate.js"></script>
+<script src="../../static/javascript/orderCreate.js"></script>
 
-<?php include('base/footer.php'); ?>
+<?php include("$DIR\\templates\base\\footer.php"); ?>
