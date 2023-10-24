@@ -1,7 +1,12 @@
 <?php
-session_start();
 
-include '../templates/customers.php';
+global $router;
+
+require_once 'Customer.php';
+
+CONST REDIRECT = 'customersTable';
+CONST ERROR_TITLE = '<b>Помилка при редагуванні клієнта</b><br>';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST["id"];
     $name = $_POST["name"];
@@ -20,8 +25,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['error'] = '<b>Помилка при редагуванні клієнта</b><br>' . $e->getMessage();
     }
 }
-?>
-<script src="../static/javascript/utils.js"></script>
-<script>
-    redirectTo('/customers');
-</script>
+
+$router->redirect(REDIRECT);

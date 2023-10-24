@@ -17,17 +17,19 @@ $router->get(USERS_APP . '/delete', 'templates/userDelete.php', 'userDelete');  
 
 // ЗАМОВЛЕННЯ
 const ORDER_APP = 'orders';
-$router->get(ORDER_APP, "templates/" . ORDER_APP . "/index.php", 'ordersTable');                     // Сторінка з усіма замовленнями
-$router->get(                                                                                                           // Сторінка зміни статусу замовлення
-    ORDER_APP . '/switchStatus', 'templates/' . ORDER_APP .'/switchStatus.php', 'switchOrderStatus'
+$router->get(ORDER_APP, "templates/" .ORDER_APP. "/index.php", 'ordersTable');                          // Сторінка з усіма замовленнями
+$router->get(                                                                                                              // Сторінка зміни статусу замовлення
+    ORDER_APP . '/switchStatus', 'templates/' .ORDER_APP. '/switchStatus.php', 'switchOrderStatus'
 );
-$router->get(ORDER_APP . '/new', 'templates/' . ORDER_APP . '/create.php', 'orderCreate');           // Сторінка створення замовлення
+$router->get(ORDER_APP . '/new', 'templates/' .ORDER_APP. '/create.php', 'orderCreate');                // Сторінка створення замовлення
 
 // КЛІЄНТИ
 const CUSTOMERS_APP = 'customers';
-$router->get(CUSTOMERS_APP, 'templates/customers.php', 'customersTable');                   // Сторінка з усіма клієнтами
-$router->post(CUSTOMERS_APP, 'forms/customerCreate.php', 'customerCreate');                 // Форма створення нового клієнта
-$router->get(CUSTOMERS_APP . '/delete', 'templates/customerDelete.php', 'customerDelete');  // Видалення клієнта
+$router->get(CUSTOMERS_APP, 'templates/' .CUSTOMERS_APP. '/index.php', 'customersTable');                       // Сторінка з усіма клієнтами
+$router->post(CUSTOMERS_APP, 'templates/' .CUSTOMERS_APP. '/createForm.php', 'customerCreate');                 // Форма створення нового клієнта
+$router->post(CUSTOMERS_APP.'/edit', 'templates/' .CUSTOMERS_APP. '/editForm.php', 'customerEdit');             // Форма редагування клієнта
+$router->post(CUSTOMERS_APP.'/import', 'templates/' .CUSTOMERS_APP. '/importForm.php', 'customersImport');      // Форма іморту клієнта
+$router->get(CUSTOMERS_APP.'/delete', 'templates/' .CUSTOMERS_APP. '/delete.php', 'customerDelete');            // Видалення клієнта
 
 // СЕРВІСИ
 const PRODUCTS_APP = 'products';

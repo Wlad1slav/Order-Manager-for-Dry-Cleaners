@@ -1,12 +1,17 @@
 <?php // Імпорт таблиці клієнтів у базу даних
 global $router;
-session_start();
 
-require_once '../Router.php';
+require_once 'Customer.php';
+
+const REDIRECT = 'customersTable';
 
 set_time_limit(70); // Скільки секунд може викониватися скрипт
 
 $target_dir = "uploads/"; // Каталог для збереження файлу.
+// Перевірка існування директорії, якщо немає - створення
+if (!is_dir($target_dir)) {
+    mkdir($target_dir, 0777, true); // true - рекурсивне створення
+}
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 
 // Перевірка наявності файлу
@@ -21,7 +26,7 @@ if (isset($_POST["submit"])) {
     if ($fileType != "csv") {// Перевірка, чи в форматі .csv файл
 //        die("<h1>Помилка при імпорті клієнтів</h1><br> На жаль імпорт файлів з розширенням файлу $fileType недоступно. Будь ласка, переконайтесь, що файл у форматі <b><i>.csv</i></b>!");
         $_SESSION['error'] = "<b>Помилка при імпорті клієнтів.</b><br>Формат повинен буте .csv, ви намагалися імпортувати файл із розширенням $fileType!";
-        $router->redirect('customersTable');
+        $router->redirect(REDIRECT);
     }
 
     try {
@@ -29,23 +34,22 @@ if (isset($_POST["submit"])) {
     } catch (Exception $e) {
 //        die("<h1>Помилка при імпорті клієнтів</h1><br>" . $e->getMessage());
         $_SESSION['error'] = '<b>Помилка при імпорті клієнтів</b><br>' . $e->getMessage();
-        $router->redirect('customersTable');
+        $router->redirect(REDIRECT);
     }
 
     $file = fopen($target_file, 'r'); // $target_file = uploads/example.csv
 
-    require_once '../Customer.php';
     $num = 1;
     while (($data = fgetcsv($file, 1500, ",")) !== FALSE) {
         // Читайте дані з файлу рядок за рядком
         echo $num . '. ' . $data[0] . '<br>';
         $num++;
 
-        $customer = new Customer($data[0], $data[1], $data[2], $data[3]);
+        $customer = new Customer($data[0], $data[1], floatval($data[2]), $data[3]);
         $customer->save();
     }
 
     fclose($file); // Закриває файл
 }
 
-$router->redirect('customersTable');
+$router->redirect(REDIRECT);
