@@ -4,6 +4,7 @@
     --base-color-transparent: rgba(50, 50, 50, 0.2);
     --accent-color: #006699; /* Темно-синій */
     --cta-color: #c95e22; /* Яскравий оранжевий для виклику до дії */
+    --dark-cta-color: #781400;
     --background-color: #fafafa; /* Колір фону сайту */
     --red: rgb(155, 25, 25);
     --light-red: rgb(220, 165, 165);
