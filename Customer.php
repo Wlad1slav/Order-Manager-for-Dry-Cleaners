@@ -28,8 +28,8 @@ class Customer {
         if (strlen($fullName) == 0 || strlen($fullName) > 70)
             throw new InvalidArgumentException("Конструктор Customer: Очікується, що ім'я $fullName не буде пустим і буде містити меньш, ніж 70 символів.");
         $this->fullName = $fullName;
-        if (strlen($phoneNumber) > 20)
-            throw new InvalidArgumentException("Конструктор Customer: Очікується, що номер телефону $phoneNumber буде містити меньш, ніж 20 символів.");
+        if (strlen($phoneNumber) > 70)
+            throw new InvalidArgumentException("Конструктор Customer: Очікується, що номер телефону $phoneNumber буде містити меньш, ніж 70 символів.");
         $this->phoneNumber = $phoneNumber;
         if ($discount > 100)
             throw new InvalidArgumentException('Конструктор Customer: Знижка не може бути більше 99%.');
