@@ -1,13 +1,10 @@
 <?php
 global $router;
-session_start();
 
-require_once '../Router.php';
-require_once '../templates/profile.php';
+require_once 'Router.php';
+require_once 'User.php';
+$user = User::get($_SESSION['user']['id']);
 
-/**
- * @var $user
- */
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {

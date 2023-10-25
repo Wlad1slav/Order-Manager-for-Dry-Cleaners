@@ -7,9 +7,12 @@
 const LOGIN_APP = 'login';
 $router->get(LOGIN_APP, 'templates/login.php', 'login');                                    // Сторінка авторизації
 $router->post(LOGIN_APP, 'forms/login.php', 'auth');                                        // Форма авторизації
-$router->get('logout', 'templates/logout.php', 'logout');                                   // Виход з акаунту
+
 const PROFILE_APP = 'profile';
-$router->get(PROFILE_APP, 'templates/profile.php', 'profile');                              // Сторінка профілю
+$router->get(PROFILE_APP, 'templates/' .PROFILE_APP. '/index.php', 'profile');                                  // Сторінка профілю
+$router->get(PROFILE_APP. '/logout', 'templates/' .PROFILE_APP. '/logout.php', 'logout');              // Виход з акаунту
+$router->post(PROFILE_APP, 'templates/' .PROFILE_APP. '/passwordEditForm.php', 'passwordEdit');            // Форма зміни паролю
+
 const USERS_APP = 'users';
 $router->get(USERS_APP, 'templates/' .USERS_APP. '/index.php', 'usersTable');                                   // Перелік усіх користувачів
 $router->post(USERS_APP, 'templates/' .USERS_APP. '/createForm.php', 'userCreate');                             // Форма створення нового користувача
