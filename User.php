@@ -128,7 +128,7 @@ class User {
     }
     public function setPassword(string $password): void {
         // Встановлює пароль користувачу
-        if (strlen($password) <= 8)
+        if (strlen($password) < 8)
             throw new InvalidArgumentException('setPassword(string $password): Очікується, що довжина паролю >= 8 символів');
         $this->password = $password; // password_hash($password, PASSWORD_DEFAULT);
     }
