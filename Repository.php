@@ -7,13 +7,17 @@ class Repository {
     private string $tableName; // властивість, яка відстежує назву таблиці, над якою виконуватимуться операції CRUD
     private array $columns; // властивість, що містить масив усіх столбців бд з яким потрібно роботати
 
+    const DB_CONFIG_PATH = 'settings/db_config.json';
+
     /**
      * @param string $tableName
      * @param array $columns
      */
     public function __construct(string $tableName, array $columns) {
         // Завантажує параметри підключення до бази даних із конфігураційного файлу
-        $config = require 'settings/db_config.php';
+        // $config = require 'settings/db_config.php';
+        $config = json_decode(file_get_contents(self::DB_CONFIG_PATH), true) ?? [];
+
         $dsn = "mysql:host={$config['host']};dbname={$config['dbname']};charset=utf8";
 
         $options = [
