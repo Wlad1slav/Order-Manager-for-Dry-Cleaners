@@ -11,17 +11,15 @@ $router->get('logout', 'templates/logout.php', 'logout');                       
 const PROFILE_APP = 'profile';
 $router->get(PROFILE_APP, 'templates/profile.php', 'profile');                              // Сторінка профілю
 const USERS_APP = 'users';
-$router->get(USERS_APP, 'templates/users.php', 'usersTable');                               // Перелік усіх користувачів
-$router->post(USERS_APP, 'forms/userCreate.php', 'userCreate');                             // Форма створення нового користувача
-$router->get(USERS_APP . '/delete', 'templates/userDelete.php', 'userDelete');              // Вилучення користувача
+$router->get(USERS_APP, 'templates/' .USERS_APP. '/index.php', 'usersTable');                                   // Перелік усіх користувачів
+$router->post(USERS_APP, 'templates/' .USERS_APP. '/createForm.php', 'userCreate');                             // Форма створення нового користувача
+$router->get(USERS_APP . '/delete', 'templates/' .USERS_APP. '/delete.php', 'userDelete');                      // Вилучення користувача
 
 // ЗАМОВЛЕННЯ
 const ORDER_APP = 'orders';
-$router->get(ORDER_APP, "templates/" .ORDER_APP. "/index.php", 'ordersTable');                          // Сторінка з усіма замовленнями
-$router->get(                                                                                                              // Сторінка зміни статусу замовлення
-    ORDER_APP . '/switchStatus', 'templates/' .ORDER_APP. '/switchStatus.php', 'switchOrderStatus'
-);
-$router->get(ORDER_APP . '/new', 'templates/' .ORDER_APP. '/create.php', 'orderCreate');                // Сторінка створення замовлення
+$router->get(ORDER_APP, "templates/" .ORDER_APP. "/index.php", 'ordersTable');                                  // Сторінка з усіма замовленнями
+$router->get(ORDER_APP . '/switchStatus', 'templates/' .ORDER_APP. '/switchStatus.php', 'switchOrderStatus');   // Сторінка зміни статусу замовлення
+$router->get(ORDER_APP . '/new', 'templates/' .ORDER_APP. '/create.php', 'orderCreate');                        // Сторінка створення замовлення
 
 // КЛІЄНТИ
 const CUSTOMERS_APP = 'customers';
