@@ -5,8 +5,8 @@
 
 // КОРИСТУВАЧІ
 const LOGIN_APP = 'login';
-$router->get(LOGIN_APP, 'templates/login.php', 'login');                                    // Сторінка авторизації
-$router->post(LOGIN_APP, 'forms/login.php', 'auth');                                        // Форма авторизації
+$router->get(LOGIN_APP, 'templates/' .LOGIN_APP. '/index.php', 'login');                                    // Сторінка авторизації
+$router->post(LOGIN_APP, 'templates/' .LOGIN_APP. '/loginForm.php', 'auth');                                        // Форма авторизації
 
 const PROFILE_APP = 'profile';
 $router->get(PROFILE_APP, 'templates/' .PROFILE_APP. '/index.php', 'profile');                                  // Сторінка профілю

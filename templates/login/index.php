@@ -1,12 +1,14 @@
 <?php
 global $router;
+global $DIR;
+
 if (!empty($_SESSION['user']['id']))
     $router->redirect('profile');
 
-include('base/include.php');
+include("$DIR/templates/base/include.php");
 
 $pageTitle = "Увійти";
-include('base/header.php');
+include("$DIR/templates/base/header.php");
 ?>
 
 <style>
@@ -29,9 +31,6 @@ include('base/header.php');
 
     <form method="post" class="login-form">
         <h1>Вітаємо!</h1>
-<!--        <h2>Будь ласка, увійдіть, щоб продовжити.</h2>-->
-
-
 
         <div class="input-wrapper">
             <input type="text" name="login" id="login">
@@ -65,4 +64,4 @@ include('base/header.php');
 
 
 
-<?php include('base/footer.php'); ?>
+<?php include("$DIR/templates/base/footer.php"); ?>
