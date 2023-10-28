@@ -1,17 +1,17 @@
 <?php
 global $DIR;
-include("$DIR\\templates\base\include.php");
+include("$DIR/templates/base/include.php");
 
 $pageTitle = "Нове замовлення";
-include("$DIR\\templates\base\header.php");
-include("$DIR\\templates\base\sidebar.php");
+include("$DIR/templates/base/header.php");
+include("$DIR/templates/base/sidebar.php");
 
 global $router;
 ?>
 
 <h1>Нове замовлення</h1>
 
-<form class="order-create-form">
+<form class="order-create-form" method="post">
 
     <!-- Контактні данні клієнта -->
     <label for="customer-name">Клієнт <span class="red-text">*</span></label>
@@ -25,7 +25,7 @@ global $router;
             $phone = $customer['phone'];
             $discount = $customer['discount'];
 
-            echo "<option value='$name ($phone) [$discount%]' data-customerID='$customerID' data-discount='$discount'></option>";
+            echo "<option value='$name' data-customerID='$customerID' data-discount='$discount'></option>";
         }
 
         ?>
@@ -45,31 +45,31 @@ global $router;
 
         // Найменування виробу
         echo "<label for='good-name-$i'>Найменування виробу <span class='red-text'>*</span></label>";
-        echo "<input list='goods-$i' name='good-name-$i' id='good-name-$i' required>";
+        echo "<input list='goods-$i' name='good-name-$i' id='good-name-$i'>";
         echo "<datalist id='goods-$i'>";
         foreach (Goods::getAll() as $good) {
             $goodID = $good['0'];
             $name = $good['1'];
             $price = $good['2'];
 
-            echo "<option value='$name' data-goodID='$goodID' data-price='$price'></option>";
+            echo "<option value='$name' name='good-$i' data-goodID='$goodID' data-price='$price'></option>";
         }
         echo '</datalist>';
 
         // Кількість
         echo "<label for='amount-$i'>Кількість <span class='red-text'>*</span></label>";
         echo '<div>';
-        echo "<input type='number' name='amount-$i' id='amount-$i' value='1' min='1' required>";
-        echo "<input type='number' name='price-per-one-$i' id='price-per-one-$i' placeholder='₴ за шт.' required>";
+        echo "<input type='number' name='amount-$i' id='amount-$i' value='1' min='1'>";
+        echo "<input type='number' name='price-per-one-$i' id='price-per-one-$i' placeholder='₴ за шт.'>";
         echo '</div>';
 
         // Ціна
         echo "<label for='price-$i'>Ціна <span class='red-text'>*</span></label>";
-        echo "<input type='number' name='price-$i' id='price-$i' min='0' placeholder='X₴' required>";
+        echo "<input type='number' name='price-$i' id='price-$i' min='0' placeholder='X₴'>";
 
         // Примітки
         echo "<label for='notes-$i'>Примітки</label>";
-        echo "<select name='notes-$i' id='notes-$i' multiple required>";
+        echo "<select name='notes-$i' id='notes-$i' multiple>";
         echo "<option value='Важке забруднення'>Важке забруднення</option>";
         echo '</select>';
         echo "<textarea name='notes-textarea-$i'></textarea>";
@@ -99,4 +99,4 @@ global $router;
 
 <script src="../../static/javascript/orderCreate.js"></script>
 
-<?php include("$DIR\\templates\base\\footer.php"); ?>
+<?php include("$DIR/templates/base/footer.php"); ?>
