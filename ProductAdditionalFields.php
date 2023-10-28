@@ -65,7 +65,7 @@ class ProductAdditionalFields {
 
     public function generateHTML(array $field, int $fieldNum, $productNum): string {
         // Генерує додаткові поля для замовлення
-        switch ($field['1']) {
+        switch ($field['type']) {
             case 'dropdown':
                 return $this->generateDropdown($field, $fieldNum, $productNum);
             case 'number':
@@ -93,11 +93,11 @@ class ProductAdditionalFields {
 
     private function generateInputOrTextarea(array $field, int $fieldNum, int $productNum): string {
         // TEXT, NUMBER, TEXTAREA
-        $label = $this->generateLabel($field[0], $fieldNum, $productNum);
-        if ($field[1] === 'textarea') {
+        $label = $this->generateLabel($field['name'], $fieldNum, $productNum);
+        if ($field['type'] === 'textarea') {
             $input = "<textarea id='additionalPropertie-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum'></textarea>";
         } else {
-            $input = "<input type='{$field['1']}' list='additionalPropertie-datalist-$fieldNum-$productNum' id='additionalPropertie-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum'>";
+            $input = "<input type='{$field['type']}' list='additionalPropertie-datalist-$fieldNum-$productNum' id='additionalPropertie-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum'>";
             if (!empty($field[3])) {
                 $input .= "<datalist id='additionalPropertie-datalist-$fieldNum-$productNum'>";
                 foreach ($field[3] as $option) {
@@ -114,7 +114,7 @@ class ProductAdditionalFields {
         $label = $this->generateLabel($field[0], $fieldNum, $productNum);
         $input = "";
         $optionNum = 0;
-        foreach ($field['3'] as $option) {
+        foreach ($field['possibleValues'] as $option) {
             $optionNum++;
             $input .= "<label><input type='{$field[1]}' value='$option' id='additionalPropertie-$optionNum-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum'>$option</label>";
         }
