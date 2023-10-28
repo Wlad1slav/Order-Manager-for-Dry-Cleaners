@@ -19,7 +19,7 @@ class Goods {
         $this->price = Utils::atLeastFloat($price, 0); // Utils
     }
 
-    public static function get(int $id): Goods {
+    public static function get(?int $id=null, ?string $name=null): Goods {
         // Повертає об'єкт продукту виробу
         $file = fopen(self::GOODS_LIST_DIR, 'r'); // Файл з усіма продуктами
 
@@ -29,7 +29,13 @@ class Goods {
         // Читайте дані з файлу рядок за рядком
         while (($data = fgetcsv($file, 1000, ",")) !== FALSE) {
             // $data тепер масив з даними з поточного рядка
+
             if ($data[0] == $id) {
+                $goods = new Goods($data[0], $data[1], $data[2]);
+                fclose($file); // Закриває файл
+                return $goods;
+            }
+            if ($data[1] == $name) {
                 $goods = new Goods($data[0], $data[1], $data[2]);
                 fclose($file); // Закриває файл
                 return $goods;
