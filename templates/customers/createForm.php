@@ -1,4 +1,9 @@
 <?php
+// Форма створення користувача
+
+require_once 'User.php';
+User::checkLogin();
+
 global $router;
 
 require_once 'Customer.php';

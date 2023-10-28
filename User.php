@@ -85,6 +85,22 @@ class User {
         $router->redirect('profile');
     }
 
+    public static function checkLogin(): ?User {
+        // Метод, що перевіряє, чи залогінен користувач.
+        // Якщо ні, то відбувається редірект.
+        global $router;
+        if (empty($_SESSION['user']['id'])) {
+            $router->redirect('login');
+            return null;
+        }
+        else return self::getLoginUser();
+    }
+
+    public static function getLoginUser(): User {
+        // Метод, що повертає об'єкт залогіненого користувача.
+        return User::get($_SESSION['user']['id']);
+    }
+
     public static function getRight(int $id): Rights {
         $rights = require 'settings/rights_list.php';
         return $rights[$id-1];

@@ -1,7 +1,6 @@
 <?php
 global $router;
-if (empty($_SESSION['user']['id']))
-    $router->redirect('login');
+User::checkLogin();
 ?>
 <div class="sidebar">
         <?php

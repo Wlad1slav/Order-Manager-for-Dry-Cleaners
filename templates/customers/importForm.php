@@ -1,4 +1,8 @@
-<?php // Імпорт таблиці клієнтів у базу даних
+<?php
+// Імпорт таблиці клієнтів у базу даних
+require_once 'User.php';
+User::checkLogin();
+
 global $router;
 
 require_once 'Customer.php';

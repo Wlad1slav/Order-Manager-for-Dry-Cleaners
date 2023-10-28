@@ -1,4 +1,7 @@
 <?php
+require_once 'User.php';
+User::checkLogin();
+
 global $router;
 
 $target_dir = "settings/"; // Каталог для збереження файлу.

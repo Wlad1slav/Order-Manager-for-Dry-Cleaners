@@ -1,8 +1,11 @@
 <?php
-global $router;
-
 require_once 'Router.php';
 require_once 'User.php';
+
+User::checkLogin();
+
+global $router;
+
 $user = User::get($_SESSION['user']['id']);
 
 

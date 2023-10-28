@@ -1,4 +1,9 @@
 <?php
+// Скрипт виделення користувача
+
+require_once 'User.php';
+User::checkLogin();
+
 global $DIR;
 global $router;
 require_once 'Customer.php';

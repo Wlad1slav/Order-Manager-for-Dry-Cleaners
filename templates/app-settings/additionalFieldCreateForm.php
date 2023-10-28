@@ -1,5 +1,7 @@
 <?php
 // Форма створення додаткового поля для замовлень
+require_once 'User.php';
+User::checkLogin();
 
 global $router;
 

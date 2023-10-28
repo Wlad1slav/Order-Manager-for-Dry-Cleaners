@@ -1,4 +1,8 @@
 <?php
+// Форма редагування користувача
+
+require_once 'User.php';
+User::checkLogin();
 
 global $router;
 

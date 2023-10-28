@@ -1,5 +1,8 @@
 <?php
 
+require_once 'User.php';
+User::checkLogin();
+
 require_once 'Order.php';
 
 $newStatus = $_GET['newStatus'];

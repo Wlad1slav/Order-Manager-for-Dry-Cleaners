@@ -1,5 +1,7 @@
 <?php
 // Видалення додаткового поля для замовлень
+require_once 'User.php';
+User::checkLogin();
 
 global $DIR;
 global $router;
