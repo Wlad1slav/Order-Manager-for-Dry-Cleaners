@@ -39,10 +39,16 @@ class Customer {
         $this->repository = new Repository(self::TABLE, self::COLUMNS);
     }
 
-    public static function get(int $id): Customer {
+    public static function get(?int $id=null, ?string $name=null): Customer {
         // Повертає клієнта у вигляді об'єкту
         $repository = new Repository(self::TABLE, self::COLUMNS);
-        $customerValues = $repository->getRow($id);
+
+        if ($id !== null)
+            $customerValues = $repository->getRow($id);
+        elseif ($name !== null)
+            $customerValues = $repository->getRow($name, 'name');
+
+
         return new Customer(
             $customerValues['name'],
             $customerValues['phone'],
