@@ -23,6 +23,7 @@ const ORDER_APP = 'orders';
 $router->get(ORDER_APP, "templates/" .ORDER_APP. "/index.php", 'ordersTable');                                  // Сторінка з усіма замовленнями
 $router->get(ORDER_APP . '/switchStatus', 'templates/' .ORDER_APP. '/switchStatus.php', 'switchOrderStatus');   // Сторінка зміни статусу замовлення
 $router->get(ORDER_APP . '/new', 'templates/' .ORDER_APP. '/create.php', 'orderCreate');                        // Сторінка створення замовлення
+$router->post(ORDER_APP . '/new', 'templates/' .ORDER_APP. '/createForm.php', 'orderCreateForm');               // Форма створення замовлення
 
 // КЛІЄНТИ
 const CUSTOMERS_APP = 'customers';
