@@ -154,7 +154,14 @@ img {
 }
 
 .cta-underline {
-    text-decoration: underline var(--cta-color);
+    text-decoration: underline var(--cta-color) 2px;
+    transition: all 0.5s;
+    text-transform: lowercase;
+    font-variant: small-caps;
+}
+
+.cta-underline:hover {
+    text-decoration: underline var(--accent-color) 2px;
 }
 
 .important {
@@ -168,6 +175,7 @@ img {
     color: var(--dark-cta-color)!important;
     border-radius: 5px;
     font-weight: 1000;
+    font-variant: small-caps;
 }
 
 /* СТИЛІ ПО ОКРЕМИМ СТОРІНКАМ */

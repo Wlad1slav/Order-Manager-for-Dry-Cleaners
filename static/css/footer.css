@@ -10,5 +10,6 @@ footer p, footer a, footer i {
 
 footer i {
     font-size: calc(var(--font-size) - 3px);
+    font-variant: small-caps;
 }
 
