@@ -1,6 +1,5 @@
 // Отримання даних о клієнті
 const customerNameInput = document.getElementById('customer-name');
-const orderDiscountInput = document.getElementById('order-discount');
 const customersDatalist = document.getElementById('customers');
 
 customerNameInput.addEventListener('input', function() {
@@ -9,10 +8,14 @@ customerNameInput.addEventListener('input', function() {
     // Перевірка, чи є така опція в datalist
     const option = [...customersDatalist.options].find(opt => opt.value === customerNameInput.value);
 
-    if (option) {
-        orderDiscountInput.value = option.getAttribute('data-discount');
-    } else {
-        orderDiscountInput.value = ''; // очищаємо поле знижки, якщо клієнт не вибраний
+    for (let i = 1; i <= 5; i++) {
+        // Отримання поля знижки кожного виробу
+        const productDiscountInput = document.getElementById(`discount-${i}`);
+        if (option) {
+            productDiscountInput.value = option.getAttribute('data-discount');
+        } else {
+            productDiscountInput.value = ''; // очищаємо поле знижки, якщо клієнт не вибраний
+        }
     }
 });
 
@@ -58,9 +61,10 @@ for (let i = 1; i <= 5; i++) {
     const goodNameInput = document.getElementById(`good-name-${i}`);
     const amountInput = document.getElementById(`amount-${i}`);
     const pricePerGoodInput = document.getElementById(`price-per-one-${i}`);
+    const pricePerProductInput = document.getElementById(`price-${i}`);
 
     goodNameInput.addEventListener('input', function() {
-        // Відстеження вибіру продукту
+        // Відстеження вибору продукту
         updatePrice(i);
     });
 
@@ -72,6 +76,12 @@ for (let i = 1; i <= 5; i++) {
     pricePerGoodInput.addEventListener('input', function() {
         // Відстеження зміни ціни продукту за штуку
         updatePrice(i, true);
+    });
+
+    pricePerProductInput.addEventListener('input', function() {
+        // Відстеження зміни ціни за виріб
+        totalPriceArr[i-1] = parseFloat(pricePerProductInput.value);
+        updateTotalPrice();
     });
 }
 

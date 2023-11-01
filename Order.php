@@ -47,9 +47,6 @@ class Order {
         $this->customer = $customer;
         $this->user = $user;
 
-//        $date = new DateTime('now', new DateTimeZone('UTC'));
-//        $date->setTimezone(new DateTimeZone('Europe/Kiev'));
-
         if ($dateCreate === null)
             $this->dateCreate = new DateTime();
         else $this->dateCreate = $dateCreate;
@@ -172,7 +169,7 @@ class Order {
         $result = 0;
         foreach ($this->productions as $product)
             $result += $product->getPrice();
-        return $result - ($result / 100 * $this->customer->getDiscount()); // Розрахування знижки на замовлення
+        return $result; // - ($result / 100 * $this->customer->getDiscount()); // Розрахування знижки на замовлення
     }
 
     /**

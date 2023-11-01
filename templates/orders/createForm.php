@@ -19,16 +19,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     for ($i = 1; $i <= PRODUCTS_NUM; $i++) {
 
+        // Отримання об'єкту продукту
         $goodName = $_POST["good-name-$i"];
         if ($goodName == null) break; // Перевіряє, чи пусте поле продукту. Якщо пусте, то це значить що це кінечний виріб.
-
         $good = Goods::get(null,$goodName);
+
+        // Вирахування ціни за виріб
+        $price = $_POST["price-$i"] - (($_POST["price-$i"] / 100) * $_POST["discount-$i"]);
 
         $productions[] = new Product(
             $_POST["amount-$i"],
             $_POST["notes-textarea-$i"],
             [],
             $good,
+            $_POST["discount-$i"],
+            $price
         );
 
     }

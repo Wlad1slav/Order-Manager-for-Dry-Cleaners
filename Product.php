@@ -3,6 +3,7 @@
 class Product {
     private int $amount;        // Кількість шт.
     private float $price;       // Ціна за виріб
+    private int $discount;      // Знижка на виріб
     private string $note;       // Примітки щодо товару
     private array $params;      // Словник додоткових параметрыв виробу
     private Goods $goods;       // Продукт виробу
@@ -12,13 +13,25 @@ class Product {
      * @param string $note
      * @param array $params
      * @param Goods $goods
+     * @param int $discount
+     * @param float|null $price
      */
-    public function __construct(int $amount, string $note, array $params, Goods $goods) {
+    public function __construct(int $amount, string $note, array $params, Goods $goods, int $discount=0, ?float $price=null) {
         $this->amount = Utils::atLeast($amount, 1); // Utils
         $this->note = $note;
         $this->params = $params;
         $this->goods = $goods;
-        $this->price = $this->goods->getPrice() * $this->amount;
+
+        if ($discount >= 0 && $discount < 100)
+            $this->discount = $discount;
+        else $this->discount = 0;
+
+        if ($price === null) { // Якщо ціна не вказана, то вона вираховується автоматично
+            $this->price = $this->goods->getPrice() * $this->amount;
+            $this->price -= $this->price / 100 * $this->discount;
+        }
+        else $this->price = $price;
+
     }
 
     public static function pullFromDB(int $id_order): array {
@@ -33,7 +46,9 @@ class Product {
                 $productions['productions'][$i]['amount'],
                 $productions['productions'][$i]['note'],
                 $productions['productions'][$i]['params'],
-                Goods::get($productions['productions'][$i]['goodID'])
+                Goods::get($productions['productions'][$i]['goodID']),
+                $productions['productions'][$i]['discount'],
+                $productions['productions'][$i]['price'],
             )];
 
         return $result;

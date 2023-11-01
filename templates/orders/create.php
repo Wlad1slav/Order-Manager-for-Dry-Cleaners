@@ -32,8 +32,8 @@ global $router;
     </datalist>
 
     <!-- Знижка клієнта -->
-    <label for="order-discount">Знижка</label>
-    <input type="number" name="order-discount" id="order-discount" min="0" max="99" placeholder="0%">
+<!--    <label for="order-discount">Знижка</label>-->
+<!--    <input type="number" name="order-discount" id="order-discount" min="0" max="99" placeholder="0%">-->
 
     <div class="products"> <!-- Вироби -->
     <?php
@@ -65,7 +65,11 @@ global $router;
 
         // Ціна
         echo "<label for='price-$i'>Ціна <span class='red-text'>*</span></label>";
-        echo "<input type='number' name='price-$i' id='price-$i' min='0' placeholder='X₴'>";
+        echo "<input type='number' name='price-$i' id='price-$i' min='0' placeholder='x₴'>";
+
+        // Знижка за виріб
+        echo "<label for='discount-$i'>Знижка на виріб <span class='red-text'>*</span></label>";
+        echo "<input type='number' name='discount-$i' id='discount-$i' min='0' max='99' placeholder='x%'>";
 
         // Примітки
         echo "<label for='notes-$i'>Примітки</label>";
