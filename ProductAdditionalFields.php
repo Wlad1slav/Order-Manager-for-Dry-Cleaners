@@ -5,7 +5,7 @@ class ProductAdditionalFields {
         'text',
         'textarea',
         'number',
-        'dropdown',
+        // 'dropdown',
         'checkbox',
         'radio',
     ];

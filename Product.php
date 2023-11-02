@@ -5,7 +5,7 @@ class Product {
     private float $price;       // Ціна за виріб
     private int $discount;      // Знижка на виріб
     private string $note;       // Примітки щодо товару
-    private array $params;      // Словник додоткових параметрыв виробу
+    private string $params;     // Словник додаткових параметрів виробу (JSON)
     private Goods $goods;       // Продукт виробу
 
     /**
@@ -19,7 +19,7 @@ class Product {
     public function __construct(int $amount, string $note, array $params, Goods $goods, int $discount=0, ?float $price=null) {
         $this->amount = Utils::atLeast($amount, 1); // Utils
         $this->note = $note;
-        $this->params = $params;
+        $this->params = json_encode($params);
         $this->goods = $goods;
 
         if ($discount >= 0 && $discount < 100)
@@ -81,13 +81,13 @@ class Product {
         $this->note = $note;
     }
 
-    public function getParams(): array {
+    public function getParams() {
         // Повертає словник параментрів до виробу
-        return $this->params;
+        return json_decode($this->params);
     }
     public function setParams(array $params): void {
         // Встановлює словник параметрів до виробу
-        $this->params = $params;
+        $this->params = json_encode($params);
     }
 
     public function getGoods(): Goods {

@@ -6,6 +6,7 @@ require_once 'Order.php';
 require_once 'Product.php';
 require_once 'Goods.php';
 require_once 'User.php';
+require_once 'ProductAdditionalFields.php';
 
 $user = User::checkLogin();
 
@@ -27,10 +28,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Вирахування ціни за виріб
         $price = $_POST["price-$i"] - (($_POST["price-$i"] / 100) * $_POST["discount-$i"]);
 
+        // Створення масиву даних з додаткових полів
+        $additionalFields = new ProductAdditionalFields();
+        $additionalFieldsQuantity = $additionalFields->countExistingFields();
+        $params = [];
+        for ($f = 1; $f <= $additionalFieldsQuantity; $f++) {
+            $field = $additionalFields->getFields()[$f-1]['name'];  // По номеру поля знаходиться його назва
+            $params[$field] = $_POST["additionalPropertie-$f-$i"];  // Збереження введених в додаткове поле даніх в масиві
+        }
+
         $productions[] = new Product(
             $_POST["amount-$i"],
             $_POST["notes-textarea-$i"],
-            [],
+            $params,
             $good,
             $_POST["discount-$i"],
             $price
