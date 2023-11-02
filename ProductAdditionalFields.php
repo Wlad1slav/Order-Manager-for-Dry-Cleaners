@@ -97,9 +97,9 @@ class ProductAdditionalFields {
         // TEXT, NUMBER, TEXTAREA
         $label = $this->generateLabel($field['name'], $fieldNum, $productNum);
         if ($field['type'] === 'textarea') {
-            $input = "<textarea id='additionalPropertie-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum'></textarea>";
+            $input = "<textarea id='additionalPropertie-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum'>{$field['default']}</textarea>";
         } else {
-            $input = "<input type='{$field['type']}' list='additionalPropertie-datalist-$fieldNum-$productNum' id='additionalPropertie-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum'>";
+            $input = "<input type='{$field['type']}' list='additionalPropertie-datalist-$fieldNum-$productNum' id='additionalPropertie-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum' value='{$field['default']}'>";
             if (!empty($field['possibleValues'])) {
                 $input .= "<datalist id='additionalPropertie-datalist-$fieldNum-$productNum'>";
                 foreach ($field['possibleValues'] as $option) {
