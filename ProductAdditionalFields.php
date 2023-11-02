@@ -66,15 +66,16 @@ class ProductAdditionalFields {
     public function generateHTML(array $field, int $fieldNum, $productNum): string {
         // Генерує додаткові поля для замовлення
         switch ($field['type']) {
-            case 'dropdown':
+            case 'dropdown': // Не використовується
                 return $this->generateDropdown($field, $fieldNum, $productNum);
             case 'number':
             case 'text':
             case 'textarea':
                 return $this->generateInputOrTextarea($field, $fieldNum, $productNum);
             case 'checkbox':
+                return $this->generateCheckbox($field, $fieldNum, $productNum);
             case 'radio':
-                return $this->generateCheckboxOrRadio($field, $fieldNum, $productNum);
+                return $this->generateRadio($field, $fieldNum, $productNum);
             default:
                 return print_r($field, true);
         }
@@ -82,9 +83,10 @@ class ProductAdditionalFields {
 
     private function generateDropdown(array $field, int $fieldNum, int $productNum): string {
         // SELECT
-        $label = $this->generateLabel($field[0], $fieldNum, $productNum);
+        // Не використовується
+        $label = $this->generateLabel($field['name'], $fieldNum, $productNum);
         $input = "<select id='additionalPropertie-$fieldNum-$productNum'>";
-        foreach ($field[3] as $option) {
+        foreach ($field['possibleValues'] as $option) {
             $input .= "<option value='$option'>$option</option>";
         }
         $input .= "</select>";
@@ -98,9 +100,9 @@ class ProductAdditionalFields {
             $input = "<textarea id='additionalPropertie-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum'></textarea>";
         } else {
             $input = "<input type='{$field['type']}' list='additionalPropertie-datalist-$fieldNum-$productNum' id='additionalPropertie-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum'>";
-            if (!empty($field[3])) {
+            if (!empty($field['possibleValues'])) {
                 $input .= "<datalist id='additionalPropertie-datalist-$fieldNum-$productNum'>";
-                foreach ($field[3] as $option) {
+                foreach ($field['possibleValues'] as $option) {
                     $input .= "<option value='$option'>$option</option>";
                 }
                 $input .= "</datalist>";
@@ -109,14 +111,27 @@ class ProductAdditionalFields {
         return $label . $input;
     }
 
-    private function generateCheckboxOrRadio(array $field, int $fieldNum, int $productNum): string {
-        // CHECKBOX, RADIO
-        $label = $this->generateLabel($field[0], $fieldNum, $productNum);
+    private function generateCheckbox(array $field, int $fieldNum, int $productNum): string {
+        // CHECKBOXES
+        $label = $this->generateLabel($field['name'], $fieldNum, $productNum);
         $input = "";
         $optionNum = 0;
         foreach ($field['possibleValues'] as $option) {
             $optionNum++;
-            $input .= "<label><input type='{$field[1]}' value='$option' id='additionalPropertie-$optionNum-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum'>$option</label>";
+            $input .= "<label><input type='{$field['type']}' value='$option' id='additionalPropertie-$optionNum-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum" . "[]'>$option</label>";
+        }
+        return $label . $input;
+    }
+
+    private function generateRadio(array $field, int $fieldNum, int $productNum): string {
+        // RADIO
+        // На розділ від checkboxes, в name не додаються []
+        $label = $this->generateLabel($field['name'], $fieldNum, $productNum);
+        $input = "";
+        $optionNum = 0;
+        foreach ($field['possibleValues'] as $option) {
+            $optionNum++;
+            $input .= "<label><input type='{$field['type']}' value='$option' id='additionalPropertie-$optionNum-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum'>$option</label>";
         }
         return $label . $input;
     }
@@ -129,6 +144,11 @@ class ProductAdditionalFields {
     public function getFields(): array {
         // Повертає масив полів
         return $this->fields;
+    }
+
+    public function countExistingFields(): int {
+        // Повертає масив полів
+        return count($this->fields);
     }
 
 }
