@@ -18,7 +18,7 @@ include("$DIR/templates/base/header.php");
         /*https://cdn.suwalls.com/wallpapers/animals/raccoon-27229-1920x1080.jpg*/
         background-image:
                 /*radial-gradient(circle, transparent 50%, var(--base-color) 100%),*/
-                url('https://cdn.suwalls.com/wallpapers/animals/raccoon-27229-1920x1080.jpg');
+                url('static/images/background.jpg');
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center center;
@@ -27,7 +27,7 @@ include("$DIR/templates/base/header.php");
 </style>
 
 
-<div class="container page-center">
+<div class="container page-right">
 
     <form method="post" class="login-form">
         <h1>Вітаємо!</h1>
@@ -56,7 +56,7 @@ include("$DIR/templates/base/header.php");
         }
         ?>
 
-        <p>У разі виникнення проблем зверніться до <a href="#">документації</a>.</p>
+        <p>У разі виникнення проблем зверніться до <a href="#">Документації</a>.</p>
       
     </form>
 

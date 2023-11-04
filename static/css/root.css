@@ -1,18 +1,20 @@
 :root {
     /* КОЛЬОРИ */
-    --base-color: #323232;
-    --base-color-transparent: rgba(50, 50, 50, 0.2);
-    --accent-color: #006699; /* Темно-синій */
-    --cta-color: #c95e22; /* Яскравий оранжевий для виклику до дії */
-    --dark-cta-color: #781400;
-    --background-color: #fafafa; /* Колір фону сайту */
+    --base-color: #759da4;
+    --base-color-transparent: rgba(136, 183, 191, 0.4);
+    --dark-base-color: #687275;
+    --accent-color: #8A6086;
+    --cta-color: #BD8262;
+    --dark-cta-color: #58413B;
+    --cta-light-color: #c49e6f;
     --red: rgb(155, 25, 25);
     --light-red: rgb(220, 165, 165);
-    --white: #fafafa;
+    --white: #f0f0f0;
     --white-transparent: rgba(255, 255, 255, 0.2);
     --light-gray: #f0f0f0;
     --gray: #e6e6e6;
-    --dark-gray: #646464; /* Середній відтінок сірого */
+    --dark-gray: #646464;
+    --background-color: var(--white);
 
     /* ТЕКСТ */
     --font-size: 16px;
@@ -21,7 +23,7 @@
     --line-height: 1.5; /* Висота рядка */
     --font-weight: 400; /* Товщина тексту */
     --link-color: var(--accent-color); /* Колір посилань */
-    --link-hover-color: #cb6730; /* Колір посилань при наведенні */
+    --link-hover-color: var(--cta-light-color); /* Колір посилань при наведенні */
 
     /* ЗАГОЛОВКИ */
     --h1-size: 40px;

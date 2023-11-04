@@ -29,7 +29,7 @@
 
 .sidebar {
     min-width: 15%;
-    background-color: var(--dark-gray);
+    background-color: var(--dark-base-color);
     box-shadow: 0 0 5px var(--base-color);
     /*position: fixed;*/
     /*top: 0;*/

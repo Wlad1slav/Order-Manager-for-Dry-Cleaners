@@ -90,7 +90,7 @@ label {
 .login-form {
     display: flex;
     flex-direction: column;
-    /*width: 70%;*/
+    /*width: 120%;*/
     align-items: center;
     padding: var(--medium-padding);
     border: 1px solid var(--white-transparent);
@@ -109,8 +109,9 @@ label {
 }
 
 .login-form a {
-    font-weight: 800;
-    border-bottom: 2px solid var(--cta-color);
+    /*font-weight: 700;*/
+    /*border-bottom: 2px solid var(--white);*/
+    /*text-decoration: underline var(--white) 2px;*/
 }
 
 .login-form input[type="text"], .login-form input[type="password"] {
