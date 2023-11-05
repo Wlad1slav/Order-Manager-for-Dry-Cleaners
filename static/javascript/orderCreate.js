@@ -54,6 +54,15 @@ function updateTotalPrice() {
     totalPriceText.textContent = sum;
 }
 
+function updateProductStatus(i, goodNameInput) {
+    const statusSpan = document.getElementById(`product-status-${i}`);
+    if (goodNameInput.classList.contains('has-value')) {
+        statusSpan.textContent = '✖';
+    } else {
+        statusSpan.textContent = '✔';
+    }
+}
+
 
 // Отримання даних о продукті
 for (let i = 1; i <= 5; i++) {
@@ -66,6 +75,7 @@ for (let i = 1; i <= 5; i++) {
     goodNameInput.addEventListener('input', function() {
         // Відстеження вибору продукту
         updatePrice(i);
+        updateProductStatus(i, goodNameInput);
     });
 
     amountInput.addEventListener('input', function() {
