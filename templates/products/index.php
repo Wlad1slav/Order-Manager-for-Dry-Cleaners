@@ -10,9 +10,9 @@ include("$DIR/templates/base/sidebar.php");
 <h1>Сервіси, що надаються</h1>
 <p>
     <b>::</b> <!-- Завантажити таблицю, що зараз використвується -->
-    <a href="/settings/goods.csv" class="cta-text">Існуюча таблиця</a>
+    <a href="/settings/goods.csv" class="cta-text underline-animation">Існуюча таблиця</a>
     <b>::</b> <!-- Завантажити шаблон для імпорту продуктів -->
-    <a href="/settings/templates/goods_template.csv" class="cta-text">Завантажити шаблон для імпорту</a>
+    <a href="/settings/templates/goods_template.csv" class="cta-text underline-animation">Завантажити шаблон для імпорту</a>
     <b>::</b>
 </p>
 

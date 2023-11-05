@@ -41,7 +41,7 @@
                 $customer['phone'] . "','" .
                 $customer['discount'] . "','" .
                 $customer['advertising_company'] .
-                "')\" href='#edit'>Редагувати</a></th>";
+                "')\" href='#edit' class='underline-animation'>Редагувати</a></th>";
 
             echo "<th><a class='red-text' href='javascript:void(0);' onclick='confirmAndDelete(". $customer['id'] . ", \"customers\")'>X</a></th>"; // Функція видалення клієнта
 

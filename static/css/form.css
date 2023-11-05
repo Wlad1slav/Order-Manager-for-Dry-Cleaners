@@ -100,6 +100,17 @@ label {
     background-color: rgba(0,0,0, 0.2);
 }
 
+.login-form:hover {
+    transform: scale(2) translate(-40%, 0%);
+}
+
+@media screen and (max-width: 1600px) and (max-height: 1024px) {
+    /* Якщо екран користувача занадто маленький */
+    .login-form:hover {
+        transform: scale(1.2) translate(-50%, 0%);
+    }
+}
+
 .login-form h1, .login-form p, .login-form label, .login-form a {
     color: var(--white);
 }
@@ -172,10 +183,12 @@ select:-webkit-autofill:focus {
     background-color: var(--cta-color);
     border-radius: 30px;
     width: 55%;
+    transition: transform 0.3s ease, background-color 0.5s ease!important;
 }
 
 .login-form input[type="submit"]:hover {
     background-color: var(--link-hover-color);
+    transform: scale(1.1);
 }
 
 .login-form input[type="text"]:hover, .login-form input[type="password"]:hover {
@@ -209,6 +222,10 @@ select:-webkit-autofill:focus {
 
 .order-create-form select, .order-create-form textarea {
     width: 98%;
+}
+
+.order-create-form .good-name.has-value {
+    transform: scale(1.1) translateX(5%);
 }
 
 

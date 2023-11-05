@@ -26,11 +26,11 @@ const TABLE_COLUMNS = [
     <h1>Замовлення</h1>
 
     <b>::</b>
-    <a href="<?php echo $router->url('orderCreate')?>" style="font-weight: 800">Нове замовлення</a>
+    <a href="<?php echo $router->url('orderCreate')?>" class="underline-animation" style="font-weight: 800">Нове замовлення</a>
     <b>::</b>
-    <a onclick="convertAndDownloadTable('orders')" href="javascript:void(0);" class="cta-text">Експорт</a>
+    <a onclick="convertAndDownloadTable('orders')" href="javascript:void(0);" class="cta-text underline-animation">Експорт</a>
     <b>::</b>
-    <a href="#import" class="cta-text">Імпорт</a>
+    <a href="#import" class="cta-text underline-animation">Імпорт</a>
     <b>::</b>
 
 </div>

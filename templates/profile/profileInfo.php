@@ -10,6 +10,6 @@
     <ul>
         <li>Username: <?php echo $user->getUsername() ?></li>
         <li>Рівень прав: <?php echo $right->getSlug() ?></li>
-        <li><a href="<?php echo $router->url('logout') ?>">Вийти</a></li>
+        <li><a href="<?php echo $router->url('logout') ?>" class="underline-animation">Вийти</a></li>
     </ul>
 </div>
