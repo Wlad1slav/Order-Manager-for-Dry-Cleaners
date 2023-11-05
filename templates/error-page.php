@@ -18,7 +18,7 @@ include('base/sidebar.php');
     <h1>На сторінці сталася помилка <span class="error-num"><?php echo $errNum; ?></span></h1>
     <p>Ймовірно, у вас немає доступу до сторінки, чи її не існує.</p>
     <p>Звернитися до розробника за подробицями.</p>
-    <img src="/static/images/raccoon.png" alt="raccoon">
+    <img src="/static/images/error.png" alt="raccoon">
 </div>
 
 <?php include('base/footer.php'); ?>
