@@ -2,6 +2,11 @@ body {
     background-color: var(--background-color);
     margin: 0;
     height: 100%;
+
+    background-image: url("/static/images/raccoon.png");
+    background-position: right bottom;
+    background-size: 20%;
+    background-repeat: no-repeat;
 }
 
 html {
@@ -32,6 +37,7 @@ html {
 
 .content { /* нестатичний вміст сторінки */
     padding: var(--large-padding);
+    padding-bottom: 10%;
 }
 
 .container {
