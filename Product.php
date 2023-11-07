@@ -101,4 +101,13 @@ class Product {
         $this->goods = $goods;
     }
 
+    public function getDiscount(): int {
+        // Повертає знижку на виріб
+        return $this->discount;
+    }
+    public function setDiscount(int $discount): void {
+        // Встановлює знижку на виріб
+        $this->discount = $discount;
+    }
+
 }
