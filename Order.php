@@ -15,6 +15,9 @@ class Order {
     private User $user;             // Сотрудник, що створив замовлення
     private DateTime $dateCreate;   // Дата створення замовлення
     private DateTime $dateEnd;      // Дедлайн замовлення
+    private $datePayment;           // Дата оплати замовлення
+    private $dateClosing;           // Дата закриття замовлення
+    private $dateUpdate;            // Дата останього оновлення замовлення
     private bool $isPaid;           // Чи оплачено замовлення
     private bool $isCompleted;      // Чи виконано/закрите замовлення
     private float $totalPrice;      // Загальна ціна замовлення
@@ -23,7 +26,7 @@ class Order {
      */
     private array $productions = []; // Масив виробів замовлення
 
-    const COLUMNS = ['id_customer', 'id_user', 'date_create', 'date_end', 'total_price', 'productions', 'is_paid', 'is_completed'];
+    const COLUMNS = ['id_customer', 'id_user', 'date_create', 'date_end', 'total_price', 'productions', 'is_paid', 'is_completed', 'date_payment', 'date_closing', 'date_last_update'];
     const TABLE = 'orders'; // Назва таблиці, у якої зберігаються данні
 
     /**
@@ -34,14 +37,16 @@ class Order {
      * @param bool $isPaid
      * @param bool $isCompleted
      * @param DateTime|null $dateCreate
-     * @param DateTime|null $dateEnd
-     * @throws Exception
+     // * @param DateTime|null $dateEnd
+     * @param DateTime|null $datePayment
+     * @param DateTime|null $dateClosing
+     * @param DateTime|null $dateUpdate
      */
     public function __construct(
-        Customer $customer, User $user,
-        array $productions, int $id = -1,
-        bool $isPaid = false, bool $isCompleted = false,
-        ?DateTime $dateCreate = null, ?DateTime $dateEnd = null) {
+        Customer $customer, User $user, array $productions,             // Обов'язкові параметри
+        int $id = -1, bool $isPaid = false, bool $isCompleted = false,
+        ?DateTime $dateCreate = null, // ?DateTime $dateEnd = null,
+        $datePayment = null, $dateClosing = null, $dateUpdate = null) {
 
         $this->id = $id;
         $this->customer = $customer;
@@ -50,9 +55,12 @@ class Order {
         if ($dateCreate === null)
             $this->dateCreate = new DateTime();
         else $this->dateCreate = $dateCreate;
-        if ($dateEnd === null)
-            $this->dateEnd = (clone $this->dateCreate)->modify('+3 day');
-        else $this->dateEnd = $dateEnd;
+        $this->dateEnd = (clone $this->dateCreate)->modify('+3 day');
+
+        print_r($datePayment);
+        $this->datePayment = $datePayment;
+        $this->dateClosing = $dateClosing;
+        $this->dateUpdate = $dateUpdate;
 
         $this->isPaid = $isPaid;
         $this->isCompleted = $isCompleted;
@@ -68,6 +76,7 @@ class Order {
         // Повертає замовлення у вигляді об'єкту
         $repository = new Repository(self::TABLE, self::COLUMNS);
         $orderValues = $repository->getRow($id);
+        echo $orderValues['date_payment'];
         return new Order(
             Customer::get($orderValues['id_customer']),
             User::get($orderValues['id_user']),
@@ -76,7 +85,9 @@ class Order {
             $orderValues['is_paid'],
             $orderValues['is_completed'],
             DateTime::createFromFormat('Y-m-d H:i:s', $orderValues['date_create']),
-            DateTime::createFromFormat('Y-m-d', $orderValues['date_end']),
+            // DateTime::createFromFormat('Y-m-d', $orderValues['date_end']),
+            $orderValues['date_payment'],
+            $orderValues['date_closing'],
         );
     }
 
@@ -89,7 +100,10 @@ class Order {
             $this->totalPrice,                                                  // total_price      float
             $this->convertProductionToJSON($this->productions),       // productions      json
             $this->isPaid,                                                      // is_paid          tinyint(1)
-            $this->isCompleted                                                  // is_completed     tinyint(1)
+            $this->isCompleted,                                                 // is_completed     tinyint(1)
+            $this->datePayment,                                                 // date_payment     date
+            $this->dateClosing,                                                 // date_closing     date
+            $this->dateUpdate,                                                  // date_last_update date
         ];
     }
 
@@ -134,26 +148,25 @@ class Order {
         // Повертає t/f чи оплачено замовлення
         return $this->isPaid;
     }
-    public function setIsPaid(bool $isPaid): void {
-        // Встановлює t/f чи оплачено замовлення
-        $this->isPaid = $isPaid;
-    }
-    public function switchPaidStatus(): void {
-        // Переключає статус t/f чи оплачено замовлення
-        $this->isPaid = !$this->isPaid;
-    }
 
     public function isCompleted(): bool {
         // Повертає t/f чи закрите замовлення
         return $this->isCompleted;
     }
+
+    public function setIsPaid(bool $isPaid): void {
+        // Встановлює t/f чи оплачено замовлення
+        $this->isPaid = $isPaid;
+        if ($isPaid)
+            $this->datePayment = new DateTime();
+        else $this->datePayment = null;
+    }
     public function setIsCompleted(bool $isCompleted): void {
         // Встановлює t/f чи закрите замовлення
         $this->isCompleted = $isCompleted;
-    }
-    public function switchCompleteStatus(): void {
-        // Переключає статус t/f чи закрите замовлення
-        $this->isCompleted = !$this->isCompleted;
+        if ($isCompleted)
+            $this->dateClosing = new DateTime();
+        else $this->dateClosing = null;
     }
 
     public function getTotalPrice(): float {
@@ -207,30 +220,12 @@ class Order {
                 'amount' => $production->getAmount(),           // Кількісь товару
                 'price' => $production->getPrice(),             // Загальна ціна за виріб
                 'note' => $production->getNote(),               // Нотатки
-                'params' => $production->getParams()            // Додаткові, кастомні параметри користувача
+                'discount' => $production->getDiscount(),       // Знижка за виріб
+                'params' => $production->getParams(),           // Додаткові, кастомні параметри користувача
             ];
         }
 
         return json_encode($jsonData);
-    }
-
-    public function getComponents(): array {
-        // Надає словник з подробной інформацією о замовлені
-        $num = 0;
-        $components = [];
-        foreach ($this->productions as $production) {
-            $num++;
-            $params = [
-                'Товар' => $production->getGoods()->getName(),
-                'Кількість' => $production->getAmount(),
-                'Ціна' => $production->getPrice() . ' UAH (' . $production->getGoods()->getPrice() . ' UAH за штуку)',
-                'Нотатки' => $production->getNote()
-            ];
-
-            $components[$num] = $params;
-        }
-
-        return $components;
     }
 
 }
