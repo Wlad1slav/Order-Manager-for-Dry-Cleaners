@@ -60,7 +60,7 @@
             }
             echo "<th><a href='#' class='underline-animation'>Редагувати</a></th>";
 
-            echo "<th><a class='red-text' href='javascript:void(0);' onclick='confirmAndDelete(". $order['id'] . ", \"order\")'>X</a></th>"; // Функція видалення клієнта
+            echo "<th><a class='red-text' href='javascript:void(0);' onchange='confirmAndDelete(". $order['id'] . ", \"order\")'>X</a></th>"; // Функція видалення клієнта
 
             echo '</tr>';
         }
