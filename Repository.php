@@ -156,4 +156,46 @@ class Repository {
         return $stmt->rowCount();
     }
 
+    public static function createDB(string $dbname): void {
+        // Метод для створення бд
+        $config = json_decode(file_get_contents(self::DB_CONFIG_PATH), true) ?? [];
+
+        try {
+            // Створення підключення PDO
+            $pdo = new PDO("mysql:host={$config['host']}", $config['user'], $config['pass']);
+            // Встановлення режиму помилок PDO на виключення
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            // SQL-запит для створення нової БД
+            $sql = "CREATE DATABASE $dbname";
+
+            // Виконання SQL-запиту
+            $pdo->exec($sql);
+        } catch(PDOException $e) {
+             echo "Помилка при створенні бази даних: " . $e->getMessage();
+        }
+
+        $pdo = null; // Закриття підключення
+    }
+
+    public static function checkDB(string $dbname): bool {
+        // Перевірка, чи існує база даних
+        $config = json_decode(file_get_contents(self::DB_CONFIG_PATH), true) ?? [];
+
+        try {
+            $pdo = new PDO("mysql:host={$config['host']}", $config['user'], $config['pass']);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $stmt = $pdo->query("SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '$dbname'");
+
+            if ($stmt->fetchColumn() > 0)
+                return true;
+            else return false;
+
+        } catch(PDOException $e) {
+            echo "Помилка підключення: " . $e->getMessage();
+            return false;
+        }
+    }
+
 }
