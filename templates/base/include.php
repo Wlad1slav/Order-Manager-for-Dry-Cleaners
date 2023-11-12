@@ -1,9 +1,8 @@
 <?php
 require_once 'styles.php';
 
-$config = require_once "D:\DEV\Ampps\www\settings\config.php";
+$config = require_once "settings/config.php";
 global $DIR;
-$DIR = $config['ROOT_FOLDER'];
 
 global $router;
 $sidebar = require_once "$DIR\settings\sidebar_rows.php";
