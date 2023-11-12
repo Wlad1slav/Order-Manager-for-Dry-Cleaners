@@ -60,6 +60,9 @@ class ProductAdditionalFields {
 
     public static function getJson(): array {
         // Метод, що повертає дані о полях з json у форматі масиву
+        if (!file_exists(self::CONFIG_PATH))
+            // Створення порожнього JSON файлу у випадку, якщо його не існує
+            file_put_contents(self::CONFIG_PATH, json_encode(array(), JSON_PRETTY_PRINT));
         return json_decode(file_get_contents(self::CONFIG_PATH), true) ?? [];
     }
 
