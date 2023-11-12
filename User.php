@@ -28,8 +28,8 @@ class User {
         if ($checkCompliance) {
             // checkCompliance - Чи потрібно проводити перевірку властивостей об'єкту при створенні
             $this->validateUsername($username); // Перевіряє, чи відповідає логін нормам
-            if (strlen($password) < 8)
-                throw new InvalidArgumentException('Конструктор User: Очікується, що довжина паролю >= 8 символів');
+//            if (strlen($password) < 8)
+//                throw new InvalidArgumentException('Конструктор User: Очікується, що довжина паролю >= 8 символів');
         }
 
         $this->id = $id;
@@ -38,7 +38,7 @@ class User {
         $this->rights = $rights;
     }
 
-    public static function get($id): User {
+    public static function get(?int $id = null, ?string $name = null): User {
         // Повертає користувача у вигляді об'єкту
         $repository = new Repository(self::TABLE, self::COLUMNS);
         $userValues = $repository->getRow($id);
@@ -104,6 +104,11 @@ class User {
     public static function getRight(int $id): Rights {
         $rights = require 'settings/rights_list.php';
         return $rights[$id-1];
+    }
+
+    public static function isExist($id): bool {
+        $repository = new Repository(self::TABLE, self::COLUMNS);
+        return $repository->isThereRow('id', $id);
     }
 
     public function getValues(): array {
