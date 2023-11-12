@@ -72,7 +72,7 @@ class Order {
         $this->repository = new Repository(self::TABLE, self::COLUMNS);
     }
 
-    public static function get($id): Order {
+    public static function get(?int $id = null, ?string $name = null): Order {
         // Повертає замовлення у вигляді об'єкту
         $repository = new Repository(self::TABLE, self::COLUMNS);
         $orderValues = $repository->getRow($id);

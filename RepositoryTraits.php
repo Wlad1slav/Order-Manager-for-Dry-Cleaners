@@ -24,6 +24,7 @@ trait RepositoryTraits {
         return $repository->getAll();
     }
 
-    abstract static public function get();          // Метод, що повертає об'єкт замовлення
+    // Метод, що повертає об'єкт замовлення
+    abstract static public function get(?int $id = null, ?string $name = null);
     abstract public function getValues(): array;    // Метод, що повертає масив усіх даних, які потрібно ввести у базу даних
 }
