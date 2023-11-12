@@ -8,3 +8,4 @@
 /dataSources.local.xml
 settings/db_config.php
 layouts PHP
+settings/productAdditionalFields.json
