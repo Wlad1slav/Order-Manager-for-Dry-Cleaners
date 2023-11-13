@@ -76,7 +76,6 @@ class Order {
         // Повертає замовлення у вигляді об'єкту
         $repository = new Repository(self::TABLE, self::COLUMNS);
         $orderValues = $repository->getRow($id);
-        echo $orderValues['date_payment'];
         return new Order(
             Customer::get($orderValues['id_customer']),
             User::get($orderValues['id_user']),
