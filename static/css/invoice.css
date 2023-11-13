@@ -1,0 +1,50 @@
+.invoice .heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.invoice .heading img {
+    width: 200px;
+    /*height: auto;*/
+    float: right;
+}
+
+.invoice h1 {
+    text-align: center;
+}
+
+.invoice-info .customer-info {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+    margin-bottom: var(--large-padding);
+}
+
+th, td {
+    padding: 8px;
+    text-align: center;
+    word-wrap: break-word; /* дозволяє перенесення слів у осередку */
+}
+
+th {
+    /* стилі таблиці, фактично, не використовуються через плагин DataTables */
+    background-color: var(--table-rows-color);
+    border: 1px solid var(--base-color);
+}
+
+td {
+    border: 1px solid var(--text-color);
+}
+
+thead th {
+    /* стилі таблиці, фактично, не використовуються через плагин DataTables */
+    font-weight: var(--table-firsts-row-weight);
+    color: var(--table-firsts-row-text-color);
+    background-color: var(--table-firsts-row-color);
+}
