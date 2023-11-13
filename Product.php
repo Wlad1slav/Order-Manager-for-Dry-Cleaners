@@ -42,14 +42,14 @@ class Product {
 
         $result = [];
         for ($i = 0; $i < count($productions['productions']); $i++)
-            $result = [new Product(
+            $result[] = new Product(
                 $productions['productions'][$i]['amount'],
                 $productions['productions'][$i]['note'],
                 $productions['productions'][$i]['params'],
                 Goods::get($productions['productions'][$i]['goodID']),
                 $productions['productions'][$i]['discount'],
                 $productions['productions'][$i]['price'],
-            )];
+            );
 
         return $result;
     }
