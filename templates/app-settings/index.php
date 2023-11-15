@@ -9,11 +9,29 @@ include("$DIR/templates/base/sidebar.php");
 global $router;
 ?>
 
+<style>
+    .content {
+        background-image:
+                /*url('static/images/background.jpg');*/
+        url('static/images/background-2.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+
+    }
+</style>
+
+<div class="settings">
+
 <h1>Налаштування</h1>
 
-<?php include 'additionalFieldTable.php'; ?> <!-- Таблиця додаткових полів замовлення -->
+    <div class="section">
+        <?php include 'orders-settings.php'; ?> <!-- Налаштування замовлень -->
+    </div>
 
-<?php include 'additionalFieldCreate.php'; ?> <!-- Форма створення нового поля замовлення -->
+
+
+</div>
 
 
 <?php include("$DIR/templates/base/footer.php"); ?>

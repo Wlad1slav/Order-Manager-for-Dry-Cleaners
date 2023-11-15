@@ -1,5 +1,5 @@
 <div class="container-margin">
-    <h3>Форма створення нового поля</h3>
+    <p><b>Додати нове поле</b></p>
 
     <form class="fields-create" method="post">
         <label for="fieldName">Назва поля</label>
@@ -18,7 +18,8 @@
 
         <label for="availableValues">Швидкий вибір значень (через кому)</label>
         <textarea name="availableValues" id="availableValues"></textarea>
-
-        <input type="submit" value="Створити">
+        <div>
+            <input type="submit" value="Додати">
+        </div>
     </form>
 </div>
