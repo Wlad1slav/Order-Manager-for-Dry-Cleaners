@@ -1,33 +1,48 @@
+
 <div class="container-margin">
-    <h2>Додаткові поля замовлення</h2>
+    <h3>Додаткові поля замовлення</h3>
 
-    <hr>
-    <?php
-    /**
-     * @var $router
-     */
+    <table>
+        <tr>
+            <th>Назва</th>
+            <th>Тип поля</th>
+            <th>Стандарт</th>
+            <th>Варіації</th>
+            <th></th>
+        </tr>
 
-    $fieldsArray = new ProductAdditionalFields();
-    $fieldIndex = 0;
-    foreach ($fieldsArray->getFields() as $field) {
-        $deleteLink = $router->url('fieldRemove') . "?index=$fieldIndex";
-        echo "<a style='font-weight: 1000' class='red-text' href='$deleteLink'>X </a>";
-        foreach ($field as $key => $value) {
-            if (empty($value)) $value = '...';
+        <?php
+        global $router;
 
-            if ($key === 'possibleValues' || $key === 3) {
-                echo '<i>Варіації: ';
-                foreach ($value as $element)
-                    echo "| $element |";
-                echo '</i>';
+        $fieldsArray = new ProductAdditionalFields();
+        $fieldIndex = 0; // Потрібно для отримання посилання на видалення поля
+
+        foreach ($fieldsArray->getFields() as $field) {
+            echo '<tr>';
+
+            foreach ($field as $key => $value) {
+                if (empty($value)) $value = '...';
+
+                if ($key === 'possibleValues') {
+                    echo '<td>';
+                    if (count($value) !== 1)
+                        foreach ($value as $element)
+                            echo "$element. ";
+                    echo '</td>';
+                } else
+                    echo "<td>$value</td>";
             }
-            else {
-//                print_r($value);
-                echo "$value <b>=></b> ";
-            }
+
+            $deleteLink = $router->url('fieldRemove') . "?index=$fieldIndex";
+            echo "<td><a style='font-weight: 1000' class='red-text' href='$deleteLink'>X </a></td>";
+
+            $fieldIndex++;
+
+            echo '</tr>';
         }
-        $fieldIndex++;
-        echo '<hr>';
-    }
-    ?>
+
+        ?>
+    </table>
+
+    <?php include 'additionalFieldCreate.php'; ?> <!-- Форма створення нового поля замовлення -->
 </div>
