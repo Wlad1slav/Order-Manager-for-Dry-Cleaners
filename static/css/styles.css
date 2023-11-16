@@ -46,10 +46,6 @@ html {
     flex-wrap: wrap;
 }
 
-.container-margin {
-    margin-bottom: var(--large-padding);
-}
-
 .container.page-center {
     position: absolute;
     top: 50%;
@@ -257,7 +253,7 @@ img {
     margin-bottom: var(--medium-padding);
 }
 
-.settings .section .container-margin p {
+.settings .section p {
     /*width: 100%;*/
     text-align: right;
     font-style: italic;
