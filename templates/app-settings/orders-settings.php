@@ -2,5 +2,5 @@
 
 
 <div class="subsection">
-    <?php include 'additionalFieldTable.php'; ?> <!-- Налаштування додаткових полів замовлень -->
+    <?php include 'additionalField.php'; ?> <!-- Налаштування додаткових полів замовлень -->
 </div>
