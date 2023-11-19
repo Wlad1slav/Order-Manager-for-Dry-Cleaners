@@ -44,6 +44,7 @@ const SETTINGS_APP = 'app-settings';
 $router->get(SETTINGS_APP, 'templates/' .SETTINGS_APP. '/index.php', 'settingsPage');                           // Сторінка з налаштуваннями
 $router->post(SETTINGS_APP, 'templates/' .SETTINGS_APP. '/additionalFieldCreateForm.php', 'fieldAdd');          // Форма, що додає нове додаткове поле замовлення
 $router->get('order-field/delete', 'templates/' .SETTINGS_APP. '/additionalFieldRemove.php', 'fieldRemove');    // Видалення додаткового поля замовлення
+$router->get(SETTINGS_APP.'/switchFieldStatus', 'templates/' .SETTINGS_APP. '/additionalFieldSwitchStatus.php', 'fieldStatus');    // Зміна статусу додаткового поля (чи показується воно в квитанції)
 
 // ІНШЕ
 $router->get('error', 'templates/error-page.php', 'error');                                                     // Сторінка помилки

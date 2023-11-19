@@ -198,6 +198,18 @@ img {
     font-variant: small-caps;
 }
 
+.accept {
+    color: var(--base-color);
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.cancel {
+    color: var(--red);
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
 /* СТИЛІ ПО ОКРЕМИМ СТОРІНКАМ */
 .rights {
     /* Стилі блоку прав на сторінці профілю */
@@ -249,7 +261,7 @@ img {
     backdrop-filter: blur(20px);
     padding: 0 var(--large-padding);
     border-radius: 20px;
-    width: 80%;
+    width: 85%;
     margin-bottom: var(--medium-padding);
 }
 
@@ -262,5 +274,9 @@ img {
 .settings .section {
     border-top: 5px solid var(--base-color);
     border-bottom: 5px solid var(--base-color);
+}
+
+.settings .section .subsection {
+    border-top: 5px solid var(--base-color);
 }
 

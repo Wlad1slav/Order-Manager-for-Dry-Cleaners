@@ -2,23 +2,26 @@
     <tr>
         <th>Назва</th>
         <th>Тип поля</th>
-        <th>Стандарт</th>
+        <th>Default</th>
         <th>Варіації</th>
-        <th></th>
+        <th>Є в квитанції</th>
     </tr>
 
     <?php
-    /**
-     * @var $fieldsArray
-     * @var $router
-     * */
+    if (!isset($fieldsArray))
+        $fieldsArray = new ProductAdditionalFields();
+    if (!isset($router))
+        global $router;
+
     $fieldIndex = 0; // Потрібно для отримання посилання на видалення поля
 
     foreach ($fieldsArray->getFields() as $field) {
         echo '<tr>';
 
         foreach ($field as $key => $value) {
-            if (empty($value)) $value = '...';
+            if ($value === true) $value = '<span class="accept">так</span>';
+            elseif ($value === false) $value = '<span class="cancel">ні</span>';
+            elseif (empty($value)) $value = '...';
 
             if ($key === 'possibleValues') {
                 echo '<td>';

@@ -18,7 +18,7 @@ class ProductAdditionalFields {
         $this->fields = $this->getJson();
     }
 
-    public function addField(string $name, string $type, string $default = '', array $possibleValues = []): void {
+    public function addField(string $name, string $type, string $default = '', array $possibleValues = [], bool $displayed = false): void {
         // Мето, що додає поле до масива полів
         foreach ($this->fields as $field) {
             if ($field['0'] == $name)
@@ -30,12 +30,32 @@ class ProductAdditionalFields {
             'name' => $name,
             'type' => $type,
             'default' => $default,
-            'possibleValues' => $possibleValues
+            'possibleValues' => $possibleValues,
+            'displayedOnInvoice' => $displayed
         ];
     }
 
     public function removeField(int $index): void {
         array_splice($this->fields, $index, 1);
+    }
+
+    public function editField(string $index, string $element, string|bool|int $value): void {
+        /*
+        $index - номер додаткового поля
+        $element - елемент, який в долатковому полі треба змінити
+        $value - нове значення
+        */
+        $this->fields[$index][$element] = $value;
+    }
+
+    public function getInvoicePositiveFields(): array {
+        $result = [];
+
+        foreach ($this->fields as $field)
+            if ($field['displayedOnInvoice'] === true)
+                $result[] = $field;
+
+        return $result;
     }
 
     private function fieldExists(string $name): bool {

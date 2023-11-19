@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         $newField = new ProductAdditionalFields();
-        $newField->addField($fieldName, $fieldType, $defaultFieldValue, $availableValues);
+        $newField->addField($fieldName, $fieldType, $defaultFieldValue, $availableValues, false);
         $newField->save();
     } catch (Exception $e) {
         $_SESSION['error'] = ERROR_TITLE . $e->getMessage();

@@ -7,6 +7,8 @@ $orderID = intval($_GET['id']);
 $order = Order::get($orderID);
 
 $todayDate = new DateTime();
+
+require_once 'ProductAdditionalFields.php';
 ?>
 
 <!doctype html>
@@ -67,26 +69,52 @@ $todayDate = new DateTime();
 
             <table>
                 <tr>
-<!--                    <th>№</th>-->
                     <th>Найменування виробу</th>
                     <th>Кількість</th>
                     <th>Ціна</th>
                     <th>Примітки</th>
+
+                    <?php
+
+                    // Отримання тільки тих додаткових полів, які відмічені маркером для показу в квитанції
+                    $fields = new ProductAdditionalFields();
+                    $fields = $fields->getInvoicePositiveFields();
+
+                    // Вивод цих полів
+                    $fieldNum = 0;
+                    foreach ($fields as $field) {
+                        echo "<th>{$field['name']}</th>";
+
+                        // Створення масиву значень окремого додаткового поля
+                        foreach ($order->getProductions() as $product)
+                            foreach ($product->getParams() as $fieldName => $value)
+                                if ($field['name'] == $fieldName)
+                                    $additionalFieldsValues[$fieldNum][] = $value;
+
+                        $fieldNum++;
+                    }
+
+                    ?>
+
                 </tr>
 
                 <?php
-
-//                for ($i = 1; $i <= 5; $i++) {
-//
-//                }
-
+                $productNum = 0;
                 foreach ($order->getProductions() as $product) {
                     echo '<tr>';
                     echo "<td>{$product->getGoods()->getName()}</td>";
                     echo "<td>{$product->getAmount()}</td>";
                     echo "<td>{$product->getPrice()}</td>";
                     echo "<td>{$product->getNote()}</td>";
+
+                    // Виведення даних для полів, що відміченні маркером в налаштуваннях
+                    if (isset($additionalFieldsValues))
+                        foreach ($additionalFieldsValues as $arr)
+                            echo "<td>{$arr[$productNum]}</td>";
+
                     echo '</tr>';
+
+                    $productNum++;
                 }
 
                 ?>
