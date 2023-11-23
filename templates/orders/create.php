@@ -7,6 +7,8 @@ include("$DIR/templates/base/header.php");
 include("$DIR/templates/base/sidebar.php");
 
 global $router;
+
+$orderSettings = Order::getOrdersSettings();
 ?>
 
 <h1>Нове замовлення</h1>
@@ -30,10 +32,6 @@ global $router;
 
         ?>
     </datalist>
-
-    <!-- Знижка клієнта -->
-<!--    <label for="order-discount">Знижка</label>-->
-<!--    <input type="number" name="order-discount" id="order-discount" min="0" max="99" placeholder="0%">-->
 
     <div class="products"> <!-- Вироби -->
     <?php
@@ -73,9 +71,11 @@ global $router;
 
         // Примітки
         echo "<label for='notes-$i'>Примітки</label>";
-        echo "<select name='notes-$i' id='notes-$i' multiple>";
-        echo "<option value='Важке забруднення'>Важке забруднення</option>";
+        echo "<select name='notes-$i"."[]' id='notes-$i"."[]' multiple>";
+        foreach ($orderSettings['Quick note selection'] as $noteOption)
+            echo "<option value='$noteOption'>$noteOption</option>";
         echo '</select>';
+
         echo "<textarea name='notes-textarea-$i'></textarea>";
 
         echo '<h3>Додаткові параметри</h3>'; // Додаткові параметри

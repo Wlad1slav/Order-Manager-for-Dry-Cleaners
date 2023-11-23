@@ -13,7 +13,6 @@ $user = User::checkLogin();
 const REDIRECT = 'ordersTable';
 const ERROR_TITLE = '<b>Помилка при створенні замовлення</b><br>';
 const PRODUCTS_NUM = 5;
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $productions = [];
@@ -37,9 +36,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $params[$field] = $_POST["additionalPropertie-$f-$i"];  // Збереження введених в додаткове поле даніх в масиві
         }
 
+        if (isset($_POST["notes-$i"])) {
+            // Переведення масиву приміток в строку
+            $mainNotes = implode(', ', $_POST["notes-$i"]);
+            if (isset($_POST["notes-textarea-$i"])) $mainNotes .= ', '; // Якщо є додаткові примітки, то додається кома після основних
+        }
+        else
+            $mainNotes = '';
+
+        // Додавання до основних приміток додаткових
+        $notes = $mainNotes . $_POST["notes-textarea-$i"];
+
         $productions[] = new Product(
             $_POST["amount-$i"],
-            $_POST["notes-textarea-$i"],
+            $notes,
             $params,
             $good,
             $_POST["discount-$i"],
@@ -52,5 +62,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $order = new Order($customer, $user, $productions);
     $order->save();
-
 }

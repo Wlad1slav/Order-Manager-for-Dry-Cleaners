@@ -6,5 +6,9 @@
 </div>
 
 <div class="subsection">
+    <?php include 'notesField.php'; ?> <!-- Шаблон нотаток -->
+</div>
+
+<div class="subsection">
     <?php include 'invoice.php'; ?> <!-- Налаштування квитанцій -->
 </div>
