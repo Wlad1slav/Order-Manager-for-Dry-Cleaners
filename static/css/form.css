@@ -6,6 +6,11 @@ label {
     margin-bottom: var(--small-padding);
 }
 
+textarea {
+    margin-top: var(--small-padding);
+    width: 100%;
+}
+
 input[type="text"], input[type="password"], input[type="tel"], input[type="number"], input[type="file"], input[type="search"],
 input:not(input[type="radio"]), select, textarea {
     /*transition: var(--shadow-selection-animation);*/
