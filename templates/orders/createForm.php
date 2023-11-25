@@ -10,9 +10,11 @@ require_once 'ProductAdditionalFields.php';
 
 $user = User::checkLogin();
 
+$orderSettings = Order::getOrdersSettings();
+
 const REDIRECT = 'ordersTable';
 const ERROR_TITLE = '<b>Помилка при створенні замовлення</b><br>';
-const PRODUCTS_NUM = 5;
+define("PRODUCTS_NUM", $orderSettings['Number of products']);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $productions = [];
@@ -25,7 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $good = Goods::get(null,$goodName);
 
         // Вирахування ціни за виріб
-        $price = $_POST["price-$i"] - (($_POST["price-$i"] / 100) * $_POST["discount-$i"]);
+        echo $_POST["discount-$i"];
+        $price = $_POST["price-$i"] - (($_POST["price-$i"] / 100) * intval($_POST["discount-$i"]));
 
         // Створення масиву даних з додаткових полів
         $additionalFields = new ProductAdditionalFields();
@@ -52,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $notes,
             $params,
             $good,
-            $_POST["discount-$i"],
+            intval($_POST["discount-$i"]),
             $price
         );
 

@@ -46,6 +46,7 @@ $router->post(SETTINGS_APP, 'templates/' .SETTINGS_APP. '/additionalFieldCreateF
 $router->get('order-field/delete', 'templates/' .SETTINGS_APP. '/additionalFieldRemove.php', 'fieldRemove');    // Видалення додаткового поля замовлення
 $router->get(SETTINGS_APP.'/switchFieldStatus', 'templates/' .SETTINGS_APP. '/additionalFieldSwitchStatus.php', 'fieldStatus');    // Зміна статусу додаткового поля (чи показується воно в квитанції)
 $router->post('notes/save', 'templates/' .SETTINGS_APP. '/notesFieldSave.php', 'notesFieldSave');               // Збереження швидкого вибору нотаток
+$router->post(PRODUCTS_APP.'/amount-set', 'templates/' .SETTINGS_APP. '/productsAmountSave.php', 'editProductsAmount');               // Збереження швидкого вибору нотаток
 
 
 // ІНШЕ

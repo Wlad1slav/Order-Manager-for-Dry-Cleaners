@@ -55,6 +55,7 @@ function updateTotalPrice() {
 }
 
 function updateProductStatus(i, goodNameInput) {
+    // Оновлення статусу продукту (чи вибраний він)
     const statusSpan = document.getElementById(`product-status-${i}`);
     if (goodNameInput.classList.contains('has-value')) {
         statusSpan.textContent = '✖';
@@ -64,36 +65,54 @@ function updateProductStatus(i, goodNameInput) {
 }
 
 
-// Отримання даних о продукті
-for (let i = 1; i <= 5; i++) {
-    // Отримання даних о продукті
-    const goodNameInput = document.getElementById(`good-name-${i}`);
-    const amountInput = document.getElementById(`amount-${i}`);
-    const pricePerGoodInput = document.getElementById(`price-per-one-${i}`);
-    const pricePerProductInput = document.getElementById(`price-${i}`);
+// Отримання налаштувань замовлення
+fetch('/settings/orders_config.json')
+    .then(response => {
+        // Переконуємося, що відповідь є в форматі JSON
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // 'data' тепер є JavaScript масивом або об'єктом, отриманим з JSON файла
+        // Отримання даних о продукті
+        for (let i = 1; i <= data['Number of products']; i++) {
+            // Отримання даних о продукті
+            const goodNameInput = document.getElementById(`good-name-${i}`);
+            const amountInput = document.getElementById(`amount-${i}`);
+            const pricePerGoodInput = document.getElementById(`price-per-one-${i}`);
+            const pricePerProductInput = document.getElementById(`price-${i}`);
 
-    goodNameInput.addEventListener('input', function() {
-        // Відстеження вибору продукту
-        updatePrice(i);
-        updateProductStatus(i, goodNameInput);
+            goodNameInput.addEventListener('input', function() {
+                // Відстеження вибору продукту
+                updatePrice(i);
+                updateProductStatus(i, goodNameInput);
+            });
+
+            amountInput.addEventListener('input', function() {
+                // Відстеження зміни кількості продукту
+                updatePrice(i, true);
+            });
+
+            pricePerGoodInput.addEventListener('input', function() {
+                // Відстеження зміни ціни продукту за штуку
+                updatePrice(i, true);
+            });
+
+            pricePerProductInput.addEventListener('input', function() {
+                // Відстеження зміни ціни за виріб
+                totalPriceArr[i-1] = parseFloat(pricePerProductInput.value);
+                updateTotalPrice();
+            });
+        }
+    })
+    .catch(error => {
+        // Обробка помилок, якщо запит не вдався
+        console.error('There was a problem with the fetch operation:', error);
     });
 
-    amountInput.addEventListener('input', function() {
-        // Відстеження зміни кількості продукту
-        updatePrice(i, true);
-    });
 
-    pricePerGoodInput.addEventListener('input', function() {
-        // Відстеження зміни ціни продукту за штуку
-        updatePrice(i, true);
-    });
-
-    pricePerProductInput.addEventListener('input', function() {
-        // Відстеження зміни ціни за виріб
-        totalPriceArr[i-1] = parseFloat(pricePerProductInput.value);
-        updateTotalPrice();
-    });
-}
 
 
 

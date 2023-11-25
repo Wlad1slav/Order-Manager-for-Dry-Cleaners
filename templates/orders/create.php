@@ -36,7 +36,7 @@ $orderSettings = Order::getOrdersSettings();
     <div class="products"> <!-- Вироби -->
     <?php
 
-    for ($i = 1; $i <= 5; $i++) {
+    for ($i = 1; $i <= $orderSettings['Number of products']; $i++) {
 
         echo '<div class="product">';
         echo "<h2>Виріб $i <span class='product-status' id='product-status-$i'>✖</span></h2>"; // ✔
