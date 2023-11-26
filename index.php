@@ -28,6 +28,7 @@ if (!User::isExist(1)) {
 require_once 'Router.php';
 global $router;
 $router = new Router();
-require_once 'settings/routes.php';
+$router->load();
+$router->match();
 
 date_default_timezone_set('Europe/Kiev');

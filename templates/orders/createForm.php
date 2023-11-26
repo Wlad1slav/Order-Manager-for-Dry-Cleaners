@@ -65,4 +65,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $order = new Order($customer, $user, $productions);
     $order->save();
+
+    $router->redirect('orderInvoice', ['id'=>$order->getId()]);
 }
