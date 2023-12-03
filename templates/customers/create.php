@@ -1,6 +1,10 @@
+<?php
+if (!isset($router))
+    global $router;
+?>
 <div>
     <!--Форма створення нових клієнтів-->
-    <form method="post">
+    <form method="post" action="<?php echo $router->url('customerCreate'); ?>">
         <h2>Форма створення</h2>
 
         <label>

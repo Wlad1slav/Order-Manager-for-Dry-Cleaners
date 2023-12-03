@@ -1,6 +1,11 @@
+<?php
+if (!isset($router))
+    global $router;
+?>
+
 <div>
     <!--Форма створення користувачів-->
-    <form method="post">
+    <form method="post" action="<?php echo $router->url('userCreate') ?>">
         <h2>Форма створення</h2>
         <label>
             <input name="username" type="text" placeholder="Логін" required>

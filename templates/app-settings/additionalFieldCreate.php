@@ -1,7 +1,11 @@
+<?php
+if (!isset($router))
+    global $router;
+?>
 
 <p><b>Додати нове поле</b></p>
 
-<form class="fields-create" method="post">
+<form class="fields-create" method="post" action="<?php echo $router->url('fieldAdd'); ?>">
     <label for="fieldName">Назва поля</label>
     <input type="text" name="fieldName" id="fieldName" required>
 

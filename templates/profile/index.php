@@ -14,7 +14,7 @@ $right = $user->getUserRights();
 
 <?php include 'profileInfo.php' ?> <!-- Інформація про профіль користувача -->
 
-<?php include 'passwordEdit.html' ?> <!--Форма зміни паролю -->
+<?php include 'passwordEdit.php' ?> <!--Форма зміни паролю -->
 
 <?php // Обробчик помилок, що можуть виникнути при зміні паролю
 if (isset($_SESSION['error'])) {

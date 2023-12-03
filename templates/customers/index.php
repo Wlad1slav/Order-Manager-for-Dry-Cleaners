@@ -9,7 +9,7 @@ include("$DIR/templates/base/sidebar.php");
 
 <h1><?php echo $pageTitle?></h1>
 
-<?php include 'create.html' ?> <!-- Форма створення клієнта -->
+<?php include 'create.php' ?> <!-- Форма створення клієнта -->
 
 <?php // Обробчик помилок, що можуть виникнути при взаїмодії з клієнтами
 if (isset($_SESSION['error'])) {

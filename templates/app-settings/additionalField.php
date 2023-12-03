@@ -1,9 +1,11 @@
-
+<?php
+if (!isset($router))
+    global $router;
+?>
 <h3>Додаткові поля замовлення</h3>
 
 <?php
 // Якщо таблиця додаткових полів не пуста, то йдеться виклик її тегу
-global $router;
 $fieldsArray = new ProductAdditionalFields();
 
 if (count($fieldsArray->getFields()) > 0)

@@ -19,7 +19,7 @@ function switchFieldInvoiceStatus(fieldIndex) {
     // Змінює статус додаткового поля замолвення
     $.ajax({
         type: "GET",
-        url: "app-settings/switchFieldStatus",
+        url: "app-settings/field/switch-status",
         data: {fieldIndex: fieldIndex},
     });
 }
