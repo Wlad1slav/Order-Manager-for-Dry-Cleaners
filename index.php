@@ -10,7 +10,7 @@ $DIR = __DIR__;
 
 // Перевірка, чи існує база даних
 require_once 'Repository.php';
-$dbconfig = json_decode(file_get_contents(Repository::DB_CONFIG_PATH), true) ?? [];
+$dbconfig = Repository::getJsonConfig();
 if (!Repository::checkDB($dbconfig['dbname']))
     Repository::createDB($dbconfig['dbname']);
 $dbconfig = null;

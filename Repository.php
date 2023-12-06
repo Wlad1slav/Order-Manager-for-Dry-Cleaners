@@ -1,13 +1,23 @@
 <?php
 
+require_once 'JsonAccessTrait.php';
+
 class Repository {
+    use JsonAccessTrait;    // Трейт для операцій з json файлами
+    // Константи для роботи з конфігом
+    const CONFIG_PATH = 'settings/config_db.json';
+    const CONFIG_DEFAULT = [
+        "host"      =>      "localhost",
+        "dbname"    =>      "webappdb",
+        "user"      =>      "root",
+        "pass"      =>      ""
+    ];
+
     // Абстракція для операцій з базою даних з використанням PDO
     // basic CRUD (Create, Read, Update, Delete)
     private PDO $connection; // властивість, що містить об’єкт з’єднання PDO
     private string $tableName; // властивість, яка відстежує назву таблиці, над якою виконуватимуться операції CRUD
     private array $columns; // властивість, що містить масив усіх столбців бд з яким потрібно роботати
-
-    const DB_CONFIG_PATH = 'settings/db_config.json';
 
     /**
      * @param string $tableName
@@ -16,7 +26,7 @@ class Repository {
     public function __construct(string $tableName, array $columns) {
         // Завантажує параметри підключення до бази даних із конфігураційного файлу
         // $config = require 'settings/db_config.php';
-        $config = json_decode(file_get_contents(self::DB_CONFIG_PATH), true) ?? [];
+        $config = self::getJsonConfig();
 
         $dsn = "mysql:host={$config['host']};dbname={$config['dbname']};charset=utf8";
 
@@ -158,7 +168,7 @@ class Repository {
 
     public static function createDB(string $dbname): void {
         // Метод для створення бд
-        $config = json_decode(file_get_contents(self::DB_CONFIG_PATH), true) ?? [];
+        $config = self::getJsonConfig();
 
         try {
             // Створення підключення PDO
@@ -180,7 +190,7 @@ class Repository {
 
     public static function checkDB(string $dbname): bool {
         // Перевірка, чи існує база даних
-        $config = json_decode(file_get_contents(self::DB_CONFIG_PATH), true) ?? [];
+        $config = self::getJsonConfig();
 
         try {
             $pdo = new PDO("mysql:host={$config['host']}", $config['user'], $config['pass']);
