@@ -8,7 +8,7 @@ include("$DIR/templates/base/sidebar.php");
 
 global $router;
 
-$orderSettings = Order::getOrdersSettings();
+$orderSettings = Order::getJsonConfig();
 ?>
 
 <h1>Нове замовлення</h1>

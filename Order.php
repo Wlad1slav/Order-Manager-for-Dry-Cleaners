@@ -6,9 +6,27 @@ require_once 'Customer.php';
 require_once 'User.php';
 require_once 'Product.php';
 require_once 'Goods.php';
+require_once 'JsonAccessTrait.php';
 
 class Order {
-    use RepositoryTraits; // Черта для операцій класу з бд
+    use RepositoryTraits;   // Трейт для операцій класу з бд
+    // Константи для роботи з базою даних
+    const COLUMNS = ['id_customer', 'id_user', 'date_create', 'date_end', 'total_price', 'productions', 'is_paid', 'is_completed', 'date_payment', 'date_closing', 'date_last_update'];
+    const TABLE = 'orders'; // Назва таблиці, у якої зберігаються данні
+
+    use JsonAccessTrait;    // Трейт для операцій з json файлами
+    // Константи для роботи з конфігом
+    const CONFIG_PATH = 'settings/config_orders.json'; // Шлях до конфігу
+    const CONFIG_DEFAULT = [
+        'Number of products' => 5,
+        'Quick note selection' => [],
+        'Fields to show' => [
+            'note' => true,
+            'price' => true,
+            'amount' => true,
+            'discount' => false
+        ]
+    ];
 
     private int $id;                // Ідентифікатор замовлення. Встановлюється після збереження замовлення.
     private Customer $customer;     // Клієнт, що зробив замовлення
@@ -26,15 +44,6 @@ class Order {
      */
     private array $productions = []; // Масив виробів замовлення
 
-    const COLUMNS = ['id_customer', 'id_user', 'date_create', 'date_end', 'total_price', 'productions', 'is_paid', 'is_completed', 'date_payment', 'date_closing', 'date_last_update'];
-    const TABLE = 'orders'; // Назва таблиці, у якої зберігаються данні
-    const CONFIG_PATH = 'settings/orders_config.json';
-    const ORDERS_CONFIG_DEFAULT = [
-        'Number of products' => 5,
-        'Quick note selection' => [],
-        'Fields to show' => ['name', 'amount', 'price', 'notes']
-    ];
-
     /**
      * @param Customer $customer
      * @param User $user
@@ -49,7 +58,7 @@ class Order {
      * @param DateTime|null $dateUpdate
      */
     public function __construct(
-        Customer $customer, User $user, array $productions,             // Обов'язкові параметри
+        Customer $customer, User $user, array $productions,
         int $id = -1, bool $isPaid = false, bool $isCompleted = false,
         ?DateTime $dateCreate = null, // ?DateTime $dateEnd = null,
         $datePayment = null, $dateClosing = null, $dateUpdate = null) {
@@ -103,27 +112,13 @@ class Order {
             $this->dateCreate,                                                  // date_create      datetime
             $this->dateEnd,                                                     // date_end         date
             $this->totalPrice,                                                  // total_price      float
-            $this->convertProductionToJSON($this->productions),       // productions      json
+            $this->convertProductionToJSON($this->productions),                 // productions      json
             $this->isPaid,                                                      // is_paid          tinyint(1)
             $this->isCompleted,                                                 // is_completed     tinyint(1)
             $this->datePayment,                                                 // date_payment     date
             $this->dateClosing,                                                 // date_closing     date
             $this->dateUpdate,                                                  // date_last_update date
         ];
-    }
-
-    public static function getOrdersSettings(): array {
-        // Отримання масиву конфігу замовлень
-        if (!file_exists(self::CONFIG_PATH))
-            // Створення порожнього JSON файлу налаштувань замовлень у випадку, якщо його не існує
-            file_put_contents(self::CONFIG_PATH, json_encode(self::ORDERS_CONFIG_DEFAULT, JSON_PRETTY_PRINT));
-
-        return json_decode(file_get_contents(self::CONFIG_PATH), true) ?? [];
-    }
-
-    public static function updateOrdersSettings($newConfig): void {
-        // Оновлення конфігу замовлень
-        file_put_contents(self::CONFIG_PATH, json_encode($newConfig, JSON_PRETTY_PRINT));
     }
 
     public function getId(): int {

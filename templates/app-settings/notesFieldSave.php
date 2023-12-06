@@ -2,9 +2,9 @@
 require_once "Order.php";
 global $router;
 
-$orderSettings = Order::getOrdersSettings();
+$orderSettings = Order::getJsonConfig();
 $orderSettings["Quick note selection"] = explode(',', $_POST["notes-default"]);
 
-Order::updateOrdersSettings($orderSettings);
+Order::setJsonConfig($orderSettings);
 
 $router->redirect('settingsPage');

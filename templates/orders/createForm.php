@@ -10,7 +10,7 @@ require_once 'ProductAdditionalFields.php';
 
 $user = User::checkLogin();
 
-$orderSettings = Order::getOrdersSettings();
+$orderSettings = Order::getJsonConfig();
 
 const REDIRECT = 'ordersTable';
 const ERROR_TITLE = '<b>Помилка при створенні замовлення</b><br>';
