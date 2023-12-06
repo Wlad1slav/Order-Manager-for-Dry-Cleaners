@@ -3,23 +3,21 @@
 trait JsonAccessTrait {
     // Трейт для роботи з JSON конфігами
 
-    public static function __callStatic($name, $arguments) {
-        // Перевірка наявності файлу конфігурації перед викликом будь-якого методу
-        self::checkJsonConfigFileExists();
-    }
-
     public static function getJsonConfig(): array {
         // Завантажує та повертає вміст JSON-файлу як масив
+        self::checkJsonConfigFileExists();
         return json_decode(file_get_contents(self::CONFIG_PATH), true);
     }
 
     public static function setJsonConfig(array $data): void {
         // Записує масив у форматі JSON до файлу
+        self::checkJsonConfigFileExists();
         file_put_contents(self::CONFIG_PATH, json_encode($data));
     }
 
     public static function removeElementJson(string $keyToRemove=null): array {
         // Видаляє елемент з JSON-файлу за заданим ключем
+        self::checkJsonConfigFileExists();
         $result = [];
         foreach (self::getJsonConfig() as $key => $value)
             if ($keyToRemove !== null && $key !== $keyToRemove)
@@ -31,6 +29,7 @@ trait JsonAccessTrait {
 
     public static function editJsonConfigElement(string $key, string|int|bool|array|null $value): array {
         // Додає або редагує елемент у JSON-файлі
+        self::checkJsonConfigFileExists();
         $data = self::getJsonConfig();
         $data[$key] = $value;
         self::setJsonConfig($data);
@@ -40,6 +39,7 @@ trait JsonAccessTrait {
 
     public static function getJsonConfigElement(string $keyToFind=null): string|int|bool|array|null {
         // Повертає значення елементу за заданим ключем
+        self::checkJsonConfigFileExists();
         foreach (self::getJsonConfig() as $key => $value)
             if ($keyToFind !== null && $key === $keyToFind)
                 return $value;
@@ -49,6 +49,7 @@ trait JsonAccessTrait {
 
     public static function isElementJson(string $key): bool {
         // Перевіряє, чи існує елемент у JSON-файлі за заданим ключем
+        self::checkJsonConfigFileExists();
         return array_key_exists($key, self::getJsonConfig());
     }
 
