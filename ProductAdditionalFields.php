@@ -1,21 +1,23 @@
 <?php
 
 class ProductAdditionalFields {
-    const TYPES = [                     // Можливі типи полів
+    use JsonAccessTrait;    // Трейт для операцій з json файлами
+    // Константи для роботи з конфігом
+    const CONFIG_PATH = 'settings/config_additional_fields.json';
+    const CONFIG_DEFAULT = [];
+
+    const TYPES = [ // Можливі типи полів
         'text',
         'textarea',
         'number',
-        // 'dropdown',
         'checkbox',
         'radio',
     ];
 
-    const CONFIG_PATH = 'settings/productAdditionalFields.json';
-
     private array $fields;
 
     public function __construct() {
-        $this->fields = $this->getJson();
+        $this->fields = self::getJsonConfig();
     }
 
     public function addField(string $name, string $type, string $default = '', array $possibleValues = [], bool $displayed = false): void {
@@ -59,31 +61,15 @@ class ProductAdditionalFields {
     }
 
     private function fieldExists(string $name): bool {
-        foreach ($this->fields as $field) {
-            if ($field['name'] === $name) {
+        foreach ($this->fields as $field)
+            if ($field['name'] === $name)
                 return true;
-            }
-        }
         return false;
-    }
-
-    public function convertFieldsToJson(): string {
-        // Метод, що конвертує масив у json формат
-        return json_encode($this->fields);
     }
 
     public function save(): void {
         // Метод, що зберігає масив полів у json файлі
-        $data = $this->convertFieldsToJson();
-        file_put_contents($this::CONFIG_PATH, $data);
-    }
-
-    public static function getJson(): array {
-        // Метод, що повертає дані о полях з json у форматі масиву
-        if (!file_exists(self::CONFIG_PATH))
-            // Створення порожнього JSON файлу у випадку, якщо його не існує
-            file_put_contents(self::CONFIG_PATH, json_encode(array(), JSON_PRETTY_PRINT));
-        return json_decode(file_get_contents(self::CONFIG_PATH), true) ?? [];
+        self::setJsonConfig($this->fields);
     }
 
     public function generateHTML(array $field, int $fieldNum, $productNum): string {
