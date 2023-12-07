@@ -27,11 +27,18 @@ trait JsonAccessTrait {
         return $result;
     }
 
-    public static function editJsonConfigElement(string $key, string|int|bool|array|null $value): array {
+    public static function editJsonConfigElement(array $path, string|int|bool|array|null $value): array {
         // Додає або редагує елемент у JSON-файлі
-        self::checkJsonConfigFileExists();
-        $data = self::getJsonConfig();
-        $data[$key] = $value;
+        self::checkJsonConfigFileExists();  // Перевіряє, чи існує JSON-файл
+        $data = self::getJsonConfig();      // Завантажує поточний конфіг
+
+        // Змінює значення за вказаним шляхом
+        $temp = &$data;
+        foreach ($path as $key)
+            $temp = &$temp[$key];
+        $temp = $value;
+
+        // Зберігає змінений конфіг
         self::setJsonConfig($data);
 
         return $data;
