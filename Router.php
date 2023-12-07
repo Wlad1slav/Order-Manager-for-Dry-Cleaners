@@ -17,7 +17,30 @@ class Router {
         $matches = false;
         foreach ($this->routes as $rout) {
             if (($rout['uri'] == $this->uri) && ($rout['method'] == strtoupper($this->method))) {
-                require_once $rout['controller'];
+
+                if ($rout['call_method'] !== null) {
+                    // Якщо в маршруті був заданий метод, який потрібно викликати
+
+                    $class = $rout['call_method']['class']; // Класс, який потрібно використовувати для виклику методу
+                    $method = $rout['call_method']['method']; // Метод, який потрібно викликати
+
+                    require_once "$class.php"; // Імпортує клас
+
+                    if ($rout['call_method']['declare']) {
+                        // Якщо метод нестатичний, і для його використання потрібен екземпляр классу
+                        $class = new $class(); // Створення екземпляру класу
+                        $redirectTo = $class->$method();
+                    } else
+                        // Якщо метод статичний
+                        $redirectTo = $class::$method();
+
+                    $this->redirect($redirectTo);
+                }
+
+                if ($rout['controller'] !== null)
+                    // Якщо в маршруті був задан файл, який потрібно викликати
+                    require_once $rout['controller'];
+
                 $matches = true;
                 break;
             }
@@ -26,18 +49,6 @@ class Router {
             $errNum = 404;
             require_once 'templates/error-page.php';
         }
-    }
-
-    protected function add(string $uri, string $controller, string $method, string $name, array $rights, array $params): void {
-        // Створює маршрут, зберігає його у масив усіх маршрутів
-        $this->routes[] = [
-            'uri' =>            $uri,
-            'controller' =>     $controller,
-            'method' =>         strtoupper($method),
-            'name' =>           $name,
-            'params' =>         $params,
-            'rights' =>         $rights,
-        ];
     }
 
     public function redirect(string $name, array $params = []): void {
@@ -56,7 +67,7 @@ class Router {
     public function url(string $name, array $params = []): string {
         // Метод, що повертає посилання на сторінку по заданой назві
         foreach ($this->routes as $route)
-            if ($route['name'] == $name) {
+            if ($route['name'] == $name)
                 if (count($params) === 0 and count($route['params']) == 0)
                     // Якщо жодного параметру не задано
                     return "/{$route['uri']}";
@@ -74,33 +85,64 @@ class Router {
 
                     return $url;
                 }
-            }
+
         // Якщо маршрут не знайдено, кидає помилку
-//        throw new InvalidArgumentException("url($name): Посилання з назвою \"$name\" не існує.");
-        return '';
+        throw new InvalidArgumentException("url($name): Посилання з назвою \"$name\" не існує.");
+    }
+
+    protected function add(string $uri, ?string $controller, ?array $call, string $method, string $name, array $rights, array $params): void {
+        // Створює маршрут, зберігає його у масив усіх маршрутів
+        $this->routes[] = [
+            'uri' =>            $uri,
+            'controller' =>     $controller,
+            'call_method' =>    $call,
+            'method' =>         strtoupper($method),
+            'name' =>           $name,
+            'params' =>         $params,
+            'rights' =>         $rights,
+        ];
     }
 
     public function load(): void {
         // Завантаження усіх маршрутів
 
-        $routers = scandir(self::DIR); // Отримати всі файли у директорії routers
+        $dir = scandir(self::DIR); // Отримати всі файли у директорії routers
 
         // Проходження по кожному маршрутизатору
-        foreach ($routers as $router) {
+        foreach ($dir as $routes) {
             // Перевіряємо, чи файл має розширення .php
-            if (is_file(self::DIR."/$router") && pathinfo($router, PATHINFO_EXTENSION) == 'php') {
+            if (is_file(self::DIR."/$routes") && pathinfo($routes, PATHINFO_EXTENSION) == 'php') {
                 // Включаємо файл і зберігаємо повернене ним значення
-                $rout = include(self::DIR."/$router");
+                $routes = include(self::DIR."/$routes");
 
-                foreach ($rout['routers'] as $key => $r) {
+                foreach ($routes['routers'] as $key => $route) {
                     // Створення кожного маршруту
 
-                    $uri = $rout['app-name'];
-                    if ($r['URL'] != '')
+                    $uri = $routes['app-name'];
+                    if ($route['URL'] != '')
                         // Якщо елемент URL не пустий, то він додається в URI
-                        $uri .= "/{$r['URL']}";
+                        $uri .= "/{$route['URL']}";
 
-                    $this->add($uri, "templates/{$rout['app-name']}/{$r['PATH']}", $r['METHOD'], $key, $r['RIGHTS'], $r['PARAMETERS']);
+                    $path = null;
+                    if ($route['PATH'] !== null)
+                        // Якщо повинен викликатися певний файл
+                        $path = "templates/{$routes['app-name']}/{$route['PATH']}";
+
+                    $call = null;
+                    if (isset($route['CALL']))
+                        if ($route['CALL'] !== null)
+                            // Якщо повинен викликатися певний метод
+                            $call = $route['CALL'];
+
+                    $this->add(
+                        $uri, // Посилання, яке тригерить маршрут
+                        $path, // Шлях до файлу, що викликається
+                        $call, // Метод, що викликається (масив з класу, методу і буліана чи статичний метод)
+                        $route['METHOD'],
+                        $key,
+                        $route['RIGHTS'],
+                        $route['PARAMETERS']
+                    );
                 }
 
             }
