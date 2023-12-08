@@ -60,13 +60,6 @@ class ProductAdditionalFields {
         return $result;
     }
 
-    private function fieldExists(string $name): bool {
-        foreach ($this->fields as $field)
-            if ($field['name'] === $name)
-                return true;
-        return false;
-    }
-
     public function save(): void {
         // Метод, що зберігає масив полів у json файлі
         self::setJsonConfig($this->fields);
@@ -158,6 +151,49 @@ class ProductAdditionalFields {
     public function countExistingFields(): int {
         // Повертає масив полів
         return count($this->fields);
+    }
+
+    // Методи для виклику зовні, користувачем
+
+    public function addAdditionalField_routeCall(): string {
+        // fieldAdd маршрут
+        // Збереження швидкого вибору нотаток
+
+        $fieldName = $_POST['fieldName'] ?? null;
+        $fieldType = $_POST['fieldType'] ?? null;
+        $defaultFieldValue = $_POST['defaultFieldValue'] ?? null;
+        $availableValues = $_POST['availableValues'] ?? null;
+        $availableValues = explode(',', $availableValues);
+
+        try {
+            $this->addField($fieldName, $fieldType, $defaultFieldValue, $availableValues, false);
+            $this->save();
+        } catch (Exception $e) {
+            $_SESSION['error'] = '<b>Помилка при створенні додаткового поля</b><br>' . $e->getMessage();
+        }
+
+        return 'settingsPage'; // Куди повинен повертатися користувач
+    }
+
+    public function removeAdditionalField_routeCall(): string {
+        // fieldRemove маршрут
+        // Збереження швидкого вибору нотаток
+
+        if (isset($_GET['index']))
+            $fieldIndex = intval($_GET['index']);
+        else {
+            $_SESSION['error'] = '<b>Помилка при видаленні додаткового поля</b><br> Не був вказаний індекс додаткового поля.';
+            return 'settingsPage';
+        }
+
+        try {
+            $this->removeField($fieldIndex);
+            $this->save();
+        } catch (Exception $e) {
+            $_SESSION['error'] = "<b>Помилка при видаленні додаткового поля</b><br> $e.";
+        }
+
+        return 'settingsPage'; // Куди повинен повертатися користувач
     }
 
 }

@@ -19,13 +19,7 @@ class Order {
     const CONFIG_PATH = 'settings/config_orders.json'; // Шлях до конфігу
     const CONFIG_DEFAULT = [
         'Number of products' => 5,
-        'Quick note selection' => [],
-        'Fields to show' => [
-            'note' => true,
-            'price' => true,
-            'amount' => true,
-            'discount' => false
-        ]
+        'Quick note selection' => []
     ];
 
     private int $id;                // Ідентифікатор замовлення. Встановлюється після збереження замовлення.
@@ -241,5 +235,30 @@ class Order {
 
         return json_encode($jsonData);
     }
+
+    // Методи для виклику зовні, користувачем
+
+    public static function savingQuickSelectionNotes_routeCall(): string {
+        // notesFieldSave маршрут
+        // Збереження швидкого вибору нотаток
+        $orderSettings = self::getJsonConfig();
+        $orderSettings["Quick note selection"] = explode(',', $_POST["notes-default"]);
+
+        self::setJsonConfig($orderSettings);
+
+        return 'settingsPage'; // Куди повинен повертатися користувач
+    }
+
+    public static function savingProductAmount_routeCall(): string {
+        // editProductsAmount маршрут
+        // Збереження кількості виробів в замовлені
+        $orderSettings = Order::getJsonConfig();
+        $orderSettings["Number of products"] = $_POST["products-amount"];
+
+        Order::setJsonConfig($orderSettings);
+
+        return 'settingsPage'; // Куди повинен повертатися користувач
+    }
+
 
 }

@@ -17,7 +17,8 @@ return [
         'fieldAdd' => [
             // Форма додаваня додаткового поля для виробу
             'URL' => 'field/add',
-            'PATH' => 'additionalFieldCreateForm.php',
+            'PATH' => null,
+            'CALL' => ['class' => 'ProductAdditionalFields', 'method' => 'addAdditionalField_routeCall', 'declare' => true],
             'METHOD' => 'post',
             'PARAMETERS' => [],
             'RIGHTS' => ['root'],
@@ -26,7 +27,8 @@ return [
         'fieldRemove' => [
             // Функція видалення додаткового поля для виробу
             'URL' => 'field/delete',
-            'PATH' => 'additionalFieldRemove.php',
+            'PATH' => null,
+            'CALL' => ['class' => 'ProductAdditionalFields', 'method' => 'removeAdditionalField_routeCall', 'declare' => true],
             'METHOD' => 'get',
             'PARAMETERS' => [],
             'RIGHTS' => ['root'],
@@ -35,16 +37,28 @@ return [
         'fieldStatus' => [
             // Функція зміни статусу додаткового поля
             'URL' => 'field/switch-status',
-            'PATH' => 'additionalFieldSwitchStatus.php',
+            'PATH' => null, //'additionalFieldSwitchStatus.php',
+            'CALL' => ['class' => 'Invoice', 'method' => 'switchFieldViewStatus', 'declare' => false],
             'METHOD' => 'get',
             'PARAMETERS' => [],
             'RIGHTS' => ['root'],
         ],
 
+//        'switchStandardFieldViewStatus' => [
+//            // Функція зміни статусу стандартного поля
+//            'URL' => 'standard-field/switch-status',
+//            'PATH' => null,
+//            'CALL' => ['class' => 'Invoice', 'method' => 'switchFieldViewStatus', 'declare' => false],
+//            'METHOD' => 'get',
+//            'PARAMETERS' => [],
+//            'RIGHTS' => ['root'],
+//        ],
+
         'notesFieldSave' => [
             // Форма збереження швидкого вибору приміток для виробу
             'URL' => 'notes/save',
-            'PATH' => 'notesFieldSave.php',
+            'PATH' => null,
+            'CALL' => ['class' => 'Order', 'method' => 'savingQuickSelectionNotes_routeCall', 'declare' => false],
             'METHOD' => 'post',
             'PARAMETERS' => [],
             'RIGHTS' => ['root'],
@@ -53,7 +67,8 @@ return [
         'editProductsAmount' => [
             // Форма збереження кількісоті виробів в замовлені
             'URL' => 'amount/set',
-            'PATH' => 'productsAmountSave.php',
+            'PATH' => null,
+            'CALL' => ['class' => 'Order', 'method' => 'savingProductAmount_routeCall', 'declare' => false],
             'METHOD' => 'post',
             'PARAMETERS' => [],
             'RIGHTS' => ['root'],
