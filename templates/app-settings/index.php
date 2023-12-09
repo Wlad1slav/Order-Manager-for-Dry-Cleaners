@@ -29,6 +29,10 @@ global $router;
         <?php include 'orders-settings.php'; ?> <!-- Налаштування замовлень -->
     </div>
 
+    <div class="section">
+        <?php include 'invoice-settings.php'; ?> <!-- Налаштування квитанцій -->
+    </div>
+
 
 
 </div>

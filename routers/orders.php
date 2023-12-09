@@ -39,7 +39,7 @@ return [
 
         'orderInvoice' => [                 // Квитанція
             'URL' => 'invoice',
-            'PATH' => 'invoice.php',
+            'PATH' => 'invoice-settings.php',
             'METHOD' => 'get',
             'PARAMETERS' => ['id'],
             'RIGHTS' => ['default'],
