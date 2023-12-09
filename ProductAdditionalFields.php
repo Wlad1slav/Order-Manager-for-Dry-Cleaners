@@ -1,4 +1,5 @@
 <?php
+require_once 'Invoice.php';
 
 class ProductAdditionalFields {
     use JsonAccessTrait;    // Трейт для операцій з json файлами
@@ -17,7 +18,7 @@ class ProductAdditionalFields {
     private array $fields;
 
     public function __construct() {
-        $this->fields = self::getJsonConfig();
+        $this->fields = self::getJsonConfig() ?? []; // Якщо повертається null, то надається пустий масив
     }
 
     public function addField(string $name, string $type, string $default = '', array $possibleValues = [], bool $displayed = false): void {
@@ -32,9 +33,9 @@ class ProductAdditionalFields {
             'name' => $name,
             'type' => $type,
             'default' => $default,
-            'possibleValues' => $possibleValues,
-            'displayedOnInvoice' => $displayed
+            'possibleValues' => $possibleValues
         ];
+        Invoice::editJsonConfigElement(['Fields', 'Additional'], [$name => $displayed]);
     }
 
     public function removeField(int $index): void {

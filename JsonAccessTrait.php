@@ -3,7 +3,7 @@
 trait JsonAccessTrait {
     // Трейт для роботи з JSON конфігами
 
-    public static function getJsonConfig(): array {
+    public static function getJsonConfig(): ?array {
         // Завантажує та повертає вміст JSON-файлу як масив
         self::checkJsonConfigFileExists();
         return json_decode(file_get_contents(self::CONFIG_PATH), true);
