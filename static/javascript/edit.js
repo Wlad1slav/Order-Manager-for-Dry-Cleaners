@@ -15,11 +15,11 @@ function switchStatus(column, newStatus, orderID) {
     });
 }
 
-function switchFieldInvoiceStatus(fieldIndex) {
-    // Змінює статус додаткового поля замолвення
+function switchFieldInvoiceStatus(fieldIndex, fieldType) {
+    // Змінює статус видимості поля замолвення
     $.ajax({
         type: "GET",
         url: "app-settings/field/switch-status",
-        data: {fieldIndex: fieldIndex},
+        data: {fieldIndex: fieldIndex, fieldType: fieldType},
     });
 }
