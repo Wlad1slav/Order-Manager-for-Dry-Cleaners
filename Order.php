@@ -7,6 +7,7 @@ require_once 'User.php';
 require_once 'Product.php';
 require_once 'Goods.php';
 require_once 'JsonAccessTrait.php';
+require_once 'ProductAdditionalFields.php';
 
 class Order {
     use RepositoryTraits;   // Трейт для операцій класу з бд
@@ -238,7 +239,7 @@ class Order {
 
     // Методи для виклику зовні, користувачем
 
-    public static function savingQuickSelectionNotes_routeCall(): string {
+    public static function savingQuickSelectionNotes_routeCall(): array {
         // notesFieldSave маршрут
         // Збереження швидкого вибору нотаток
         $orderSettings = self::getJsonConfig();
@@ -246,10 +247,14 @@ class Order {
 
         self::setJsonConfig($orderSettings);
 
-        return 'settingsPage'; // Куди повинен повертатися користувач
+        return [
+            // Куди повинен повертатися користувач
+            'rout-name' => 'settingsPage',
+            'rout-params' => []
+        ];
     }
 
-    public static function savingProductAmount_routeCall(): string {
+    public static function savingProductAmount_routeCall(): array {
         // editProductsAmount маршрут
         // Збереження кількості виробів в замовлені
         $orderSettings = Order::getJsonConfig();
@@ -257,7 +262,77 @@ class Order {
 
         Order::setJsonConfig($orderSettings);
 
-        return 'settingsPage'; // Куди повинен повертатися користувач
+        return [
+            'rout-name' => 'settingsPage',
+            'rout-params' => []
+        ];
+    }
+
+    public static function create(): array {
+        $user = User::checkLogin();
+        $orderSettings = Order::getJsonConfig();
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+            $productions = [];
+
+            for ($i = 1; $i <= $orderSettings['Number of products']; $i++) {
+
+                // Отримання об'єкту продукту
+                $goodName = $_POST["good-name-$i"];
+                if ($goodName == null) break; // Перевіряє, чи пусте поле продукту. Якщо пусте, то це значить що це кінечний виріб.
+                $good = Goods::get(null,$goodName);
+
+                // Вирахування ціни за виріб
+                $price = $_POST["price-$i"] - (($_POST["price-$i"] / 100) * intval($_POST["discount-$i"]));
+
+                // Створення масиву даних з додаткових полів
+                $additionalFields = new ProductAdditionalFields();
+                $additionalFieldsQuantity = $additionalFields->countExistingFields();
+                $params = [];
+
+                $f = 1;
+                foreach ($additionalFields->getFields() as $fieldName=>$fieldInfo) {
+                    $params[$fieldName] = $_POST["additionalPropertie-$f-$i"];
+                    $f++;
+                }
+
+                if (isset($_POST["notes-$i"])) {
+                    // Переведення масиву приміток в строку
+                    $mainNotes = implode(', ', $_POST["notes-$i"]);
+                    if (isset($_POST["notes-textarea-$i"])) $mainNotes .= ', '; // Якщо є додаткові примітки, то додається кома після основних
+                }
+                else
+                    $mainNotes = '';
+
+                // Додавання до основних приміток додаткових
+                $notes = $mainNotes . $_POST["notes-textarea-$i"];
+
+                $productions[] = new Product(
+                    $_POST["amount-$i"],
+                    $notes,
+                    $params,
+                    $good,
+                    intval($_POST["discount-$i"]),
+                    $price
+                );
+
+            }
+
+            $customer = Customer::get(null, $_POST["customer-name"]);
+
+            $order = new Order($customer, $user, $productions);
+            $order->save();
+
+            return [
+                'rout-name' => 'orderInvoice',
+                'rout-params' => ['id'=>$order->getId()]
+            ];
+
+        } else return [
+            'rout-name' => 'ordersTable',
+            'rout-params' => []
+        ];
     }
 
 

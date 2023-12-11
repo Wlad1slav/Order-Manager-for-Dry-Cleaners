@@ -31,7 +31,8 @@ return [
 
         'orderCreateForm' => [              // Обробка форми створення нового замовлення
             'URL' => 'new',
-            'PATH' => 'createForm.php',
+            'PATH' => null,
+            'CALL' => ['class' => 'Order', 'method' => 'create', 'declare' => false],
             'METHOD' => 'post',
             'PARAMETERS' => [],
             'RIGHTS' => ['default'],
@@ -39,7 +40,7 @@ return [
 
         'orderInvoice' => [                 // Квитанція
             'URL' => 'invoice',
-            'PATH' => 'invoice-settings.php',
+            'PATH' => 'invoice-page.php',
             'METHOD' => 'get',
             'PARAMETERS' => ['id'],
             'RIGHTS' => ['default'],
