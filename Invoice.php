@@ -7,6 +7,7 @@ class Invoice {
     // Константи для роботи з конфігом
     const CONFIG_PATH = 'settings/config_invoice.json'; // Шлях до конфігу
     const CONFIG_DEFAULT = [
+        'Amount' => 1, // Кількість квитанцій на однієй сторінці
         'Image' => [
             'displayed' => true,
             'path' => '/static/images/invoice_image.png'
@@ -23,10 +24,10 @@ class Invoice {
         ],
         'Fields' => [
             'Standard' => [
-                'note' => ['displayed' => true, 'localization' => 'Нотатки'],
-                'price' => ['displayed' => true, 'localization' => 'Ціна'],
                 'amount' => ['displayed' => true, 'localization' => 'Кількість'],
-                'discount' => ['displayed' => false, 'localization' => 'Знижка']
+                'price' => ['displayed' => true, 'localization' => 'Ціна'],
+                'discount' => ['displayed' => false, 'localization' => 'Знижка'],
+                'note' => ['displayed' => true, 'localization' => 'Нотатки'],
             ],
             'Additional' => []
         ]
