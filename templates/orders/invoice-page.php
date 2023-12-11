@@ -70,29 +70,23 @@ require_once 'ProductAdditionalFields.php';
             <table>
                 <tr>
                     <th>Найменування виробу</th>
-                    <th>Кількість</th>
-                    <th>Ціна</th>
-                    <th>Примітки</th>
 
                     <?php
+                    // Вивід стандартних полів замовлення
+                    foreach (Invoice::getJsonConfigElement('Fields')['Standard'] as $fieldInfo)
+                        if ($fieldInfo['displayed'])
+                            echo "<th>{$fieldInfo['localization']}</th>";
+                    ?>
 
+                    <?php
+                    // Вивід додаткових полів замовлення
                     // Отримання тільки тих додаткових полів, які відмічені маркером для показу в квитанції
                     $fields = new ProductAdditionalFields();
                     $fields = $fields->getInvoicePositiveFields();
 
                     // Вивод цих полів
-                    $fieldNum = 0;
-                    foreach ($fields as $field) {
-                        echo "<th>{$field['name']}</th>";
-
-                        // Створення масиву значень окремого додаткового поля
-                        foreach ($order->getProductions() as $product)
-                            foreach ($product->getParams() as $fieldName => $value)
-                                if ($field['name'] == $fieldName)
-                                    $additionalFieldsValues[$fieldNum][] = $value;
-
-                        $fieldNum++;
-                    }
+                    foreach ($fields as $fieldKey=>$fieldInfo)
+                        echo "<th>$fieldKey</th>";
 
                     ?>
 
@@ -103,16 +97,24 @@ require_once 'ProductAdditionalFields.php';
                 foreach ($order->getProductions() as $product) {
                     echo '<tr>';
                     echo "<td>{$product->getGoods()->getName()}</td>";
-                    echo "<td>{$product->getAmount()}</td>";
-                    echo "<td>{$product->getPrice()}</td>";
-                    echo "<td>{$product->getNote()}</td>";
+
+                    $fieldStatus = Invoice::getJsonConfigElement('Fields')['Standard'];
+
+                    if ($fieldStatus['amount']['displayed'])
+                        echo "<td>{$product->getAmount()}</td>";
+                    if ($fieldStatus['price']['displayed'])
+                        echo "<td>{$product->getPrice()}</td>";
+                    if ($fieldStatus['discount']['displayed'])
+                        echo "<td>{$product->getDiscount()}</td>";
+                    if ($fieldStatus['note']['displayed'])
+                        echo "<td>{$product->getNote()}</td>";
 
                     // Виведення даних для полів, що відміченні маркером в налаштуваннях
-                    if (isset($additionalFieldsValues))
-                        foreach ($additionalFieldsValues as $arr)
-                            echo "<td>{$arr[$productNum]}</td>";
-
-                    echo '</tr>';
+                    foreach ($order->getProductions()[$productNum]->getParams() as $additionalFieldName=>$value)
+                        // Об'єкт замовлення->Елемент по номеру виробу в масиві об'єктів Product->Масив параметрів виробу
+                        if (Invoice::getJsonConfigElement('Fields')['Additional'][$additionalFieldName]['displayed'])
+                            // Якщо видимість поля == true
+                            echo "<td>$value</td>";
 
                     $productNum++;
                 }
