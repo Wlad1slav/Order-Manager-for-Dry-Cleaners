@@ -66,7 +66,7 @@ function updateProductStatus(i, goodNameInput) {
 
 
 // Отримання налаштувань замовлення
-fetch('/settings/orders_config.json')
+fetch('/settings/config_orders.json')
     .then(response => {
         // Переконуємося, що відповідь є в форматі JSON
         if (!response.ok) {
