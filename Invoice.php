@@ -33,7 +33,7 @@ class Invoice {
         ]
     ];
 
-    public static function switchFieldViewStatus(): void {
+    public static function switchFieldViewStatus() {
         // fieldStatus маршрут
         // Змінює статус видимості поля
 
@@ -46,5 +46,7 @@ class Invoice {
         );
 
         self::setJsonConfig($newData);
+
+        return null;
     }
 }

@@ -34,7 +34,7 @@ class Router {
                         // Якщо метод статичний
                         $redirectTo = $class::$method();
 
-                    $this->redirect($redirectTo);
+                    $this->redirect($redirectTo['rout-name'], $redirectTo['rout-params']);
                 }
 
                 if ($rout['controller'] !== null)

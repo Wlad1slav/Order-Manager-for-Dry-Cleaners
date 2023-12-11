@@ -141,7 +141,7 @@ class ProductAdditionalFields {
 
     // Методи для виклику зовні, користувачем
 
-    public function addAdditionalField_routeCall(): string {
+    public function addAdditionalField_routeCall(): array {
         // fieldAdd маршрут
         // Збереження швидкого вибору нотаток
 
@@ -158,10 +158,13 @@ class ProductAdditionalFields {
             $_SESSION['error'] = '<b>Помилка при створенні додаткового поля</b><br>' . $e->getMessage();
         }
 
-        return 'settingsPage'; // Куди повинен повертатися користувач
+        return [
+            'rout-name' => 'settingsPage',
+            'rout-params' => []
+        ];
     }
 
-    public function removeAdditionalField_routeCall(): string {
+    public function removeAdditionalField_routeCall(): array {
         // fieldRemove маршрут
         // Збереження швидкого вибору нотаток
 
@@ -169,7 +172,10 @@ class ProductAdditionalFields {
             $fieldIndex = intval($_GET['index']);
         else {
             $_SESSION['error'] = '<b>Помилка при видаленні додаткового поля</b><br> Не був вказаний індекс додаткового поля.';
-            return 'settingsPage';
+            return [
+                'rout-name' => 'settingsPage',
+                'rout-params' => []
+            ];
         }
 
         try {
@@ -179,7 +185,10 @@ class ProductAdditionalFields {
             $_SESSION['error'] = "<b>Помилка при видаленні додаткового поля</b><br> $e.";
         }
 
-        return 'settingsPage'; // Куди повинен повертатися користувач
+        return [
+            'rout-name' => 'settingsPage',
+            'rout-params' => []
+        ];
     }
 
 }
