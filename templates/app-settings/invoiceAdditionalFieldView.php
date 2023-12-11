@@ -10,11 +10,12 @@ if (!isset($fieldsArray))
 $fieldIndex = 0;
 
 foreach ($fieldsArray->getFields() as $key=>$field) {
-    echo "<input type='checkbox' onclick='switchFieldInvoiceStatus(\"{$field['name']}\", \"Additional\")' 
+    // $key - назва полю, $field - масив інформації про поле
+    echo "<input type='checkbox' onclick='switchFieldInvoiceStatus(\"$key\", \"Additional\")' 
     id='additional-field-invoice-status-$fieldIndex'" .
-        (Invoice::getJsonConfigElement('Fields')['Additional'][$field['name']]['displayed'] === true ? 'checked' : '') . ">";
+        (Invoice::getJsonConfigElement('Fields')['Additional'][$key]['displayed'] === true ? 'checked' : '') . ">";
 
-    echo "<label for='additional-field-invoice-status-$fieldIndex'>{$field['name']}</label>";
+    echo "<label for='additional-field-invoice-status-$fieldIndex'>$key</label>";
     $fieldIndex++;
 }
 ?>

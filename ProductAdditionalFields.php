@@ -29,13 +29,12 @@ class ProductAdditionalFields {
             if (!in_array($type, $this::TYPES))
                 throw new InvalidArgumentException("addField(string $name, string $type, string $default = '', array possibleValues = []): Некоретний \"$type\" тип поля.");
         }
-        $this->fields[] = [
-            'name' => $name,
+        $this->fields[$name] = [
             'type' => $type,
             'default' => $default,
             'possibleValues' => $possibleValues
         ];
-        Invoice::editJsonConfigElement(['Fields', 'Additional'], [$name => $displayed]);
+        Invoice::editJsonConfigElement(['Fields', 'Additional', $name],  ['displayed'=>$displayed]);
     }
 
     public function removeField(int $index): void {
@@ -54,9 +53,9 @@ class ProductAdditionalFields {
     public function getInvoicePositiveFields(): array {
         $result = [];
 
-        foreach ($this->fields as $field)
-            if ($field['displayedOnInvoice'] === true)
-                $result[] = $field;
+        foreach (Invoice::getJsonConfigElement('Fields')['Additional'] as $fieldName=>$fieldInfo)
+            if ($fieldInfo['displayed'] === true)
+                $result[$fieldName] = $this->fields[$fieldName];
 
         return $result;
     }
@@ -66,39 +65,25 @@ class ProductAdditionalFields {
         self::setJsonConfig($this->fields);
     }
 
-    public function generateHTML(array $field, int $fieldNum, $productNum): string {
+    public function generateHTML(string $fieldName, array $fieldInfo, int $fieldNum, $productNum): string {
         // Генерує додаткові поля для замовлення
-        switch ($field['type']) {
-            case 'dropdown': // Не використовується
-                return $this->generateDropdown($field, $fieldNum, $productNum);
+        switch ($fieldInfo['type']) {
             case 'number':
             case 'text':
             case 'textarea':
-                return $this->generateInputOrTextarea($field, $fieldNum, $productNum);
+                return $this->generateInputOrTextarea($fieldName, $fieldInfo, $fieldNum, $productNum);
             case 'checkbox':
-                return $this->generateCheckbox($field, $fieldNum, $productNum);
+                return $this->generateCheckbox($fieldName, $fieldInfo, $fieldNum, $productNum);
             case 'radio':
-                return $this->generateRadio($field, $fieldNum, $productNum);
+                return $this->generateRadio($fieldName, $fieldInfo, $fieldNum, $productNum);
             default:
-                return print_r($field, true);
+                return print_r($fieldInfo, true);
         }
     }
 
-    private function generateDropdown(array $field, int $fieldNum, int $productNum): string {
-        // SELECT
-        // Не використовується
-        $label = $this->generateLabel($field['name'], $fieldNum, $productNum);
-        $input = "<select id='additionalPropertie-$fieldNum-$productNum'>";
-        foreach ($field['possibleValues'] as $option) {
-            $input .= "<option value='$option'>$option</option>";
-        }
-        $input .= "</select>";
-        return $label . $input;
-    }
-
-    private function generateInputOrTextarea(array $field, int $fieldNum, int $productNum): string {
+    private function generateInputOrTextarea(string $name, array $field, int $fieldNum, int $productNum): string {
         // TEXT, NUMBER, TEXTAREA
-        $label = $this->generateLabel($field['name'], $fieldNum, $productNum);
+        $label = $this->generateLabel($name, $fieldNum, $productNum);
         if ($field['type'] === 'textarea') {
             $input = "<textarea id='additionalPropertie-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum'>{$field['default']}</textarea>";
         } else {
@@ -114,27 +99,27 @@ class ProductAdditionalFields {
         return $label . $input;
     }
 
-    private function generateCheckbox(array $field, int $fieldNum, int $productNum): string {
+    private function generateCheckbox(string $name, array $field, int $fieldNum, int $productNum): string {
         // CHECKBOXES
-        $label = $this->generateLabel($field['name'], $fieldNum, $productNum);
+        $label = $this->generateLabel($name, $fieldNum, $productNum);
         $input = "";
         $optionNum = 0;
         foreach ($field['possibleValues'] as $option) {
             $optionNum++;
-            $input .= "<label><input type='{$field['type']}' value='$option' id='additionalPropertie-$optionNum-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum" . "[]'>$option</label>";
+            $input .= "<label><input type='$name' value='$option' id='additionalPropertie-$optionNum-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum" . "[]'>$option</label>";
         }
         return $label . $input;
     }
 
-    private function generateRadio(array $field, int $fieldNum, int $productNum): string {
+    private function generateRadio(string $name, array $field, int $fieldNum, int $productNum): string {
         // RADIO
         // На розділ від checkboxes, в name не додаються []
-        $label = $this->generateLabel($field['name'], $fieldNum, $productNum);
+        $label = $this->generateLabel($name, $fieldNum, $productNum);
         $input = "";
         $optionNum = 0;
         foreach ($field['possibleValues'] as $option) {
             $optionNum++;
-            $input .= "<label><input type='{$field['type']}' value='$option' id='additionalPropertie-$optionNum-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum'>$option</label>";
+            $input .= "<label><input type='$name' value='$option' id='additionalPropertie-$optionNum-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum'>$option</label>";
         }
         return $label . $input;
     }

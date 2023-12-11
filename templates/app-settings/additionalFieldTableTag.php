@@ -17,11 +17,13 @@
 
     $fieldIndex = 0; // Потрібно для отримання посилання на видалення поля
 
-    foreach ($fieldsArray->getFields() as $field) {
+    foreach ($fieldsArray->getFields() as $fieldName => $fieldInfo) {
         // Вивод додаткових полів
         echo '<tr>';
 
-        foreach ($field as $key => $value) {
+        echo "<td>$fieldName</td>"; // Назва поля
+
+        foreach ($fieldInfo as $key => $value) {
             // Вивод даних поля
             if ($key === 'possibleValues') {
                 echo '<td>';
@@ -34,7 +36,7 @@
         }
 
         // Вивод статусу поля
-        $status = Invoice::getJsonConfigElement('Fields')['Additional'][$field['name']]['displayed'];
+        $status = Invoice::getJsonConfigElement('Fields')['Additional'][$fieldName]['displayed'];
         if ($status === true) $status = '<span class="accept">так</span>';
         elseif ($status === false) $status = '<span class="cancel">ні</span>';
         elseif (empty($status)) $status = '';
