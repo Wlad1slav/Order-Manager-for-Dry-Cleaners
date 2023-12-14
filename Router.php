@@ -51,8 +51,9 @@ class Router {
         }
     }
 
-    public function redirect(string $name, array $params = []): void {
+    public function redirect(?string $name, array $params = []): void {
         // Метод редіректу на іншу сторінку по назві посиалання
+        if ($name == null) die();
         $path = $this->url($name, $params);
         header("Location: $path");
         die();
