@@ -15,20 +15,37 @@ trait JsonAccessTrait {
         file_put_contents(self::CONFIG_PATH, json_encode($data));
     }
 
-    public static function removeElementJson(string $keyToRemove=null): array {
-        // Видаляє елемент з JSON-файлу за заданим ключем
-        self::checkJsonConfigFileExists();
-        $result = [];
-        foreach (self::getJsonConfig() as $key => $value)
-            if ($keyToRemove !== null && $key !== $keyToRemove)
-                $result[$key] = $value;
+    public static function deleteJsonConfigElement(array $path): array {
+        // Видаляє елемент з JSON-файлу
+        self::checkJsonConfigFileExists();  // Перевіряє, чи існує JSON-файл
+        $data = self::getJsonConfig();      // Завантажує поточний конфіг
 
-        self::setJsonConfig($result); // Встановлює значення без видаленного елементу
-        return $result;
+        // Ітерує по шляху до передостаннього елемента
+        $temp = &$data;
+        for ($i = 0; $i < count($path) - 1; $i++) {
+            $key = $path[$i];
+            if (!isset($temp[$key]))
+                throw new InvalidArgumentException("deleteJsonConfigElement(path): Ключ '$key' не знайдено в конфігурації");
+            $temp = &$temp[$key];
+        }
+
+        // Видаляє останній елемент шляху
+        $lastKey = end($path);
+        if (!isset($temp[$lastKey]))
+            throw new InvalidArgumentException("deleteJsonConfigElement(path): Останній ключ '$lastKey' не знайдено в конфігурації");
+
+        unset($temp[$lastKey]);
+
+        // Зберігає змінений конфіг
+        self::setJsonConfig($data);
+
+        return $data;
     }
+
 
     public static function editJsonConfigElement(array $path, string|int|bool|array|null $value): array {
         // Додає або редагує елемент у JSON-файлі
+        // Щоб додати - в кінці шляху написати новий ключ нового елементу (якщо записати існуючий ключ, то буде редагувати)
         self::checkJsonConfigFileExists();  // Перевіряє, чи існує JSON-файл
         $data = self::getJsonConfig();      // Завантажує поточний конфіг
 
