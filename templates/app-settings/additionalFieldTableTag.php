@@ -15,8 +15,6 @@
     if (!isset($router))
         global $router;
 
-    $fieldIndex = 0; // Потрібно для отримання посилання на видалення поля
-
     foreach ($fieldsArray->getFields() as $fieldName => $fieldInfo) {
         // Вивод додаткових полів
         echo '<tr>';
@@ -43,10 +41,8 @@
         echo "<td>$status</td>";
 
         // Створення посилання для видалення полю
-        $deleteLink = $router->url('fieldRemove', ['index'=>$fieldIndex]);
+        $deleteLink = $router->url('fieldRemove', ['field'=>$fieldName]);
         echo "<td><a style='font-weight: 1000' class='red-text' href='$deleteLink'>X </a></td>";
-
-        $fieldIndex++;
 
         echo '</tr>';
     }

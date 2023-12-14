@@ -37,8 +37,9 @@ class ProductAdditionalFields {
         Invoice::editJsonConfigElement(['Fields', 'Additional', $name],  ['displayed'=>$displayed]);
     }
 
-    public function removeField(int $index): void {
-        array_splice($this->fields, $index, 1);
+    public function removeField(string $key): void {
+        unset($this->fields[$key]);
+        Invoice::deleteJsonConfigElement(['Fields', 'Additional', $key]);
     }
 
     public function editField(string $index, string $element, string|bool|int $value): void {
@@ -168,8 +169,8 @@ class ProductAdditionalFields {
         // fieldRemove маршрут
         // Збереження швидкого вибору нотаток
 
-        if (isset($_GET['index']))
-            $fieldIndex = intval($_GET['index']);
+        if (isset($_GET['field']))
+            $fieldName = $_GET['field'];
         else {
             $_SESSION['error'] = '<b>Помилка при видаленні додаткового поля</b><br> Не був вказаний індекс додаткового поля.';
             return [
@@ -178,8 +179,10 @@ class ProductAdditionalFields {
             ];
         }
 
+//        Invoice::deleteJsonConfigElement(['Fields', 'Additional', $fieldIndex]);
+
         try {
-            $this->removeField($fieldIndex);
+            $this->removeField($fieldName);
             $this->save();
         } catch (Exception $e) {
             $_SESSION['error'] = "<b>Помилка при видаленні додаткового поля</b><br> $e.";
