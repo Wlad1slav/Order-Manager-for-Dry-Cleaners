@@ -44,16 +44,6 @@ return [
             'RIGHTS' => ['root'],
         ],
 
-//        'switchStandardFieldViewStatus' => [
-//            // Функція зміни статусу стандартного поля
-//            'URL' => 'standard-field/switch-status',
-//            'PATH' => null,
-//            'CALL' => ['class' => 'Invoice', 'method' => 'switchFieldViewStatus', 'declare' => false],
-//            'METHOD' => 'get',
-//            'PARAMETERS' => [],
-//            'RIGHTS' => ['root'],
-//        ],
-
         'notesFieldSave' => [
             // Форма збереження швидкого вибору приміток для виробу
             'URL' => 'notes/save',
@@ -69,6 +59,16 @@ return [
             'URL' => 'amount/set',
             'PATH' => null,
             'CALL' => ['class' => 'Order', 'method' => 'savingProductAmount_routeCall', 'declare' => false],
+            'METHOD' => 'post',
+            'PARAMETERS' => [],
+            'RIGHTS' => ['root'],
+        ],
+
+        'editInvoiceImage' => [
+            // Форма форма редагування зображення квитанції (чи показується воно, яке зображення)
+            'URL' => 'invoice/image',
+            'PATH' => null,
+            'CALL' => ['class' => 'Invoice', 'method' => 'setImageSettings_routeCall', 'declare' => false],
             'METHOD' => 'post',
             'PARAMETERS' => [],
             'RIGHTS' => ['root'],

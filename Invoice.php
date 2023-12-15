@@ -49,4 +49,37 @@ class Invoice {
 
         return null;
     }
+
+    public static function setImageSettings_routeCall(): ?array {
+        // editInvoiceImage маршрут
+        // Змінює налаштування зображення в квитанції
+
+        $displayedInvoiceImgStatus = $_POST['displayed-invoice-img'];
+
+        // Встановлює видимість зображення
+        $newData = self::editJsonConfigElement(
+            ['Image', 'displayed'],
+            $displayedInvoiceImgStatus
+        );
+        self::setJsonConfig($newData);
+
+        // Перевіряє, чи файл є дійсним зображенням
+        if ($_FILES["invoice-img"]['size'] > 0) { // Якщо зображення завантаженно
+            $check = getimagesize($_FILES["invoice-img"]["tmp_name"]);
+            if ($check !== false) $uploadOk = 1;
+            else  $uploadOk = 0;
+
+            if ($uploadOk == 0)
+                $_SESSION['error'] = '<b>Помилка при завантажені зображення:</b><br> Ви намагаєтесь завантажити не зображення.';
+
+            // Завантажує зображення
+            if (!move_uploaded_file($_FILES["invoice-img"]["tmp_name"], self::getJsonConfigElement('Image')['path']))
+                $_SESSION['error'] = '<b>Помилка при завантажені зображення:</b><br> Щось пішло не так.';
+        }
+
+        return [
+            'rout-name' => 'settingsPage',
+            'rout-params' => []
+        ];
+    }
 }

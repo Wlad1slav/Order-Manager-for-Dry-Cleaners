@@ -15,3 +15,7 @@ if (!isset($fieldsArray))
 <div class="subsection">
     <?php include "invoiceStandardFieldView.php"; ?>
 </div>
+
+<div class="subsection">
+    <?php include "invoiceImg.php"; ?>
+</div>
