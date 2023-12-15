@@ -48,6 +48,7 @@ input[type="submit"] {
     border-radius: var(--btn-border-radius);
     padding: var(--btn-padding);
     margin-bottom: var(--medium-padding);
+    background: var(--white);
 }
 
 input[type="submit"]:hover {
