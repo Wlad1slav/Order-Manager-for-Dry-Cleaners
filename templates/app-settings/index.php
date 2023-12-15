@@ -7,6 +7,8 @@ include("$DIR/templates/base/header.php");
 include("$DIR/templates/base/sidebar.php");
 
 global $router;
+
+
 ?>
 
 <style>
@@ -24,6 +26,18 @@ global $router;
 <div class="settings">
 
 <h1>Налаштування</h1>
+
+    <?php
+    if (isset($_SESSION['error'])) {
+        echo "<div class='error-message'>";
+
+        echo '<h3>ERROR</h3>';
+        echo '<p>' . $_SESSION['error'] . '</p>';
+        unset($_SESSION['error']);
+
+        echo '</div>';
+    }
+    ?>
 
     <div class="section">
         <?php include 'orders-settings.php'; ?> <!-- Налаштування замовлень -->
