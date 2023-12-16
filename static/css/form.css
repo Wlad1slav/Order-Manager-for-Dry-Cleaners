@@ -7,7 +7,7 @@ label {
 }
 
 textarea {
-    margin-top: var(--small-padding);
+    /*margin-top: var(--small-padding);*/
     width: 100%;
 }
 
