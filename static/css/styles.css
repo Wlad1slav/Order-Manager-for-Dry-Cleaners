@@ -278,5 +278,6 @@ img {
 
 .settings .section .subsection {
     border-top: 5px solid var(--base-color);
+    padding-bottom: var(--small-padding);
 }
 
