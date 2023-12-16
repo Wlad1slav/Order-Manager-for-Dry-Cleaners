@@ -82,4 +82,50 @@ class Invoice {
             'rout-params' => []
         ];
     }
+
+    public static function setInfoSettings_routeCall(): ?array {
+        // editInvoiceInfo маршрут
+        // Редагує додаткову інформацію в квитанції
+
+        self::setJsonConfig(self::editJsonConfigElement(
+            // Інформація про ваш бізнес
+            ['Text', 'Information', 'Business'],
+            $_POST['business-info']
+        ));
+
+        self::setJsonConfig(self::editJsonConfigElement(
+        // Адреса вашого бізнесу
+            ['Text', 'Information', 'Address'],
+            $_POST['address-info']
+        ));
+
+        self::setJsonConfig(self::editJsonConfigElement(
+        // Номер телефону вашого бізнесу
+            ['Text', 'Information', 'Phone'],
+            $_POST['phone-info']
+        ));
+
+        self::setJsonConfig(self::editJsonConfigElement(
+        // Пошта вашого бізнесу
+            ['Text', 'Information', 'Email'],
+            $_POST['email-info']
+        ));
+
+        self::setJsonConfig(self::editJsonConfigElement(
+        // Додаткова інформація зверху
+            ['Text', 'Start'],
+            $_POST['top-text']
+        ));
+
+        self::setJsonConfig(self::editJsonConfigElement(
+        // Додаткова інформація знизу
+            ['Text', 'End'],
+            $_POST['bottom-text']
+        ));
+
+        return [
+            'rout-name' => 'settingsPage',
+            'rout-params' => []
+        ];
+    }
 }

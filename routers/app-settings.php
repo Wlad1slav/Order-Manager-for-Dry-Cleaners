@@ -74,5 +74,15 @@ return [
             'RIGHTS' => ['root'],
         ],
 
+        'editInvoiceInfo' => [
+            // Форма форма редагування інформації, що показується в квитанції
+            'URL' => 'invoice/info',
+            'PATH' => null,
+            'CALL' => ['class' => 'Invoice', 'method' => 'setInfoSettings_routeCall', 'declare' => false],
+            'METHOD' => 'post',
+            'PARAMETERS' => [],
+            'RIGHTS' => ['root'],
+        ],
+
     ]
 ];
