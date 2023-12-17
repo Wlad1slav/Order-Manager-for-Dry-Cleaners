@@ -22,10 +22,10 @@ $invoiceTexts = Invoice::getJsonConfigElement('Text');
     <input type="text" id="email-info" name="email-info" value="<?php echo $invoiceTexts['Information']['Email'] ?>">
 
     <label for="top-text">Додаткова інформація зверху</label>
-    <textarea id="top-text" name="top-text"><?php echo $invoiceTexts['Start'] ?></textarea>
+    <textarea id="top-text" name="top-text" style="height: 150px;"><?php echo $invoiceTexts['Start'] ?></textarea>
 
     <label for="bottom-text">Додаткова інформація знизу</label>
-    <textarea id="bottom-text" name="bottom-text"><?php echo $invoiceTexts['End'] ?></textarea>
+    <textarea id="bottom-text" name="bottom-text" style="height: 150px;"><?php echo $invoiceTexts['End'] ?></textarea>
 
     <input type="submit" value="Зберегти">
 

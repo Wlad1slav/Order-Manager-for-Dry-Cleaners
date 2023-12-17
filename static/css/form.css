@@ -238,9 +238,26 @@ select:-webkit-autofill:focus {
     transform: scale(1.1) translateX(5%);
 }
 
-
 .fields-create {
     display: flex;
     flex-direction: column;
     align-items: stretch;
+}
+
+.img-settings {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.img-settings form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.img-settings img {
+    width: 40%;
+    padding-bottom: var(--medium-padding);
+    border-radius: 0;
 }
