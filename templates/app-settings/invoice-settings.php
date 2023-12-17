@@ -5,6 +5,11 @@ if (!isset($fieldsArray))
     $fieldsArray = new ProductAdditionalFields();
 ?>
 
+<div class="subsection">
+    <h3>Кількість квитанцій</h3>
+    <?php include "invoiceAmount.php"; ?>
+</div>
+
 <h3>Видимість полів в таблиці квитанції</h3>
 <?php
 if (count($fieldsArray->getFields()) > 0) {

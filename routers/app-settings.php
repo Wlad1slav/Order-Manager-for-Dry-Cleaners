@@ -84,5 +84,15 @@ return [
             'RIGHTS' => ['root'],
         ],
 
+        'editInvoiceAmount' => [
+            // Форма форма редагування кількості квитанцій на однієй сторінці
+            'URL' => 'invoice/amount',
+            'PATH' => null,
+            'CALL' => ['class' => 'Invoice', 'method' => 'setAmountSettings_routeCall', 'declare' => false],
+            'METHOD' => 'post',
+            'PARAMETERS' => [],
+            'RIGHTS' => ['root'],
+        ],
+
     ]
 ];

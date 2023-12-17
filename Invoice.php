@@ -128,4 +128,18 @@ class Invoice {
             'rout-params' => []
         ];
     }
+
+    public static function setAmountSettings_routeCall(): ?array {
+        // Встановлює кількість квитанцій на однієй сторінці
+
+        self::setJsonConfig(self::editJsonConfigElement(
+            ['Amount'],
+            $_POST['invoice-amount']
+        ));
+
+        return [
+            'rout-name' => 'settingsPage',
+            'rout-params' => []
+        ];
+    }
 }
