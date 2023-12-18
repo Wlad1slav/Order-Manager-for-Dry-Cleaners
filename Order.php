@@ -12,7 +12,7 @@ require_once 'ProductAdditionalFields.php';
 class Order {
     use RepositoryTraits;   // Трейт для операцій класу з бд
     // Константи для роботи з базою даних
-    const COLUMNS = ['id_customer', 'id_user', 'date_create', 'date_end', 'total_price', 'productions', 'is_paid', 'is_completed', 'date_payment', 'date_closing', 'date_last_update'];
+    const COLUMNS = ['id_customer', 'id_user', 'date_create', 'date_end', 'total_price', 'productions', 'is_paid', 'is_completed', 'date_payment', 'date_closing', 'date_last_update', 'settings'];
     const TABLE = 'orders'; // Назва таблиці, у якої зберігаються данні
 
     use JsonAccessTrait;    // Трейт для операцій з json файлами
@@ -37,7 +37,9 @@ class Order {
     /** Очікується, що $productions буде зберігати масив об'єктів класу Product
      * @var Product[]
      */
-    private array $productions = []; // Масив виробів замовлення
+    private array $productions=[];  // Масив виробів замовлення
+
+    private string $settings;       // Налаштування замовлення
 
     /**
      * @param Customer $customer
@@ -47,16 +49,18 @@ class Order {
      * @param bool $isPaid
      * @param bool $isCompleted
      * @param DateTime|null $dateCreate
-     // * @param DateTime|null $dateEnd
-     * @param DateTime|null $datePayment
-     * @param DateTime|null $dateClosing
-     * @param DateTime|null $dateUpdate
+     * // * @param DateTime|null $dateEnd
+     * @param null $datePayment
+     * @param null $dateClosing
+     * @param null $dateUpdate
+     * @param array|null $settings
      */
     public function __construct(
         Customer $customer, User $user, array $productions,
         int $id = -1, bool $isPaid = false, bool $isCompleted = false,
         ?DateTime $dateCreate = null, // ?DateTime $dateEnd = null,
-        $datePayment = null, $dateClosing = null, $dateUpdate = null) {
+        $datePayment = null, $dateClosing = null, $dateUpdate = null,
+        string $settings = null) {
 
         $this->id = $id;
         $this->customer = $customer;
@@ -79,6 +83,10 @@ class Order {
         $this->productions = $productions;
         $this->totalPrice = $this->countTotalPrice();
 
+        if ($settings === null)
+            $this->settings = Invoice::getJsonConfig_jsonFormat();
+        else $this->settings = $settings;
+
         $this->repository = new Repository(self::TABLE, self::COLUMNS);
     }
 
@@ -97,6 +105,8 @@ class Order {
             // DateTime::createFromFormat('Y-m-d', $orderValues['date_end']),
             $orderValues['date_payment'],
             $orderValues['date_closing'],
+            $orderValues['date_last_update'],
+            $orderValues['settings'],
         );
     }
 
@@ -107,12 +117,13 @@ class Order {
             $this->dateCreate,                                                  // date_create      datetime
             $this->dateEnd,                                                     // date_end         date
             $this->totalPrice,                                                  // total_price      float
-            $this->convertProductionToJSON($this->productions),                 // productions      json
+            $this->convertProductionToJSON($this->productions),      // productions      json
             $this->isPaid,                                                      // is_paid          tinyint(1)
             $this->isCompleted,                                                 // is_completed     tinyint(1)
             $this->datePayment,                                                 // date_payment     date
             $this->dateClosing,                                                 // date_closing     date
             $this->dateUpdate,                                                  // date_last_update date
+            $this->settings,                                                    // settings         json
         ];
     }
 
@@ -237,6 +248,12 @@ class Order {
         return json_encode($jsonData);
     }
 
+    public function getSettings(): string {
+        // Повертає налаштування квитанції замовлення у форматі масиву
+        return json_decode($this->settings, true);
+    }
+
+    
     // Методи для виклику зовні, користувачем
 
     public static function savingQuickSelectionNotes_routeCall(): array {
