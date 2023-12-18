@@ -9,6 +9,12 @@ trait JsonAccessTrait {
         return json_decode(file_get_contents(self::CONFIG_PATH), true);
     }
 
+    public static function getJsonConfig_jsonFormat(): string {
+        // Завантажує та повертає вміст JSON-файлу як строку
+        self::checkJsonConfigFileExists();
+        return file_get_contents(self::CONFIG_PATH);
+    }
+
     public static function setJsonConfig(array $data): void {
         // Записує масив у форматі JSON до файлу
         self::checkJsonConfigFileExists();
