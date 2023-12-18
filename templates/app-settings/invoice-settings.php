@@ -6,6 +6,11 @@ if (!isset($fieldsArray))
 ?>
 
 <div class="subsection">
+    <h3>Які параметри використовувати в квитанціях</h3>
+    <?php include "invoiceParamsSettings.php"; ?>
+</div>
+
+<div class="subsection">
     <h3>Кількість квитанцій</h3>
     <?php include "invoiceAmount.php"; ?>
 </div>

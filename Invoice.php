@@ -7,6 +7,7 @@ class Invoice {
     // Константи для роботи з конфігом
     const CONFIG_PATH = 'settings/config_invoice.json'; // Шлях до конфігу
     const CONFIG_DEFAULT = [
+        'Current' => false, // false - квитанції будуть показуватися з налаштуваннями, що були актуалі на момент їх створення
         'Amount' => 1, // Кількість квитанцій на однієй сторінці
         'Image' => [
             'displayed' => true,
@@ -135,6 +136,20 @@ class Invoice {
         self::setJsonConfig(self::editJsonConfigElement(
             ['Amount'],
             $_POST['invoice-amount']
+        ));
+
+        return [
+            'rout-name' => 'settingsPage',
+            'rout-params' => []
+        ];
+    }
+
+    public static function setCurrentSettings_routeCall(): ?array {
+        // Встановлює кількість квитанцій на однієй сторінці
+
+        self::setJsonConfig(self::editJsonConfigElement(
+            ['Current'],
+            $_GET['current']
         ));
 
         return [

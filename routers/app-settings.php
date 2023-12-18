@@ -94,5 +94,15 @@ return [
             'RIGHTS' => ['root'],
         ],
 
+        'editInvoiceCurrentSettings' => [
+            // Запрос для переключення параметру current в налаштуваннях квитанції
+            'URL' => 'app-settings/invoice/current-settings/set',
+            'PATH' => null,
+            'CALL' => ['class' => 'Invoice', 'method' => 'setCurrentSettings_routeCall', 'declare' => false],
+            'METHOD' => 'get',
+            'PARAMETERS' => [],
+            'RIGHTS' => ['root'],
+        ],
+
     ]
 ];
