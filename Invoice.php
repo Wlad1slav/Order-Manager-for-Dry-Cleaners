@@ -147,9 +147,12 @@ class Invoice {
     public static function setCurrentSettings_routeCall(): ?array {
         // Встановлює кількість квитанцій на однієй сторінці
 
+        if ($_GET['current'] === 'true') $result = true;
+        else $result = false;
+
         self::setJsonConfig(self::editJsonConfigElement(
             ['Current'],
-            $_GET['current']
+            $result
         ));
 
         return [
