@@ -51,12 +51,15 @@ class ProductAdditionalFields {
         $this->fields[$index][$element] = $value;
     }
 
-    public function getInvoicePositiveFields(): array {
+    public function getInvoicePositiveFields($config, $fields = null): array {
+        if ($fields === null)
+            $fields = $this->fields;
+
         $result = [];
 
-        foreach (Invoice::getJsonConfigElement('Fields')['Additional'] as $fieldName=>$fieldInfo)
+        foreach ($config['Fields']['Additional'] as $fieldName=>$fieldInfo)
             if ($fieldInfo['displayed'] === true)
-                $result[$fieldName] = $this->fields[$fieldName];
+                $result[$fieldName] = $fields[$fieldName];
 
         return $result;
     }
