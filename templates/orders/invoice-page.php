@@ -1,14 +1,28 @@
 <?php
 require_once 'User.php';
+require_once 'ProductAdditionalFields.php';
+require_once "Order.php";
+
 $user = User::get($_SESSION['user']['id']);
 
-require_once "Order.php";
 $orderID = intval($_GET['id']);
 $order = Order::get($orderID);
 
-$todayDate = new DateTime();
+// Ініціалізація конфігів
+$additionalFields = new ProductAdditionalFields();
+if (Invoice::getJsonConfigElement('Current')) {
+    // Якщо прийнято використовувати актуальні налаштування
+    $invoiceSettings = Invoice::getJsonConfig(); // Ініціалізація у якості конфігу квитанцій вмісту config_invoice.json
+    $additionalFields = $additionalFields->getInvoicePositiveFields($invoiceSettings); // Ініціалізація у якості масиву додаткових полів вмісту config_additional_fields.json
+}  else {
+    // Якщо прийнято використовувати актуальні тільки на момент створення замовлення
+    $params = $order->getSettings();
+    $invoiceSettings = json_decode($params['invoice_config'], true); // Ініціалізація у якості конфігу квитанцій елемент invoice_config масиву налаштувань замовленя, що зберігається в бд
+    $fields = json_decode($params['additional_fields'], true);
+    $additionalFields = $additionalFields->getInvoicePositiveFields($invoiceSettings, $fields);
+}
 
-require_once 'ProductAdditionalFields.php';
+$todayDate = new DateTime();
 ?>
 
 <!doctype html>
@@ -30,13 +44,15 @@ require_once 'ProductAdditionalFields.php';
 
         <div class="info">
             <p> <!-- Назва підприємства -->
-                <b>ФОП Радіч Наталя Анатоліївна, ІПН 2996809966 <br>
-                    Пральня-Хімчистка одягу "Єнот у Білому"</b></p>
+                <b><?php echo $invoiceSettings['Text']['Information']['Business'] ?></p>
             <p> <!-- Адреса -->
-                Бучанський р-н, с.Білогородка, вул. Ярова 1а
+                <?php echo $invoiceSettings['Text']['Information']['Address'] ?>
             </p>
-            <p> <!-- Підприємство -->
-                Тел. (067) 454-00-26
+            <p> <!-- Номер телефону -->
+                <?php echo $invoiceSettings['Text']['Information']['Phone'] ?>
+            </p>
+            <p> <!-- Пошта -->
+                <?php echo $invoiceSettings['Text']['Information']['Email'] ?>
             </p>
         </div>
 
@@ -47,9 +63,7 @@ require_once 'ProductAdditionalFields.php';
     <h1>Квитанція №<?php echo $order->getId() ?> від <?php echo $todayDate->format('Y-m-d') ?></h1>
 
     <p> <!-- Гарантія -->
-        Найменування замовлення - чистка виробу згідно рекомендацій виробника, за відсутностю мітки з рекомендаціями щодо чищення виробу від виробника - виріб приймається тільки під відповідність клієнта без жодної гарантії щодо якості та товарно виду виробу після чищення.
-        <br>
-        Гарантійний термін 5 днів з дати отримання речі з хімчистки.
+        <?php echo $invoiceSettings['Text']['Start'] ?>
     </p>
 
     <div class="invoice-info">  <!-- Основна інформація о замовленні -->
@@ -73,7 +87,7 @@ require_once 'ProductAdditionalFields.php';
 
                     <?php
                     // Вивід стандартних полів замовлення
-                    foreach (Invoice::getJsonConfigElement('Fields')['Standard'] as $fieldInfo)
+                    foreach ($invoiceSettings['Fields']['Standard'] as $fieldInfo)
                         if ($fieldInfo['displayed'])
                             echo "<th>{$fieldInfo['localization']}</th>";
                     ?>
@@ -81,11 +95,11 @@ require_once 'ProductAdditionalFields.php';
                     <?php
                     // Вивід додаткових полів замовлення
                     // Отримання тільки тих додаткових полів, які відмічені маркером для показу в квитанції
-                    $fields = new ProductAdditionalFields();
-                    $fields = $fields->getInvoicePositiveFields();
+//                    $fields = new ProductAdditionalFields();
+//                    $fields = $fields->getInvoicePositiveFields($invoiceSettings);
 
                     // Вивод цих полів
-                    foreach ($fields as $fieldKey=>$fieldInfo)
+                    foreach ($additionalFields as $fieldKey=>$fieldInfo)
                         echo "<th>$fieldKey</th>";
 
                     ?>
@@ -98,7 +112,7 @@ require_once 'ProductAdditionalFields.php';
                     echo '<tr>';
                     echo "<td>{$product->getGoods()->getName()}</td>";
 
-                    $fieldStatus = Invoice::getJsonConfigElement('Fields')['Standard'];
+                    $fieldStatus = $invoiceSettings['Fields']['Standard'];
 
                     if ($fieldStatus['amount']['displayed'])
                         echo "<td>{$product->getAmount()}</td>";
@@ -112,7 +126,7 @@ require_once 'ProductAdditionalFields.php';
                     // Виведення даних для полів, що відміченні маркером в налаштуваннях
                     foreach ($order->getProductions()[$productNum]->getParams() as $additionalFieldName=>$value)
                         // Об'єкт замовлення->Елемент по номеру виробу в масиві об'єктів Product->Масив параметрів виробу
-                        if (Invoice::getJsonConfigElement('Fields')['Additional'][$additionalFieldName]['displayed'])
+                        if ($invoiceSettings['Fields']['Additional'][$additionalFieldName]['displayed'])
                             // Якщо видимість поля == true
                             echo "<td>$value</td>";
 
@@ -125,7 +139,8 @@ require_once 'ProductAdditionalFields.php';
         </div>
 
         <p>Загальна вартість замовлення <?php echo $order->getTotalPrice(); ?> грн.</p>
-        <p>З умовами типового договору по аквачистці, пранню виробів, вказаних в "Інформації для клієнта" ознайомленний і погоджуюся. З визначенням дефектів та оцінкою виробів погоджуюся.</p>
+
+        <?php echo $invoiceSettings['Text']['End'] ?>
 
         <p>Менеджер <?php echo $user->getUsername()  ?></p>
     </div>
