@@ -49,11 +49,11 @@ class Order {
      * @param bool $isPaid
      * @param bool $isCompleted
      * @param DateTime|null $dateCreate
-     * // * @param DateTime|null $dateEnd
-     * @param null $datePayment
+     * @param DateTime|null $dateCreate
+     * // * * * @param null $datePayment
      * @param null $dateClosing
      * @param null $dateUpdate
-     * @param array|null $settings
+     * @param string|null $settings
      */
     public function __construct(
         Customer $customer, User $user, array $productions,
@@ -84,7 +84,10 @@ class Order {
         $this->totalPrice = $this->countTotalPrice();
 
         if ($settings === null)
-            $this->settings = Invoice::getJsonConfig_jsonFormat();
+            $this->settings = json_encode([
+                'invoice_config' => Invoice::getJsonConfig_jsonFormat(),
+                'additional_fields' => ProductAdditionalFields::getJsonConfig_jsonFormat()
+            ], true);
         else $this->settings = $settings;
 
         $this->repository = new Repository(self::TABLE, self::COLUMNS);
@@ -248,7 +251,7 @@ class Order {
         return json_encode($jsonData);
     }
 
-    public function getSettings(): string {
+    public function getSettings(): array {
         // Повертає налаштування квитанції замовлення у форматі масиву
         return json_decode($this->settings, true);
     }
