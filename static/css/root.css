@@ -2,7 +2,7 @@
     /* КОЛЬОРИ */
     --base-color: #759da4;
     --base-color-transparent: rgba(136, 183, 191, 0.4);
-    --dark-base-color: #687275;
+    --dark-base-color: #646464;
     --accent-color: #8A6086;
     --cta-color: #BD8262;
     --dark-cta-color: #58413B;
@@ -26,6 +26,7 @@
     --link-hover-color: var(--cta-light-color); /* Колір посилань при наведенні */
 
     /* ЗАГОЛОВКИ */
+    --heading-font-family: "Comic Sans MS";
     --h1-size: 40px;
     --h1-color: var(--text-color);
     --h2-size: 30px;
