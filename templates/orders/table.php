@@ -37,6 +37,23 @@ global $router;
         <tbody>
 
         <script src="/static/javascript/edit.js"></script>
+        <script>
+            function confirmOrderDelete(id) {
+                // Підтвердження видалення
+                const isConfirmed = confirm("Ви впевненні, що хочете видалити замовлення з ID: " + id + "?");
+
+                if (isConfirmed) {
+                    // Якщо підтверджено, відбувається редірект до точки видалення з ідентифікатором об'єкту
+                    $.ajax({
+                        type: "GET",
+                        url: "<?php echo $router->url('orderDelete'); ?>",
+                        data: {id: id},
+                    });
+                    location.reload();
+                }
+            }
+        </script>
+
         <?php
         foreach(array_reverse(Order::getAll()) as $order) {
             echo '<tr>';
@@ -70,7 +87,7 @@ global $router;
 
             echo "<th><a href='#' class='underline-animation unimportant'>Редагувати</a></th>";
 
-            echo "<th><a class='red-text' href='javascript:void(0);' onchange='confirmAndDelete(". $order['id'] . ", \"order\")'>X</a></th>"; // Функція видалення клієнта
+            echo "<th><a class='red-text' href='javascript:void(0);' onclick='confirmOrderDelete($orderID)'>X</a></th>"; // Функція видалення клієнта
 
             echo '</tr>';
         }

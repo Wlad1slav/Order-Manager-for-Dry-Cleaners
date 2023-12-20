@@ -354,5 +354,16 @@ class Order {
         ];
     }
 
+    public static function deleteMethod(): array {
+        // Метод видалення замовлення
+        $order = self::get($_GET['id']);
+        $order->delete();
+
+        return [
+            'rout-name' => 'ordersTable',
+            'rout-params' => []
+        ];
+    }
+
 
 }

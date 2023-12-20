@@ -46,5 +46,14 @@ return [
             'RIGHTS' => ['default'],
         ],
 
+        'orderDelete' => [                  // Функція видалення замовлення
+            'URL' => 'delete',
+            'PATH' => null,
+            'CALL' => ['class' => 'Order', 'method' => 'deleteMethod', 'declare' => false],
+            'METHOD' => 'get',
+            'PARAMETERS' => [],
+            'RIGHTS' => ['default'],
+        ],
+
     ]
 ];
