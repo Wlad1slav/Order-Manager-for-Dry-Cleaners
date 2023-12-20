@@ -1,3 +1,7 @@
+<?php
+global $router;
+?>
+
 <div>
     <!--ТАБЛИЦЯ Замовлень-->
     <script>
@@ -6,8 +10,9 @@
             $('#orders').DataTable({
                 columnDefs: [
                     { width: '3%', targets: 0 },
-                    { width: '8%', targets: 8 },
-                    { width: '3%', targets: 9 },
+                    { width: '4%', targets: 8 },
+                    { width: '4%', targets: 9 },
+                    { width: '3%', targets: 10 },
                 ],
             });
         });
@@ -24,6 +29,7 @@
             <th>Ціна</th>
             <th>Чи оплачений?</th>
             <th>Чи виконаний?</th>
+            <th></th>
             <th></th>
             <th></th>
         </tr>
@@ -58,7 +64,11 @@
                     }
                 }
             }
-            echo "<th><a href='#' class='underline-animation'>Редагувати</a></th>";
+
+            echo "<th><a href='{$router->url('orderInvoice', ['id'=>$orderID])}' 
+                    class='underline-animation unimportant'>Квитанція</a></th>";
+
+            echo "<th><a href='#' class='underline-animation unimportant'>Редагувати</a></th>";
 
             echo "<th><a class='red-text' href='javascript:void(0);' onchange='confirmAndDelete(". $order['id'] . ", \"order\")'>X</a></th>"; // Функція видалення клієнта
 

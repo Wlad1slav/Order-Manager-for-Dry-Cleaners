@@ -206,6 +206,10 @@ img {
     font-variant: small-caps;
 }
 
+.unimportant {
+    font-size: calc(var(--font-size)/1.5);
+}
+
 .accept {
     color: var(--base-color);
     font-weight: 800;
