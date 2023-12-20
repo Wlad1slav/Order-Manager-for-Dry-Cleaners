@@ -1,0 +1,44 @@
+.settings {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    /*background-color: transparent;*/
+    background-color: rgba(255,255,255, 0.5);
+    width: 60%;
+    padding-bottom: var(--large-padding);
+}
+
+.settings h1, .settings h2, .settings h3 {
+    font-weight: 1000;
+}
+
+.settings .section {
+    backdrop-filter: blur(20px);
+    padding: 0 var(--large-padding);
+    border-radius: 20px;
+    width: 85%;
+    margin-bottom: var(--medium-padding);
+}
+
+.settings .section p {
+    /*width: 100%;*/
+    text-align: right;
+    font-style: italic;
+}
+
+.settings .section {
+    border-top: 5px solid var(--base-color);
+    border-bottom: 5px solid var(--base-color);
+}
+
+.settings .section .subsection {
+    border-top: 5px solid var(--base-color);
+    padding-bottom: var(--small-padding);
+}
+
+.settings input, .settings textarea, .settings select {
+    border: 1px solid var(--dark-base-color)!important;
+    color: var(--text-color);
+}

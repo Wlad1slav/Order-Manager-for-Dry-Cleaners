@@ -11,6 +11,8 @@ global $router;
 
 ?>
 
+<link rel="stylesheet" href="../../static/css/settings.css">
+
 <style>
     .content {
         background-image:
