@@ -11,7 +11,7 @@ class Invoice {
         'Amount' => 1, // Кількість квитанцій на однієй сторінці
         'Image' => [
             'displayed' => true,
-            'path' => '/static/images/invoice_image.png'
+            'path' => '\static\images\invoice_image.png'
         ],
         'Text' => [
             'Information' => [
@@ -55,7 +55,10 @@ class Invoice {
         // editInvoiceImage маршрут
         // Змінює налаштування зображення в квитанції
 
-        $displayedInvoiceImgStatus = $_POST['displayed-invoice-img'];
+        if (isset($_POST['displayed-invoice-img']))
+            $displayedInvoiceImgStatus = true;
+        else
+            $displayedInvoiceImgStatus = false;
 
         // Встановлює видимість зображення
         $newData = self::editJsonConfigElement(
@@ -73,14 +76,22 @@ class Invoice {
             if ($uploadOk == 0)
                 $_SESSION['error'] = '<b>Помилка при завантажені зображення:</b><br> Ви намагаєтесь завантажити не зображення.';
 
-            // Завантажує зображення
-            if (!move_uploaded_file($_FILES["invoice-img"]["tmp_name"], self::getJsonConfigElement('Image')['path']))
-                $_SESSION['error'] = '<b>Помилка при завантажені зображення:</b><br> Щось пішло не так.';
+            global $DIR;
+            try {
+                move_uploaded_file($_FILES["invoice-img"]["tmp_name"], $DIR.self::getJsonConfigElement('Image')['path']);
+            } catch (InvalidArgumentException $e) {
+                $_SESSION['error'] = "<b>Помилка при завантажені зображення:</b><br> $e";
+                return [
+                    'rout-name' => 'settingsPage',
+                    'rout-params' => []
+                ];
+            }
         }
 
         return [
             'rout-name' => 'settingsPage',
-            'rout-params' => []
+            'rout-params' => [],
+            'section' => 'image'
         ];
     }
 
