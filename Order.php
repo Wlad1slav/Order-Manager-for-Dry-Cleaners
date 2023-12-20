@@ -71,7 +71,6 @@ class Order {
         else $this->dateCreate = $dateCreate;
         $this->dateEnd = (clone $this->dateCreate)->modify('+3 day');
 
-        print_r($datePayment);
         $this->datePayment = $datePayment;
         $this->dateClosing = $dateClosing;
         $this->dateUpdate = $dateUpdate;
