@@ -34,7 +34,7 @@ class Router {
                         // Якщо метод статичний
                         $redirectTo = $class::$method();
 
-                    $this->redirect($redirectTo['rout-name'], $redirectTo['rout-params']);
+                    $this->redirect($redirectTo['rout-name'], $redirectTo['rout-params'], $redirectTo['page-section']);
                 }
 
                 if ($rout['controller'] !== null)
@@ -51,10 +51,10 @@ class Router {
         }
     }
 
-    public function redirect(?string $name, array $params = []): void {
+    public function redirect(?string $name, array $params = [], string $section = null): void {
         // Метод редіректу на іншу сторінку по назві посиалання
         if ($name == null) die();
-        $path = $this->url($name, $params);
+        $path = $this->url($name, $params, $section);
         header("Location: $path");
         die();
     }
@@ -65,13 +65,14 @@ class Router {
         die();
     }
 
-    public function url(string $name, array $params = []): string {
+    public function url(string $name, array $params = [], string $section = null): string {
         // Метод, що повертає посилання на сторінку по заданой назві
         foreach ($this->routes as $route)
-            if ($route['name'] == $name)
+            if ($route['name'] == $name) {
+
                 if (count($params) === 0 and count($route['params']) == 0)
                     // Якщо жодного параметру не задано
-                    return "/{$route['uri']}";
+                    $url = "/{$route['uri']}";
                 else {
                     $url = "/{$route['uri']}?";
                     foreach ($route['params'] as $param)
@@ -83,9 +84,14 @@ class Router {
                     foreach ($params as $param => $value)
                         // Додає параметри в посилання
                         $url .= "$param=$value&";
-
-                    return $url;
                 }
+
+                if ($section !== null)
+                    $url .= "#$section";
+
+                return $url;
+            }
+
 
         // Якщо маршрут не знайдено, кидає помилку
         throw new InvalidArgumentException("url($name): Посилання з назвою \"$name\" не існує.");
