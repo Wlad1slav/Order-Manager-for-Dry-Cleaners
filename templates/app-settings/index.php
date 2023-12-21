@@ -23,6 +23,10 @@ global $router;
         background-position: center center;
 
     }
+
+    html {
+        scroll-behavior: auto;
+    }
 </style>
 
 <div class="settings">
@@ -41,11 +45,11 @@ global $router;
     }
     ?>
 
-    <div class="section">
+    <div class="section" id="order">
         <?php include 'orders-settings.php'; ?> <!-- Налаштування замовлень -->
     </div>
 
-    <div class="section">
+    <div class="section" id="invoice">
         <?php include 'invoice-settings.php'; ?> <!-- Налаштування квитанцій -->
     </div>
 

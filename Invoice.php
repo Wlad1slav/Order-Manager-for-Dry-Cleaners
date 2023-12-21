@@ -91,7 +91,7 @@ class Invoice {
         return [
             'rout-name' => 'settingsPage',
             'rout-params' => [],
-            'section' => 'image'
+            'page-section' => 'invoice-image'
         ];
     }
 
@@ -137,7 +137,8 @@ class Invoice {
 
         return [
             'rout-name' => 'settingsPage',
-            'rout-params' => []
+            'rout-params' => [],
+            'page-section' => 'invoice-additional-texts'
         ];
     }
 
@@ -151,7 +152,8 @@ class Invoice {
 
         return [
             'rout-name' => 'settingsPage',
-            'rout-params' => []
+            'rout-params' => [],
+            'page-section' => 'invoice-amount'
         ];
     }
 

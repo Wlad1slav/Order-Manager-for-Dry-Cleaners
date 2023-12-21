@@ -147,7 +147,7 @@ class ProductAdditionalFields {
 
     public function addAdditionalField_routeCall(): array {
         // fieldAdd маршрут
-        // Збереження швидкого вибору нотаток
+        // Додання додаткового полю до замовлення
 
         $fieldName = $_POST['fieldName'] ?? null;
         $fieldType = $_POST['fieldType'] ?? null;
@@ -164,7 +164,8 @@ class ProductAdditionalFields {
 
         return [
             'rout-name' => 'settingsPage',
-            'rout-params' => []
+            'rout-params' => [],
+            'page-section' => 'additional-fields'
         ];
     }
 
@@ -178,7 +179,7 @@ class ProductAdditionalFields {
             $_SESSION['error'] = '<b>Помилка при видаленні додаткового поля</b><br> Не був вказаний індекс додаткового поля.';
             return [
                 'rout-name' => 'settingsPage',
-                'rout-params' => []
+                'rout-params' => [],
             ];
         }
 
@@ -193,7 +194,8 @@ class ProductAdditionalFields {
 
         return [
             'rout-name' => 'settingsPage',
-            'rout-params' => []
+            'rout-params' => [],
+            'page-section' => 'additional-fields'
         ];
     }
 

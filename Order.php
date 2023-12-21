@@ -269,7 +269,8 @@ class Order {
         return [
             // Куди повинен повертатися користувач
             'rout-name' => 'settingsPage',
-            'rout-params' => []
+            'rout-params' => [],
+            'page-section' => 'order-notes'
         ];
     }
 
@@ -283,7 +284,8 @@ class Order {
 
         return [
             'rout-name' => 'settingsPage',
-            'rout-params' => []
+            'rout-params' => [],
+            'page-section' => 'order-products-amount'
         ];
     }
 
