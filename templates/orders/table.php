@@ -52,6 +52,15 @@ global $router;
                     location.reload();
                 }
             }
+
+            function switchOrderStatus(column, newStatus, orderID) {
+                // Змінює статус замовлення
+                $.ajax({
+                    type: "GET",
+                    url: "<?php echo $router->url('switchOrderStatus'); ?>",
+                    data: {column: column, newStatus: newStatus, orderID: orderID},
+                });
+            }
         </script>
 
         <?php
@@ -69,10 +78,10 @@ global $router;
                             echo '<th>' . User::get($value)->getUsername() . '</th>';
                         elseif ($type === 'Boolean') {
                             echo '<th>';
-                            echo "<input type='radio' onclick=\"switchStatus('$column', true, $orderID)\" id='$key-$orderID-true' name='$key-$orderID' " . ($value === 1 ? 'checked' : '') . ">";
+                            echo "<input type='radio' onclick=\"switchOrderStatus('$column', true, $orderID)\" id='$key-$orderID-true' name='$key-$orderID' " . ($value === 1 ? 'checked' : '') . ">";
                             echo "<label for='$key-$orderID-true'>Так</label>";
 
-                            echo "<input type='radio' onclick=\"switchStatus('$column', false, $orderID)\" id='$key-$orderID-false' name='$key-$orderID' " . ($value === 0 ? 'checked' : '') . ">";
+                            echo "<input type='radio' onclick=\"switchOrderStatus('$column', false, $orderID)\" id='$key-$orderID-false' name='$key-$orderID' " . ($value === 0 ? 'checked' : '') . ">";
                             echo "<label for='$key-$orderID-false'>Ні</label>";
                             echo '</th>';
                         }

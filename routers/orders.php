@@ -15,7 +15,8 @@ return [
 
         'switchOrderStatus' => [            // Заміна статусу замовлення
             'URL' => 'switchStatus',
-            'PATH' => 'switchStatus.php',
+            'PATH' => null,
+            'CALL' => ['class' => 'Order', 'method' => 'switchStatus', 'declare' => false],
             'METHOD' => 'get',
             'PARAMETERS' => [],
             'RIGHTS' => ['default'],

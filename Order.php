@@ -365,5 +365,33 @@ class Order {
         ];
     }
 
+    public static function switchStatus(): array {
+        // Метод видалення замовлення
+        $newStatus = $_GET['newStatus'];
+        $orderID = $_GET['orderID'];
+        $column = $_GET['column'];
+
+        if ($newStatus === 'true')
+            $newStatus = true;
+        elseif ($newStatus === 'false')
+            $newStatus = false;
+
+        $order = Order::get($orderID);
+
+        if ($column == 'is_paid')
+            $order->setIsPaid($newStatus);
+        elseif ($column == 'is_completed')
+            $order->setIsCompleted($newStatus);
+
+//        echo 'isPaid = ' . $order->isPaid();
+//        echo 'isCompleted = ' . $order->isCompleted();
+        $order->update();
+
+        return [
+            'rout-name' => null,
+            'rout-params' => []
+        ];
+    }
+
 
 }
