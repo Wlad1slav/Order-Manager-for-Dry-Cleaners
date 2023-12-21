@@ -1,3 +1,13 @@
+.invoices {
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 15px;
+}
+
+.invoice {
+    padding: 0 2px;
+}
+
 .invoice .heading {
     display: flex;
     justify-content: space-between;
@@ -5,7 +15,7 @@
 }
 
 .invoice .heading img {
-    width: 200px;
+    width: 100px;
     /*height: auto;*/
     float: right;
 }
@@ -27,9 +37,10 @@ table {
 }
 
 th, td {
-    padding: 8px;
+    /*padding: 2px;*/
     text-align: center;
     word-wrap: break-word; /* дозволяє перенесення слів у осередку */
+    font-size: 10px;
 }
 
 th {
@@ -39,7 +50,7 @@ th {
 }
 
 td {
-    border: 1px solid var(--text-color);
+    border: 0.5px solid var(--text-color);
 }
 
 thead th {
@@ -47,4 +58,12 @@ thead th {
     font-weight: var(--table-firsts-row-weight);
     color: var(--table-firsts-row-text-color);
     background-color: var(--table-firsts-row-color);
+}
+
+.additional-text {
+    font-size: 10px;
+}
+
+.invoices h1 {
+    font-size: 20px;
 }
