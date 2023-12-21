@@ -41,13 +41,13 @@ class Repository:
             self.conn.close()
             print('З\'єднання закрито')
 
-    def get_row(self, id):
+    def get_row(self, value, column = 'id'):
         # Метод для отримання змісту рядку з бд
 
         cursor = self.conn.cursor()
         try:
-            query = f'SELECT * FROM {self.table} WHERE id = %s' # SQL запит для отримання рядка
-            cursor.execute(query, (id,)) # встановлення id в SQL запит через метод execute (захист від SQL ін'єкції)
+            query = f'SELECT * FROM {self.table} WHERE {column} = %s' # SQL запит для отримання рядка
+            cursor.execute(query, (value,)) # встановлення value в SQL запит через метод execute (захист від SQL ін'єкції)
             row = cursor.fetchone() # Виконання SQL запиту
             return row
         except mysql.connector.Error as err:
