@@ -37,4 +37,6 @@ const TABLE_COLUMNS = [
 
 <?php include 'table.php' ?> <!-- Таблиця замовлень -->
 
+<?php include 'import.php' ?> <!-- Таблиця замовлень -->
+
 <?php include("$DIR\\templates\base\\footer.php"); ?>
