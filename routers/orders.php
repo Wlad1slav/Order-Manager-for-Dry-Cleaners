@@ -56,5 +56,14 @@ return [
             'RIGHTS' => ['default'],
         ],
 
+        'ordersImport' => [                 // Функція для імпорту замовлень
+            'URL' => 'import',
+            'PATH' => null,
+            'CALL' => ['class' => 'Order', 'method' => 'import', 'declare' => false],
+            'METHOD' => 'post',
+            'PARAMETERS' => [],
+            'RIGHTS' => ['root'],
+        ],
+
     ]
 ];

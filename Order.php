@@ -8,6 +8,7 @@ require_once 'Product.php';
 require_once 'Goods.php';
 require_once 'JsonAccessTrait.php';
 require_once 'ProductAdditionalFields.php';
+require_once 'PythonPhp.php';
 
 class Order {
     use RepositoryTraits;   // Трейт для операцій класу з бд
@@ -392,6 +393,33 @@ class Order {
         return [
             'rout-name' => null,
             'rout-params' => []
+        ];
+    }
+
+    public static function import(): array {
+
+        if ($_FILES["orders-import"]['size'] > 0) { // Якщо зображення завантаженно
+
+            try {
+                move_uploaded_file($_FILES["orders-import"]["tmp_name"], 'scripts/orders_for_import.csv');
+
+                $res = PythonPhp::script('orders_import.py', true);
+                echo "Результат: " . implode("\n", $res['output']);
+
+            } catch (InvalidArgumentException $e) {
+                $_SESSION['error'] = "<b>Помилка при імпорті замовлень:</b><br> $e";
+                echo $e;
+                return [
+                    'rout-name' => null,
+                    'rout-params' => []
+                ];
+            }
+        }
+
+        return [
+            'rout-name' => 'ordersTable',
+            'rout-params' => [],
+            'page-section' => 'import'
         ];
     }
 
