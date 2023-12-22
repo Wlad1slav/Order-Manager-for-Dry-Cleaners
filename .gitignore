@@ -10,3 +10,4 @@ settings/db_config.php
 layouts PHP
 settings/config_additional_fields.json
 *.pyc
+venv
