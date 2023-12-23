@@ -6,19 +6,6 @@ include("$DIR\\templates\base\include.php");
 $pageTitle = "Замовлення";
 include("$DIR\\templates\base\header.php");
 include("$DIR\\templates\base\sidebar.php");
-
-const TABLE_COLUMNS = [
-    // Колонки замовлення
-    'id' => 'id',
-    'id_customer' => 'Customer',
-    'id_user' => 'User',
-    'date_create' => 'Date',
-    'date_end' => 'Data',
-    'total_price' => 'Price',
-    'is_paid' => 'Boolean',
-    'is_completed' => 'Boolean'
-];
-
 ?>
 
 <div>

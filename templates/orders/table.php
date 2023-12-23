@@ -64,42 +64,50 @@ global $router;
         </script>
 
         <?php
-        foreach(array_reverse(Order::getAll()) as $order) {
-            echo '<tr>';
+
+        $orders = Order::getAll();
+        $customers = Customer::getAll('id'); // id - ключ, по якому будуть доступни елементи масиву
+        $users = User::getAll('id');
+
+        $tableBody = '';
+        $statuses = ['is_paid', 'is_completed'];
+
+        foreach($orders as $order) {
+            $tableRow = '<tr>';
 
             $orderID = $order['id'];
 
-            foreach ($order as $key => $value) {
-                foreach (TABLE_COLUMNS as $column => $type) {
-                    if ($column == $key) {
-                        if ($type === 'Customer')
-                            echo '<th>' . Customer::get($value)->getFullName() . '</th>';
-                        elseif ($type === 'User')
-                            echo '<th>' . User::get($value)->getUsername() . '</th>';
-                        elseif ($type === 'Boolean') {
-                            echo '<th>';
-                            echo "<input type='radio' onclick=\"switchOrderStatus('$column', true, $orderID)\" id='$key-$orderID-true' name='$key-$orderID' " . ($value === 1 ? 'checked' : '') . ">";
-                            echo "<label for='$key-$orderID-true'>Так</label>";
+            $tableRow .= "<th>$orderID</th>";                                       // ID
+            $tableRow .= "<th>{$order['date_create']}</th>";                        // Дата і час створення
+            $tableRow .= "<th>{$order['date_end']}</th>";                           // Дата дедлайну
+            $tableRow .= "<th>{$customers[$order['id_customer']]['name']}</th>";    // Ім'я клієнта
+            $tableRow .= "<th>{$users[$order['id_user']]['username']}</th>";        // Юзернейм користувача
+            $tableRow .= "<th>{$order['total_price']}₴</th>";                       // Ціна
 
-                            echo "<input type='radio' onclick=\"switchOrderStatus('$column', false, $orderID)\" id='$key-$orderID-false' name='$key-$orderID' " . ($value === 0 ? 'checked' : '') . ">";
-                            echo "<label for='$key-$orderID-false'>Ні</label>";
-                            echo '</th>';
-                        }
-                        else
-                            echo "<th>$value</th>";
-                    }
-                }
+            // Переключення статусу замовлення
+            foreach ($statuses as $status) {
+                $tableRow .= '<th>';
+                $tableRow .= "<input type='radio' onclick=\"switchOrderStatus('$status', true, $orderID)\" id='$status-$orderID-true' name='$status-$orderID-true' " . ($order[$status] === 1 ? 'checked' : '') . ">";
+                $tableRow .= "<label for='$status-$orderID-true'>Так</label>";
+
+                $tableRow .= "<input type='radio' onclick=\"switchOrderStatus('$status', false, $orderID)\" id='$status-$orderID-false' name='$status-$orderID-true' " . ($order[$status] === 0 ? 'checked' : '') . ">";
+                $tableRow .= "<label for='$status-$orderID-false'>Ні</label>";
+                $tableRow .= '</th>';
             }
 
-            echo "<th><a href='{$router->url('orderInvoice', ['id'=>$orderID])}' 
+            $tableRow .= "<th><a href='{$router->url('orderInvoice', ['id'=>$orderID])}'
                     class='underline-animation unimportant'>Квитанція</a></th>";
 
-            echo "<th><a href='#' class='underline-animation unimportant'>Редагувати</a></th>";
+            $tableRow .= "<th><a href='#' class='underline-animation unimportant'>Редагувати</a></th>";
 
-            echo "<th><a class='red-text' href='javascript:void(0);' onclick='confirmOrderDelete($orderID)'>X</a></th>"; // Функція видалення клієнта
+            $tableRow .= "<th><a class='red-text' href='javascript:void(0);' onclick='confirmOrderDelete($orderID)'>X</a></th>"; // Функція видалення клієнта
 
-            echo '</tr>';
+            $tableRow .= '</tr>';
+
+            $tableBody .= $tableRow;
         }
+
+        echo $tableBody;
 
         ?>
         </tbody>
