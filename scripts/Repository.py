@@ -18,37 +18,59 @@ class Repository:
             'database': data['dbname']
         }
 
+        self.table = table  # Таблиця, з якою будуть проводитися маніпуляції
+
         # Підключення до бази даних
         self.conn = self.connect(config)
-
-        self.table = table # Таблиця, з якою будуть проводитися маніпуляції
-
 
     def connect(self, config):
         # Створення з'єднання
         try:
             connect = mysql.connector.connect(**config)
             if connect.is_connected():
-                print('Підключено до бази даних')
+                print(f'Connected to database ({self.table})')
                 return connect
 
         except mysql.connector.Error as err:
-            print(f'Помилка: {err}')
-        
+            print(f'Error: {err}')
+
     def close_connect(self):
         # Закриття з'єднання
         if self.conn.is_connected():
             self.conn.close()
-            print('З\'єднання закрито')
+            print(f'The connection is closed ({self.table})')
 
-    def get_row(self, value, column = 'id'):
+    def get_all(self):
+        # Повертає усі рядки бд
+        cursor = self.conn.cursor()
+        try:
+            query = f'SELECT * FROM {self.table}'  # SQL запит для отримання рядків
+            cursor.execute(query)
+            rows = cursor.fetchall()  # Виконання SQL запиту
+            return rows
+        except mysql.connector.Error as err:
+            print(f'Помилка запиту: {err}')
+            return False
+        finally:
+            cursor.close()
+
+    def get_all_in_dic(self):
+        # Повертає усі рядки бази даних у якості словнику, де ключ є id
+        rows = self.get_all()
+        dic = {}
+        for row in rows:
+            dic[row[0]] = row
+        return dic
+
+    def get_row(self, value, column='id'):
         # Метод для отримання змісту рядку з бд
 
         cursor = self.conn.cursor()
         try:
-            query = f'SELECT * FROM {self.table} WHERE {column} = %s' # SQL запит для отримання рядка
-            cursor.execute(query, (value,)) # встановлення value в SQL запит через метод execute (захист від SQL ін'єкції)
-            row = cursor.fetchone() # Виконання SQL запиту
+            query = f'SELECT * FROM {self.table} WHERE {column} = %s'  # SQL запит для отримання рядка
+            cursor.execute(query,
+                           (value,))  # встановлення value в SQL запит через метод execute (захист від SQL ін'єкції)
+            row = cursor.fetchone()  # Виконання SQL запиту
             return row
         except mysql.connector.Error as err:
             print(f'Помилка запиту: {err}')
@@ -59,16 +81,16 @@ class Repository:
     def create_row(self, data):
         # Метод, для додавання рядку в бд
 
-        columns = ', '.join([f'`{column}`' for column in data.keys()]) # Отримання колонок, в які треба додати данні
-        placeholders = ', '.join(['%s' for _ in data.values()]) # Отримання даних, які треба додати в колонки
+        columns = ', '.join([f'`{column}`' for column in data.keys()])  # Отримання колонок, в які треба додати данні
+        placeholders = ', '.join(['%s' for _ in data.values()])  # Отримання даних, які треба додати в колонки
 
-        query = f'INSERT INTO `{self.table}` ({columns}) VALUES ({placeholders})' # SQL запит для створення рядку
-    
+        query = f'INSERT INTO `{self.table}` ({columns}) VALUES ({placeholders})'  # SQL запит для створення рядку
+
         cursor = self.conn.cursor()
 
         try:
-            cursor.execute(query, tuple(data.values())) # Виконання SQL запиту
-            self.conn.commit() # Збереження результатів
+            cursor.execute(query, tuple(data.values()))  # Виконання SQL запиту
+            self.conn.commit()  # Збереження результатів
             return True
         except mysql.connector.Error as err:
             print(f'Помилка запиту: {err}')
