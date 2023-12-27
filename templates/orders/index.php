@@ -15,7 +15,7 @@ include("$DIR\\templates\base\sidebar.php");
     <b>::</b>
     <a href="<?php echo $router->url('orderCreate')?>" class="underline-animation" style="font-weight: 800">Нове замовлення</a>
     <b>::</b>
-    <a onclick="convertAndDownloadTable('orders')" href="javascript:void(0);" class="cta-text underline-animation">Експорт</a>
+    <a href="<?php echo $router->url('ordersExport'); ?>" class="cta-text underline-animation">Експорт</a>
     <b>::</b>
     <a href="#import" class="cta-text underline-animation">Імпорт</a>
     <b>::</b>

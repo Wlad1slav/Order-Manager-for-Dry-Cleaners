@@ -9,6 +9,7 @@ require_once 'Goods.php';
 require_once 'JsonAccessTrait.php';
 require_once 'ProductAdditionalFields.php';
 require_once 'PythonPhp.php';
+require_once 'Router.php';
 
 class Order {
     use RepositoryTraits;   // Трейт для операцій класу з бд
@@ -369,6 +370,7 @@ class Order {
     }
 
     public static function switchStatus(): array {
+        // Маршрут switchOrderStatus
         // Метод видалення замовлення
         $newStatus = $_GET['newStatus'];
         $orderID = $_GET['orderID'];
@@ -397,23 +399,48 @@ class Order {
     }
 
     public static function import(): array {
-
+        // Маршрут ordersImport
+        // Імпортує замовлення з csv таблиці
         if ($_FILES["orders-import"]['size'] > 0) { // Якщо зображення завантаженно
 
             try {
                 move_uploaded_file($_FILES["orders-import"]["tmp_name"], 'scripts/orders_for_import.csv');
 
                 $res = PythonPhp::script('orders_import.py', true);
-                echo "Результат: " . implode("\n", $res['output']);
+                echo implode("<br>", $res['output']);
 
             } catch (InvalidArgumentException $e) {
                 $_SESSION['error'] = "<b>Помилка при імпорті замовлень:</b><br> $e";
                 echo $e;
                 return [
-                    'rout-name' => null,
+                    'rout-name' => 'ordersTable',
                     'rout-params' => []
                 ];
             }
+        }
+
+        return [
+            'rout-name' => 'ordersTable',
+            'rout-params' => [],
+            'page-section' => 'import'
+        ];
+    }
+
+    public static function export(): array {
+        // Маршрут ordersExport
+        // Експортує замовлення в csv таблицю
+
+        try {
+            $res = PythonPhp::script('orders_export.py', true);
+            echo implode("<br>", $res['output']);
+            Router::redirectUrl('/scripts/orders_exported.csv');
+        } catch (InvalidArgumentException $e) {
+            $_SESSION['error'] = "<b>Помилка при імпорті замовлень:</b><br> $e";
+            echo $e;
+            return [
+                'rout-name' => 'ordersTable',
+                'rout-params' => []
+            ];
         }
 
         return [

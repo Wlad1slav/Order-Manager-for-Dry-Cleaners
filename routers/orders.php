@@ -65,5 +65,14 @@ return [
             'RIGHTS' => ['root'],
         ],
 
+        'ordersExport' => [                 // Функція для експорту замовлень
+            'URL' => 'export',
+            'PATH' => null,
+            'CALL' => ['class' => 'Order', 'method' => 'export', 'declare' => false],
+            'METHOD' => 'get',
+            'PARAMETERS' => [],
+            'RIGHTS' => ['root'],
+        ],
+
     ]
 ];
