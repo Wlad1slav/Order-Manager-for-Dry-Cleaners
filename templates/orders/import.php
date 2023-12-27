@@ -11,4 +11,6 @@ global $router;
         <label for="orders-import">Таблиця замовлень (csv)</label> <br>
         <input type="submit" value="Імпортувати">
     </form>
+
+    <p class="important-3">Важливо! Обов'язково використовувати шаблон для імпорту.</p>
 </div>
