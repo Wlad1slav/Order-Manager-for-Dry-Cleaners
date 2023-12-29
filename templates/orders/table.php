@@ -73,9 +73,10 @@ global $router;
         $statuses = ['is_paid', 'is_completed'];
 
         foreach($orders as $order) {
-            $tableRow = '<tr>';
 
             $orderID = $order['id'];
+
+            $tableRow = "<tr id='order-$orderID'>";
 
             $tableRow .= "<th>$orderID</th>";                                       // ID
             $tableRow .= "<th>{$order['date_create']}</th>";                        // Дата і час створення
@@ -98,7 +99,7 @@ global $router;
             $tableRow .= "<th><a href='{$router->url('orderInvoice', ['id'=>$orderID])}'
                     class='underline-animation unimportant'>Квитанція</a></th>";
 
-            $tableRow .= "<th><a href='#' class='underline-animation unimportant'>Редагувати</a></th>";
+            $tableRow .= "<th><a href='{$router->url('orderEdit', ['id'=>$orderID])}' class='underline-animation unimportant'>Редагувати</a></th>";
 
             $tableRow .= "<th><a class='red-text' href='javascript:void(0);' onclick='confirmOrderDelete($orderID)'>X</a></th>"; // Функція видалення клієнта
 

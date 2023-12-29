@@ -51,8 +51,7 @@ class Order {
      * @param bool $isPaid
      * @param bool $isCompleted
      * @param DateTime|null $dateCreate
-     * @param DateTime|null $dateCreate
-     * // * * * @param null $datePayment
+     * @param null $datePayment
      * @param null $dateClosing
      * @param null $dateUpdate
      * @param string|null $settings
@@ -87,7 +86,8 @@ class Order {
         if ($settings === null)
             $this->settings = json_encode([
                 'invoice_config' => Invoice::getJsonConfig_jsonFormat(),
-                'additional_fields' => ProductAdditionalFields::getJsonConfig_jsonFormat()
+                'additional_fields' => ProductAdditionalFields::getJsonConfig_jsonFormat(),
+                'orders_config' => Order::getJsonConfig_jsonFormat()
             ], true);
         else $this->settings = $settings;
 
@@ -223,6 +223,7 @@ class Order {
         // Встановлює масив усіх виробів
         $this->checkProductionsArray($productions, 'setProductions(array $productions)');
         $this->productions = $productions;
+        $this->totalPrice = $this->countTotalPrice();
     }
     /**
      * @param Product[] $productions
@@ -292,55 +293,13 @@ class Order {
     }
 
     public static function create(): array {
+        // маршрут orderCreateForm
         $user = User::checkLogin();
         $orderSettings = Order::getJsonConfig();
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-            $productions = [];
-
-            for ($i = 1; $i <= $orderSettings['Number of products']; $i++) {
-
-                // Отримання об'єкту продукту
-                $goodName = $_POST["good-name-$i"];
-                if ($goodName == null) break; // Перевіряє, чи пусте поле продукту. Якщо пусте, то це значить що це кінечний виріб.
-                $good = Goods::get(null,$goodName);
-
-                // Вирахування ціни за виріб
-                $price = $_POST["price-$i"] - (($_POST["price-$i"] / 100) * intval($_POST["discount-$i"]));
-
-                // Створення масиву даних з додаткових полів
-                $additionalFields = new ProductAdditionalFields();
-                $additionalFieldsQuantity = $additionalFields->countExistingFields();
-                $params = [];
-
-                $f = 1;
-                foreach ($additionalFields->getFields() as $fieldName=>$fieldInfo) {
-                    $params[$fieldName] = $_POST["additionalPropertie-$f-$i"];
-                    $f++;
-                }
-
-                if (isset($_POST["notes-$i"])) {
-                    // Переведення масиву приміток в строку
-                    $mainNotes = implode(', ', $_POST["notes-$i"]);
-                    if (isset($_POST["notes-textarea-$i"])) $mainNotes .= ', '; // Якщо є додаткові примітки, то додається кома після основних
-                }
-                else
-                    $mainNotes = '';
-
-                // Додавання до основних приміток додаткових
-                $notes = $mainNotes . $_POST["notes-textarea-$i"];
-
-                $productions[] = new Product(
-                    $_POST["amount-$i"],
-                    $notes,
-                    $params,
-                    $good,
-                    intval($_POST["discount-$i"]),
-                    $price
-                );
-
-            }
+            $productions = self::getProductionFromForm($orderSettings);
 
             $customer = Customer::get(null, $_POST["customer-name"]);
 
@@ -356,6 +315,81 @@ class Order {
             'rout-name' => 'ordersTable',
             'rout-params' => []
         ];
+    }
+
+    public static function edit(): array {
+        // маршрут orderEditForm
+        $orderID = $_GET['id'];
+        $order = Order::get($orderID);
+        $orderSettings = Order::getJsonConfig();
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+            $productions = self::getProductionFromForm($orderSettings);
+
+            $order->setProductions($productions);
+            $order->update();
+
+            return [
+                'rout-name' => 'ordersTable',
+                'rout-params' => [],
+                'page-section' => "order-$orderID"
+            ];
+
+        } else return [
+            'rout-name' => 'ordersTable',
+            'rout-params' => []
+        ];
+    }
+
+    private static function getProductionFromForm(array $orderSettings): array {
+        // Метод, що повертає масив усіх виробів, отримуючи їх з форми
+
+        $productions = [];
+
+        for ($i = 1; $i <= $orderSettings['Number of products']; $i++) {
+
+            // Отримання об'єкту продукту
+            $goodName = $_POST["good-name-$i"];
+            if ($goodName == null) break; // Перевіряє, чи пусте поле продукту. Якщо пусте, то це значить що це кінечний виріб.
+            $good = Goods::get(null,$goodName);
+
+            // Вирахування ціни за виріб
+            $price = $_POST["price-$i"]; // - (($_POST["price-$i"] / 100) * intval($_POST["discount-$i"]));
+
+            // Створення масиву даних з додаткових полів
+            $additionalFields = new ProductAdditionalFields();
+            $additionalFieldsQuantity = $additionalFields->countExistingFields();
+            $params = [];
+
+            $f = 1;
+            foreach ($additionalFields->getFields() as $fieldName=>$fieldInfo) {
+                $params[$fieldName] = $_POST["additionalPropertie-$f-$i"];
+                $f++;
+            }
+
+            if (isset($_POST["notes-$i"])) {
+                // Переведення масиву приміток в строку
+                $mainNotes = implode(', ', $_POST["notes-$i"]);
+                if (isset($_POST["notes-textarea-$i"])) $mainNotes .= ', '; // Якщо є додаткові примітки, то додається кома після основних
+            }
+            else
+                $mainNotes = '';
+
+            // Додавання до основних приміток додаткових
+            $notes = $mainNotes . $_POST["notes-textarea-$i"];
+
+            $productions[] = new Product(
+                $_POST["amount-$i"],
+                $notes,
+                $params,
+                $good,
+                intval($_POST["discount-$i"]),
+                $price
+            );
+        }
+
+        return $productions;
     }
 
     public static function deleteMethod(): array {

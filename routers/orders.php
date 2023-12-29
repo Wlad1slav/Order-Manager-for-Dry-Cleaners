@@ -30,12 +30,29 @@ return [
             'RIGHTS' => ['default'],
         ],
 
+        'orderEdit' => [                  // Редагування існуючого замовлення
+            'URL' => 'edit',
+            'PATH' => 'edit.php',
+            'METHOD' => 'get',
+            'PARAMETERS' => ['id'],
+            'RIGHTS' => ['default'],
+        ],
+
         'orderCreateForm' => [              // Обробка форми створення нового замовлення
             'URL' => 'new',
             'PATH' => null,
             'CALL' => ['class' => 'Order', 'method' => 'create', 'declare' => false],
             'METHOD' => 'post',
             'PARAMETERS' => [],
+            'RIGHTS' => ['default'],
+        ],
+
+        'orderEditForm' => [              // Обробка форми редагування існуючого замовлення
+            'URL' => 'edit',
+            'PATH' => null,
+            'CALL' => ['class' => 'Order', 'method' => 'edit', 'declare' => false],
+            'METHOD' => 'post',
+            'PARAMETERS' => ['id'],
             'RIGHTS' => ['default'],
         ],
 
