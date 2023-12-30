@@ -1,3 +1,8 @@
+<?php
+if (!isset($router))
+    global $router;
+?>
+
 <div>
     <!--ТАБЛИЦЯ КЛІЄНТІВ-->
     <script>
@@ -26,10 +31,26 @@
             <th></th>
         </tr>
         </thead>
+        <script>
+            function confirmCustomerDelete(id) { // Ѳунція підтвердження видалення клієнта і відправки ajax запиту на сервер
+                // Підтвердження видалення
+                const isConfirmed = confirm("Ви впевненні, що хочете видалити клієнта з ID: " + id + "?");
+
+                if (isConfirmed) {
+                    // Якщо підтверджено, відбувається редірект до точки видалення з ідентифікатором об'єкту
+                    $.ajax({
+                        type: "GET",
+                        url: "<?php echo $router->url('customerDelete'); ?>",
+                        data: {id: id},
+                    });
+                    location.reload();
+                }
+            }
+        </script>
         <tbody>
         <?php
-        foreach(array_reverse(Customer::getAll()) as $customer) {
-            echo '<tr>';
+        foreach(Customer::getAll() as $customer) {
+            echo "<tr id='customer-{$customer['id']}'>";
 
             foreach ($customer as $value) {
                 if ($value === "None") $value = '';
@@ -43,7 +64,7 @@
                 $customer['advertising_company'] .
                 "')\" href='#edit' class='underline-animation'>Редагувати</a></th>";
 
-            echo "<th><a class='red-text' href='javascript:void(0);' onclick='confirmAndDelete(". $customer['id'] . ", \"customers\")'>X</a></th>"; // Функція видалення клієнта
+            echo "<th><a class='red-text' href='javascript:void(0);' onclick='confirmCustomerDelete({$customer['id']})'>X</a></th>"; // Функція видалення клієнта
 
             echo '</tr>';
         }
