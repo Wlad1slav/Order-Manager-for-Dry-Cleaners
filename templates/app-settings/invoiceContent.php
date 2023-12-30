@@ -1,8 +1,12 @@
 <?php
 require_once "Invoice.php";
-global $router;
 
-$invoiceTexts = Invoice::getJsonConfigElement('Text');
+if (!isset($router))
+    global $router;
+if (!isset($invoiceSettings))
+    $invoiceSettings = Invoice::getJsonConfig();
+
+$invoiceTexts = $invoiceSettings['Text'];
 ?>
 
 <p>Інформація, що буде показуватися в квитанції (HTML friendly)</p>

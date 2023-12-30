@@ -4,7 +4,10 @@
 <?php
 require_once 'Invoice.php';
 
-$fields = Invoice::getJsonConfig()['Fields']['Standard']; // Стандартні поля
+if (!isset($invoiceSettings))
+    $invoiceSettings = Invoice::getJsonConfig();
+
+$fields = $invoiceSettings['Fields']['Standard']; // Стандартні поля
 
 foreach ($fields as $field=>$info) {
     echo "<input type='checkbox' 

@@ -3,6 +3,8 @@
 <?php
 if (!isset($fieldsArray))
     $fieldsArray = new ProductAdditionalFields();
+
+$invoiceSettings = Invoice::getJsonConfig();
 ?>
 
 <div class="subsection" id="invoice-current-settings">

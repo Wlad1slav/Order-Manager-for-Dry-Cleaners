@@ -1,18 +1,22 @@
 <?php
 require_once "Invoice.php";
-global $router;
+
+if (!isset($router))
+    global $router;
+if (!isset($invoiceSettings))
+    $invoiceSettings = Invoice::getJsonConfig();
 ?>
 
 <p>Зображення, що буде показуватися в квитанції</p>
 
 <div class="img-settings">
-    <img src="<?php echo Invoice::getJsonConfigElement('Image')['path']; ?>" alt="">
+    <img src="<?php echo $invoiceSettings['Image']['path']; ?>" alt="">
     <form action="<?php echo $router->url('editInvoiceImage'); ?>"
           method="post" enctype="multipart/form-data">
         <input type="file" id="invoice-img" name="invoice-img" accept="image/*">
         <div>
             <input type="checkbox" id="displayed-invoice-img" name="displayed-invoice-img"
-            <?php if (Invoice::getJsonConfigElement('Image')['displayed']) echo 'checked' ?>>
+            <?php if ($invoiceSettings['Image']['displayed']) echo 'checked' ?>>
             <label for="displayed-invoice-img">Показувати в квитанції</label>
         </div>
 

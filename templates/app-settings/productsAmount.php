@@ -1,7 +1,8 @@
 <?php
-global $router;
-
-$orderSettings = Order::getJsonConfig();
+if (!isset($router))
+    global $router;
+if (!isset($orderSettings))
+    $orderSettings = Order::getJsonConfig();
 ?>
 
 <form method="post" action="<?php echo $router->url('editProductsAmount') ?>">
