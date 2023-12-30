@@ -5,7 +5,7 @@ return [
     'app-name' => 'customers',
     'routers' => [
 
-        'customersTable' => [                       // Сторінка з таблицією користувачів
+        'customersTable' => [                       // Сторінка з таблицією клієнтів
             'URL' => '',
             'PATH' => 'index.php',
             'METHOD' => 'get',
@@ -13,17 +13,19 @@ return [
             'RIGHTS' => ['default'],
         ],
 
-        'customerCreate' => [                       // Сторінка з таблицією користувачів
+        'customerCreate' => [                       // Ѳорма створення клієнта
             'URL' => 'create',
-            'PATH' => 'createForm.php',
+            'PATH' => null,
+            'CALL' => ['class' => 'Customer', 'method' => 'create', 'declare' => false],
             'METHOD' => 'post',
             'PARAMETERS' => [],
             'RIGHTS' => ['default'],
         ],
 
-        'customerEdit' => [                         // Сторінка з таблицією користувачів
+        'customerEdit' => [                         // Ѳорма редагування клієнта
             'URL' => 'edit',
-            'PATH' => 'editForm.php',
+            'PATH' => null,
+            'CALL' => ['class' => 'Customer', 'method' => 'edit', 'declare' => false],
             'METHOD' => 'post',
             'PARAMETERS' => [],
             'RIGHTS' => ['default'],
@@ -39,9 +41,10 @@ return [
 
         'customerDelete' => [                       // Функція видалення клієнта
             'URL' => 'delete',
-            'PATH' => 'delete.php',
+            'PATH' => null,
+            'CALL' => ['class' => 'Customer', 'method' => 'deleteMethod', 'declare' => false],
             'METHOD' => 'get',
-            'PARAMETERS' => ['id'],
+            'PARAMETERS' => [],
             'RIGHTS' => ['default'],
         ],
 

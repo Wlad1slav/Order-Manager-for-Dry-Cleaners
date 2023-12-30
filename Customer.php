@@ -115,4 +115,87 @@ class Customer {
         // Змінює рекламну кампанію клієнта
         $this->advertisingCompany = $advertisingCompany;
     }
+
+    public static function create(): array {
+        // маршрут customerCreate
+        // Ѳункція створення клієнта
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $name = $_POST["name"];
+            $phone = $_POST["phone"];
+            $discount = $_POST["discount"];
+            $advertisingCompany = $_POST["advertisingCompany"];
+
+            try {
+                $customer = new Customer($name, $phone, $discount, $advertisingCompany);
+                $customer->save();
+            } catch (Exception $e) {
+                $_SESSION['error'] = '<b>Помилка при створенні клієнта</b><br>' . $e->getMessage();
+            }
+        }
+
+        return [
+            'rout-name' => 'customersTable',
+            'rout-params' => []
+        ];
+    }
+
+    public static function edit(): array {
+        // маршрут customerEdit
+        // Форма редагування користувача
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $id = $_POST["id"];
+            $name = $_POST["name"];
+            $phone = $_POST["phone"];
+            $discount = $_POST["discount"];
+            $advertisingCompany = $_POST["advertisingCompany"];
+
+            try {
+                $customer = Customer::get($id);
+                $customer->setFullName($name);
+                $customer->setPhoneNumber($phone);
+                $customer->setDiscount($discount);
+                $customer->setAdvertisingCompany($advertisingCompany);
+                $customer->update();
+            } catch (Exception $e) {
+                $_SESSION['error'] = '<b>Помилка при редагуванні клієнта</b><br>' . $e->getMessage();
+            }
+        }
+
+        return [
+            'rout-name' => 'customersTable',
+            'rout-params' => [],
+            'page-section' => "customer-$id"
+        ];
+
+    }
+
+    public static function deleteMethod(): array {
+        // маршрут customerDelete
+        // Ѳункція видалення клієнта
+
+        if (isset($_GET['id']))
+            $customerID = intval($_GET['id']);
+        else {
+            // Немає id у URL. Обробка помилки.
+            $_SESSION['error'] = '<b>Помилка при видаленні клієнта</b><br> Був невказаний id клієнта.';
+            return [
+                'rout-name' => 'customersTable',
+                'rout-params' => [],
+            ];
+        }
+
+        try {
+            Customer::get($customerID)->delete();
+        } catch (Exception $e) {
+            $_SESSION['error'] = '<b>Помилка при видаленні клієнта</b><br>' . $e->getMessage();
+        }
+
+        return [
+            'rout-name' => 'customersTable',
+            'rout-params' => [],
+        ];
+
+    }
 }
