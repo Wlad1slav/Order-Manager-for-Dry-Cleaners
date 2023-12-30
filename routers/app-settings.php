@@ -64,6 +64,16 @@ return [
             'RIGHTS' => ['root'],
         ],
 
+        'editDeadline' => [
+            // Форма збереження кількісоті виробів в замовлені
+            'URL' => 'deadline/set',
+            'PATH' => null,
+            'CALL' => ['class' => 'Order', 'method' => 'savingDeadlineDuration_routeCall', 'declare' => false],
+            'METHOD' => 'post',
+            'PARAMETERS' => [],
+            'RIGHTS' => ['root'],
+        ],
+
         'editInvoiceImage' => [
             // Форма форма редагування зображення квитанції (чи показується воно, яке зображення)
             'URL' => 'invoice/image',

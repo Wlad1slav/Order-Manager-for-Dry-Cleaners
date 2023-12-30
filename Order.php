@@ -21,8 +21,9 @@ class Order {
     // Константи для роботи з конфігом
     const CONFIG_PATH = 'settings/config_orders.json'; // Шлях до конфігу
     const CONFIG_DEFAULT = [
-        'Number of products' => 5,
-        'Quick note selection' => []
+        'Number of products' => 5,      // Кількість виробів у 1 замовлені
+        'Quick note selection' => [],   // Швидкиj вибір нотаток
+        'Deadline' => 3                 // Дедлаjн замовлень (в днях)
     ];
 
     private int $id;                // Ідентифікатор замовлення. Встановлюється після збереження замовлення.
@@ -70,7 +71,6 @@ class Order {
         if ($dateCreate === null)
             $this->dateCreate = new DateTime();
         else $this->dateCreate = $dateCreate;
-        $this->dateEnd = (clone $this->dateCreate)->modify('+3 day');
 
         $this->datePayment = $datePayment;
         $this->dateClosing = $dateClosing;
@@ -90,6 +90,9 @@ class Order {
                 'orders_config' => Order::getJsonConfig_jsonFormat()
             ], true);
         else $this->settings = $settings;
+
+        $deadline = $this->getOrderSettings()['Deadline'];
+        $this->dateEnd = (clone $this->dateCreate)->modify("+$deadline day");
 
         $this->repository = new Repository(self::TABLE, self::COLUMNS);
     }
@@ -209,6 +212,11 @@ class Order {
         return $result; // - ($result / 100 * $this->customer->getDiscount()); // Розрахування знижки на замовлення
     }
 
+    private function getOrderSettings(): array {
+        // Повертає налаштування в ѳорматі масиву
+        return json_decode(json_decode($this->settings, true)['orders_config'], true);
+    }
+
     /**
      * @return Product[]
      */
@@ -289,6 +297,21 @@ class Order {
             'rout-name' => 'settingsPage',
             'rout-params' => [],
             'page-section' => 'order-products-amount'
+        ];
+    }
+
+    public static function savingDeadlineDuration_routeCall(): array {
+        // editDeadline маршрут
+        // Збереження терміну закінчення замовлення
+        $orderSettings = Order::getJsonConfig();
+        $orderSettings["Deadline"] = $_POST["DEADLINE-DAYS"];
+
+        Order::setJsonConfig($orderSettings);
+
+        return [
+            'rout-name' => 'settingsPage',
+            'rout-params' => [],
+            'page-section' => 'order-deadline'
         ];
     }
 
