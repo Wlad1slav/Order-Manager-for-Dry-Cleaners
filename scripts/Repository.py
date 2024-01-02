@@ -1,6 +1,19 @@
 import mysql.connector
 import json
 import os
+import numpy as np
+
+
+def convert_types(row):
+    # Перетворює типи numpy на рідні типи Python
+    for key, value in row.items():
+        if isinstance(value, np.integer):
+            row[key] = int(value)
+        elif isinstance(value, np.floating):
+            row[key] = float(value)
+        elif isinstance(value, np.ndarray):
+            row[key] = value.tolist()
+    return row
 
 
 class Repository:
