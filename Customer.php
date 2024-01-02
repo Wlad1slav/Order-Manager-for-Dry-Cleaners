@@ -226,4 +226,28 @@ class Customer {
             'rout-params' => [],
         ];
     }
+
+    public static function export(): array {
+        // Маршрут customersExport
+        // Експортує замовлення в csv таблицю
+
+        try {
+            $res = PythonPhp::script('customers_export.py', true);
+            echo implode("<br>", $res['output']);
+            Router::redirectUrl('/scripts/customers_exported.csv');
+        } catch (InvalidArgumentException $e) {
+            $_SESSION['error'] = "<b>Помилка при імпорті замовлень:</b><br> $e";
+            echo $e;
+            return [
+                'rout-name' => 'customersTable',
+                'rout-params' => []
+            ];
+        }
+
+        return [
+            'rout-name' => 'customersTable',
+            'rout-params' => [],
+            'page-section' => 'import'
+        ];
+    }
 }

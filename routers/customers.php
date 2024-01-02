@@ -40,6 +40,15 @@ return [
             'RIGHTS' => ['default'],
         ],
 
+        'customersExport' => [                      // Метод експорту клієнтів
+            'URL' => 'export',
+            'PATH' => null,
+            'CALL' => ['class' => 'Customer', 'method' => 'export', 'declare' => false],
+            'METHOD' => 'get',
+            'PARAMETERS' => [],
+            'RIGHTS' => ['default'],
+        ],
+
         'customerDelete' => [                       // Функція видалення клієнта
             'URL' => 'delete',
             'PATH' => null,
