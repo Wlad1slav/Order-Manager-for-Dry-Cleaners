@@ -3,6 +3,7 @@
 require_once 'RepositoryTraits.php';
 require_once 'Utils.php';
 require_once 'Repository.php';
+require_once 'PythonPhp.php';
 
 class Customer {
     use RepositoryTraits;
@@ -197,5 +198,32 @@ class Customer {
             'rout-params' => [],
         ];
 
+    }
+
+    public static function import(): array {
+        // маршрут customersImport
+        // Імпортує клієнтів з csv таблиці
+        if ($_FILES["fileToUpload"]['size'] > 0) { // Якщо зображення завантаженно
+
+            try {
+                move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], 'scripts/orders_for_import.csv');
+
+                $res = PythonPhp::script('customers_import.py', true);
+                echo implode("<br>", $res['output']);
+
+            } catch (InvalidArgumentException $e) {
+                $_SESSION['error'] = "<b>Помилка при імпорті замовлень:</b><br> $e";
+                echo $e;
+                return [
+                    'rout-name' => 'customersTable',
+                    'rout-params' => []
+                ];
+            }
+        }
+
+        return [
+            'rout-name' => 'customersTable',
+            'rout-params' => [],
+        ];
     }
 }

@@ -33,7 +33,8 @@ return [
 
         'customersImport' => [                      // Форма імпортування клієнтів
             'URL' => 'import',
-            'PATH' => 'importForm.php',
+            'PATH' => null,
+            'CALL' => ['class' => 'Customer', 'method' => 'import', 'declare' => false],
             'METHOD' => 'post',
             'PARAMETERS' => [],
             'RIGHTS' => ['default'],
