@@ -210,6 +210,10 @@ img {
     font-variant: small-caps;
 }
 
+.not-important {
+    font-size: calc(var(--font-size)/1.1);
+}
+
 .unimportant {
     font-size: calc(var(--font-size)/1.5);
 }
