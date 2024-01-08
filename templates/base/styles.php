@@ -4,3 +4,4 @@
 <link rel="stylesheet" href="../../static/css/root.css">
 <link rel="stylesheet" href="../../static/css/sidebar.css">
 <link rel="stylesheet" href="../../static/css/form.css">
+<link rel="stylesheet" href="../../static/css/analytic.css">

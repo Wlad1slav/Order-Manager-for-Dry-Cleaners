@@ -1,0 +1,58 @@
+.analytic-section {
+    display: flex;
+    flex-direction: column;
+    margin-right: var(--large-padding);
+}
+
+.analytic-section h2 {
+    text-align: center;
+}
+
+.analytic-containers {
+    display: flex;
+}
+
+.analytic-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--base-color);
+    padding: var(--small-padding);
+    margin-right: var(--medium-padding);
+    width: 220px;
+    height: 150px;
+}
+
+.month .analytic-container {
+    width: 340px;
+    height: 160px;
+}
+
+.analytic-container:hover {
+    transform: scale(1.1);
+}
+
+.analytic-container .statistic {
+    font-size: calc(var(--font-size)*3);
+    margin: 0!important;
+}
+
+.analytic-container a {
+    color: var(--text-color);
+}
+
+.additional-statistic {
+    display: flex;
+}
+
+.additional-statistic div {
+    display: flex;
+    flex-direction: column;
+}
+
+.additional-statistic p {
+    margin-top: 0!important;
+    margin-right: var(--small-padding);
+    font-size: calc(var(--font-size)*1.3);
+}
