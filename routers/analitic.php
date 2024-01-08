@@ -16,7 +16,7 @@ return [
 
         'ordersByDate' => [
             // Сторінка з таблицею замовлень за певний день
-            'URL' => 'ordersBy',
+            'URL' => 'orders-per',
             'PATH' => 'ordersByDate.php',
             'METHOD' => 'get',
             'PARAMETERS' => [],
