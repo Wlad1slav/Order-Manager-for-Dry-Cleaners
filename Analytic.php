@@ -45,7 +45,7 @@ class Analytic {
                 // що відповідає сьогоднішьому
             ]),
             'WholeLastMonth' => $this->getAllOrdersForPeriodByAllPossibleDates([
-                'start' => date('Y-m-d', strtotime("-1 month")), // Першиj день минулого місяця
+                'start' => date('Y-m-01', strtotime("-1 month")), // Першиj день минулого місяця
                 'end' => date('Y-m-t', strtotime("-1 month")) // День в минулому місяці,
                 // що відповідає сьогоднішьому. t представляє кількість днів у місяці.
             ]),
