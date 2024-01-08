@@ -65,7 +65,8 @@ global $router;
 
         <?php
 
-        $orders = Order::getAll();
+        if (!isset($orders))
+            $orders = Order::getAll();
         $customers = Customer::getAll('id'); // id - ключ, по якому будуть доступни елементи масиву
         $users = User::getAll('id');
 
