@@ -91,5 +91,14 @@ return [
             'RIGHTS' => ['root'],
         ],
 
+        'selectPaymentType' => [            // Функція для вибору типу оплати замовлення (картка - готівка)
+            'URL' => 'payment',
+            'PATH' => null,
+            'CALL' => ['class' => 'Order', 'method' => 'selectPaymentType', 'declare' => false],
+            'METHOD' => 'get',
+            'PARAMETERS' => [],
+            'RIGHTS' => ['default'],
+        ],
+
     ]
 ];

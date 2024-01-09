@@ -60,6 +60,28 @@ global $router;
                     url: "<?php echo $router->url('switchOrderStatus'); ?>",
                     data: {column: column, newStatus: newStatus, orderID: orderID},
                 });
+
+                if (!newStatus) // Встановлення видимості селектору типу оплати (картка - готівка)
+                    document.getElementById(`select-payment-type-${orderID}`).classList.add('invisible');
+                else document.getElementById(`select-payment-type-${orderID}`).classList.remove("invisible");
+
+            }
+
+            function selectPaymentType(type, orderID) {
+                // Змінює статус замовлення
+                $.ajax({
+                    type: "GET",
+                    url: "<?php echo $router->url('selectPaymentType'); ?>",
+                    data: {type: type, orderID: orderID},
+                });
+
+                if (type === 'cash') {
+                    document.getElementById(`cash-button-${orderID}`).classList.add('selected-type');
+                    document.getElementById(`card-button-${orderID}`).classList.remove('selected-type');
+                } else {
+                    document.getElementById(`card-button-${orderID}`).classList.add('selected-type');
+                    document.getElementById(`cash-button-${orderID}`).classList.remove('selected-type');
+                }
             }
         </script>
 
@@ -84,7 +106,7 @@ global $router;
             $tableRow .= "<th>{$order['date_end']}</th>";                           // Дата дедлайну
             $tableRow .= "<th>{$customers[$order['id_customer']]['name']}</th>";    // Ім'я клієнта
             $tableRow .= "<th>{$users[$order['id_user']]['username']}</th>";        // Юзернейм користувача
-            $tableRow .= "<th>{$order['total_price']}₴</th>";                       // Ціна
+            $tableRow .= "<th>{$order['total_price']} ₴</th>";                       // Ціна
 
             // Переключення статусу замовлення
             foreach ($statuses as $status) {
@@ -94,6 +116,25 @@ global $router;
 
                 $tableRow .= "<input type='radio' onclick=\"switchOrderStatus('$status', false, $orderID)\" id='$status-$orderID-false' name='$status-$orderID-true' " . ($order[$status] === 0 ? 'checked' : '') . ">";
                 $tableRow .= "<label for='$status-$orderID-false'>Ні</label>";
+
+                if ($status === 'is_paid') {
+                    if ($order[$status]) // $status = 'is_paid'; // and $order['type_of_payment'] === null
+                        $tableRow .= "<div id='select-payment-type-$orderID'>"; // Невидимий елемент
+                    else $tableRow .= "<div id='select-payment-type-$orderID' class='invisible'>"; // Невидимий елемент
+
+
+
+                    $tableRow .= "<button onclick='selectPaymentType(\"cash\", $orderID)' id='cash-button-$orderID'"
+                        . ($order['type_of_payment'] === 'cash' ? 'class="selected-type"' : '')
+                        . ">Готівка</button>";
+
+                    $tableRow .= "<button onclick='selectPaymentType(\"card\", $orderID)' id='card-button-$orderID'"
+                        . ($order['type_of_payment'] === 'card' ? 'class="selected-type"' : '')
+                        . ">Картка</button>";
+
+                    $tableRow .= '</div>';
+                }
+
                 $tableRow .= '</th>';
             }
 

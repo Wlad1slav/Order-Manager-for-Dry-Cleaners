@@ -14,9 +14,24 @@ def script():
     goods_csv = os.path.join(os.path.dirname(__file__), '..', 'settings', 'goods.csv')
     goods = pd.read_csv(goods_csv)  # csv файл з усіма продуктами
 
+    # Отримання конфігів замовлень
     invoice_config = os.path.join(os.path.dirname(__file__), '..', 'settings', 'config_invoice.json')
     with open(invoice_config, 'r') as file:
         invoice_config = json.load(file)  # актуальний конфіг квитанцій
+
+    additional_fields_config = os.path.join(os.path.dirname(__file__), '..', 'settings', 'config_additional_fields.json')
+    with open(additional_fields_config, 'r') as file:
+        additional_fields_config = json.load(file)  # актуальний конфіг додаткових полів
+
+    orders_config = os.path.join(os.path.dirname(__file__), '..', 'settings', 'config_orders.json')
+    with open(orders_config, 'r') as file:
+        orders_config = json.load(file)  # актуальний конфіг замовлень
+
+    config = {
+        'invoice_config': invoice_config,
+        'additional_fields': additional_fields_config,
+        'orders_config': orders_config,
+    }
 
     for row_index in range(len(df['Клієнт'])):
         productions_arr = []
@@ -63,15 +78,16 @@ def script():
                 'id_customer': customer[0],  # id користувача
                 'id_user': 1,
                 'date_create': df['Дата створення замовлення'][row_index],
-                'date_end': df['Дата закриття замовлення'][row_index],
+                'date_end': df['Дедлайн'][row_index],
                 'total_price': int(df['Загальна ціна'][row_index]),
                 'productions': json.dumps(productions),
                 'is_paid': int(df['Чи оплачено'][row_index]),
+                'type_of_payment': df['Метод оплати (cash/card)'][row_index],
                 'is_completed': int(df['Чи закрите'][row_index]),
                 'date_payment': df['Дата оплати'][row_index],
                 'date_closing': df['Дата закриття'][row_index],
                 'date_last_update': None,
-                'settings': json.dumps(invoice_config),
+                'settings': json.dumps(config),
             }
         )
 

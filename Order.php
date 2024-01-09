@@ -14,7 +14,7 @@ require_once 'Router.php';
 class Order {
     use RepositoryTraits;   // Трейт для операцій класу з бд
     // Константи для роботи з базою даних
-    const COLUMNS = ['id_customer', 'id_user', 'date_create', 'date_end', 'total_price', 'productions', 'is_paid', 'is_completed', 'date_payment', 'date_closing', 'date_last_update', 'settings'];
+    const COLUMNS = ['id_customer', 'id_user', 'date_create', 'date_end', 'total_price', 'productions', 'is_paid', 'is_completed', 'date_payment', 'date_closing', 'date_last_update', 'settings', 'type_of_payment'];
     const TABLE = 'orders'; // Назва таблиці, у якої зберігаються данні
 
     use JsonAccessTrait;    // Трейт для операцій з json файлами
@@ -26,17 +26,18 @@ class Order {
         'Deadline' => 3                 // Дедлаjн замовлень (в днях)
     ];
 
-    private int $id;                // Ідентифікатор замовлення. Встановлюється після збереження замовлення.
-    private Customer $customer;     // Клієнт, що зробив замовлення
-    private User $user;             // Сотрудник, що створив замовлення
-    private DateTime $dateCreate;   // Дата створення замовлення
-    private DateTime $dateEnd;      // Дедлайн замовлення
-    private $datePayment;           // Дата оплати замовлення
-    private $dateClosing;           // Дата закриття замовлення
-    private $dateUpdate;            // Дата останього оновлення замовлення
-    private bool $isPaid;           // Чи оплачено замовлення
-    private bool $isCompleted;      // Чи виконано/закрите замовлення
-    private float $totalPrice;      // Загальна ціна замовлення
+    private int $id;                        // Ідентифікатор замовлення. Встановлюється після збереження замовлення.
+    private Customer $customer;             // Клієнт, що зробив замовлення
+    private User $user;                     // Сотрудник, що створив замовлення
+    private DateTime $dateCreate;           // Дата створення замовлення
+    private DateTime $dateEnd;              // Дедлайн замовлення
+    private $datePayment;                   // Дата оплати замовлення
+    private $dateClosing;                   // Дата закриття замовлення
+    private $dateUpdate;                    // Дата останього оновлення замовлення
+    private bool $isPaid;                   // Чи оплачено замовлення
+    private bool $isCompleted;              // Чи виконано/закрите замовлення
+    private float $totalPrice;              // Загальна ціна замовлення
+    private ?string $typeOfPayment = null;  // Тип оплати (картка - готівка)
     /** Очікується, що $productions буде зберігати масив об'єктів класу Product
      * @var Product[]
      */
@@ -56,13 +57,14 @@ class Order {
      * @param null $dateClosing
      * @param null $dateUpdate
      * @param string|null $settings
+     * @param null $typeOfPayment
      */
     public function __construct(
         Customer $customer, User $user, array $productions,
         int $id = -1, bool $isPaid = false, bool $isCompleted = false,
         ?DateTime $dateCreate = null, // ?DateTime $dateEnd = null,
         $datePayment = null, $dateClosing = null, $dateUpdate = null,
-        string $settings = null) {
+        string $settings = null, $typeOfPayment = null) {
 
         $this->id = $id;
         $this->customer = $customer;
@@ -94,6 +96,8 @@ class Order {
         $deadline = $this->getOrderSettings()['Deadline'];
         $this->dateEnd = (clone $this->dateCreate)->modify("+$deadline day");
 
+        $this->typeOfPayment = $typeOfPayment;
+
         $this->repository = new Repository(self::TABLE, self::COLUMNS);
     }
 
@@ -114,6 +118,7 @@ class Order {
             $orderValues['date_closing'],
             $orderValues['date_last_update'],
             $orderValues['settings'],
+            $orderValues['type_of_payment'],
         );
     }
 
@@ -131,6 +136,7 @@ class Order {
             $this->dateClosing,                                                 // date_closing     date
             $this->dateUpdate,                                                  // date_last_update date
             $this->settings,                                                    // settings         json
+            $this->typeOfPayment,                                               // type_of_payment  varchar(255)
         ];
     }
 
@@ -214,7 +220,14 @@ class Order {
 
     private function getOrderSettings(): array {
         // Повертає налаштування в ѳорматі масиву
-        return json_decode(json_decode($this->settings, true)['orders_config'], true);
+        $settings = json_decode($this->settings, true)['orders_config'];
+        if (is_string($settings))
+            $settings = json_decode($settings, true);
+        return $settings;
+    }
+
+    public function setTypeOfPayment(?string $typeOfPayment): void {
+        $this->typeOfPayment = $typeOfPayment;
     }
 
     /**
@@ -433,17 +446,20 @@ class Order {
         $orderID = $_GET['orderID'];
         $column = $_GET['column'];
 
+        $order = Order::get($orderID);
+
         if ($newStatus === 'true')
             $newStatus = true;
-        elseif ($newStatus === 'false')
+        elseif ($newStatus === 'false') {
             $newStatus = false;
-
-        $order = Order::get($orderID);
+            $order->setTypeOfPayment(null);
+        }
 
         if ($column == 'is_paid')
             $order->setIsPaid($newStatus);
         elseif ($column == 'is_completed')
             $order->setIsCompleted($newStatus);
+
 
 //        echo 'isPaid = ' . $order->isPaid();
 //        echo 'isCompleted = ' . $order->isCompleted();
@@ -504,6 +520,17 @@ class Order {
             'rout-name' => 'ordersTable',
             'rout-params' => [],
             'page-section' => 'import'
+        ];
+    }
+
+    public static function selectPaymentType(): array {
+        $order = Order::get($_GET['orderID']);
+        $order->setTypeOfPayment($_GET['type']);
+        $order->update();
+
+        return [
+            'rout-name' => null,
+            'rout-params' => [],
         ];
     }
 

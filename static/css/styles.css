@@ -131,6 +131,11 @@ img {
     width: var(--img-max-width);
 }
 
+button {
+    border: 1px solid var(--dark-base-color);
+    width: 60px;
+}
+
 /* ФОРМАТУВАННЯ ТЕКСТУ */
 .red-text {
     color: var(--red);
@@ -218,6 +223,10 @@ img {
     font-size: calc(var(--font-size)/1.5);
 }
 
+.invisible {
+    display: none;
+}
+
 .accept {
     color: var(--base-color);
     font-weight: 800;
@@ -261,3 +270,7 @@ img {
     width: 100%; /* Кінцева ширина підкреслення */
 }
 
+.selected-type {
+    background: var(--base-color);
+    color: var(--white);
+}
