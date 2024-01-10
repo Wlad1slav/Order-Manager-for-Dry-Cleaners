@@ -90,6 +90,8 @@ class Analytic {
         // Повертає масив замовлень за певний проміжок часу, по певному ключу бази даних
 
         $result['cash'] = 0; // Скільки усього грошеj в замовленнях
+        $result['payment_type']['cash']['total_cash'] = 0;
+        $result['payment_type']['card']['total_cash'] = 0;
 
         $period['start'] = DateTime::createFromFormat('Y-m-d H:i:s', $period['start'].' 00:00:00');
         $period['end'] = DateTime::createFromFormat('Y-m-d H:i:s', $period['end'].' 23:59:59');
@@ -100,15 +102,43 @@ class Analytic {
             $date = self::validateDateTime($order[$key]);
             $date = DateTime::createFromFormat(self::DATE_FORMAT, $date);
 
-            if ($date >= $period['start'] && $date <= $period['end']) {
+            if ($date >= $period['start'] && $date <= $period['end']) { // Якщо дата, між діапазоном
                 $result['orders'][$order['id']] = $order;   // Масив замовлень
                 $result['cash'] += $order['total_price'];   // Скільки усього грошеj в замовленнях
+
+                if ($order['type_of_payment'] == 'cash') {  // Якщо замовлення, оплачено готівкою
+                    $result['payment_type']['cash']['orders'][$order['id']] = $order;
+                    $result['payment_type']['cash']['total_cash'] += $order['total_price'];
+                } else {    // Якщо замовлення, оплачено карткою
+                    $result['payment_type']['card']['orders'][$order['id']] = $order;
+                    $result['payment_type']['card']['total_cash'] += $order['total_price'];
+                }
             }
         }
 
-        if (isset($result['orders']))
+        $result['cash'] = round($result['cash'], 2); // Округлення всієї суми за замовлення до сотих
+        $result['payment_type']['cash']['total_cash'] = round($result['payment_type']['cash']['total_cash'], 2);
+        $result['payment_type']['card']['total_cash'] = round($result['payment_type']['card']['total_cash'], 2);
+
+        if (isset($result['orders'])) {
+            // Усі замовлення
             $result['amount'] = count($result['orders']);   // Кількість замовлень
-        else $result['amount'] = 0;
+            $result['averageCheck'] = round($result['cash'] / $result['amount'], 2); // Середній чек
+        }
+        else {
+            $result['amount'] = 0;
+            $result['averageCheck'] = 0;
+        }
+
+        if (isset($result['payment_type']['card']['orders'])) {
+            // Замовлення, що оплачені карткою
+            $result['payment_type']['card']['amount'] = count($result['payment_type']['card']['orders']);
+        } else $result['payment_type']['card']['amount'] = 0;
+
+        if (isset($result['payment_type']['cash']['orders'])) {
+            // Замовлення, що оплачені готівкою
+            $result['payment_type']['cash']['amount'] = count($result['payment_type']['cash']['orders']);
+        } else $result['payment_type']['cash']['amount'] = 0;
 
         return $result;
     }

@@ -77,6 +77,31 @@ if (!isset($router))
             </div>
         </div>
 
+        <div class="analytic-container">
+            <!-- Показує середній чек за замовлення   -->
+            <h3>Cередній чек</h3>
+            <p class="statistic">
+                <?php echo $orders['Month']['date_create']['averageCheck']; ?> ₴
+            </p>
+        </div>
+
+        <div class="analytic-container">
+            <!-- Показує суми, що були оплачені готівкою і карткою   -->
+            <h3>Спосіб оплати</h3>
+            <p>🤑 Готівкою -
+                <span class="not-important">
+                    (<?php echo $orders['Month']['date_payment']['payment_type']['cash']['amount']; ?>)
+                </span>
+                <b><?php echo $orders['Month']['date_payment']['payment_type']['cash']['total_cash']; ?> ₴</b>
+            </p>
+            <p>💳 Карткою -
+                <span class="not-important">
+                    (<?php echo $orders['Month']['date_payment']['payment_type']['card']['amount']; ?>)
+                </span>
+                <b><?php echo $orders['Month']['date_payment']['payment_type']['card']['total_cash']; ?> ₴</b>
+            </p>
+        </div>
+
     </div>
 
 </div>
