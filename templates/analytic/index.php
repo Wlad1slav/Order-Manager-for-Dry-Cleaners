@@ -12,9 +12,9 @@ $analytic = new Analytic();
 $orders = $analytic->get();
 ?>
 
-<h1>Аналітика</h1>
+<h1 class="analytic">Аналітика</h1>
 
-<div style="display: flex;">
+<div class="analytic">
     <?php include 'perDay.php'; ?> <!-- Аналітика за сьогодні -->
 
     <?php include 'perMonth.php'; ?> <!-- Аналітика за місяць -->

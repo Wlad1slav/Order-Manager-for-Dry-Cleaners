@@ -1,7 +1,24 @@
+h1.analytic {
+    position: absolute;
+}
+
+.analytic {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .analytic-section {
     display: flex;
     flex-direction: column;
-    margin-right: var(--large-padding);
+    margin: var(--large-padding);
+    width: 45%;
+}
+
+@media only screen and (max-width: 1655px) {
+    .analytic-section {
+        width: auto;
+    }
 }
 
 .analytic-section h2 {
@@ -10,6 +27,8 @@
 
 .analytic-containers {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .analytic-container {
@@ -20,12 +39,13 @@
     border: 2px solid var(--base-color);
     padding: var(--small-padding);
     margin-right: var(--medium-padding);
+    margin-bottom: var(--small-padding);
     width: 220px;
     height: 150px;
 }
 
 .month .analytic-container {
-    width: 340px;
+    width: 300px;
     height: 160px;
 }
 
