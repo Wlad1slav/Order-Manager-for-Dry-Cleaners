@@ -153,7 +153,7 @@ class Analytic {
         return $result;
     }
 
-    private static function validateDateTime($date): string {
+    public static function validateDateTime($date): string {
         // Форматує дату і час на просто дату
         if (!self::isValidDate($date)) {
             $date = DateTime::createFromFormat('Y-m-d H:i:s', $date);

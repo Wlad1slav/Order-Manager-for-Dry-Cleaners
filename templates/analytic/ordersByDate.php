@@ -75,4 +75,7 @@ if (isset($_GET['period'])){
 }
 ?>
 
+<!-- Графіки. Створюються у випадку, якщо є параметр period. -->
+<?php if (isset($_GET['period'])) include "charts.php"; ?>
+
 <?php include "$DIR/templates/orders/table.php"; ?>
