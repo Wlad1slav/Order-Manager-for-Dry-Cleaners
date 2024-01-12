@@ -38,7 +38,8 @@
                 <b>Замовник:</b> <?php echo $order->getCustomer()->getFullName() ?>
             </p>
             <?php // Якщо у користувача є номер телефону
-            if (strlen($order->getCustomer()->getPhoneNumber()) > 0)
+            $phone = $order->getCustomer()->getPhoneNumber();
+            if (strlen($phone > 0) and $phone !== null)
                 echo "<p>
                     <b>Телефон:</b> {$order->getCustomer()->getPhoneNumber()} 
                 </p>";

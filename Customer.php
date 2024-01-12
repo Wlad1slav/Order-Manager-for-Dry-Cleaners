@@ -85,7 +85,7 @@ class Customer {
         $this->fullName = $fullName;
     }
 
-    public function getPhoneNumber(): string {
+    public function getPhoneNumber(): ?string {
         // Повертає номер телефону клієнта
         return $this->phoneNumber;
     }
