@@ -119,6 +119,10 @@ th {
     background-color: var(--table-rows-color);
 }
 
+th:hover:not(thead th) {
+    background: var(--gray-transparent);
+}
+
 thead th {
     /* стилі таблиці, фактично, не використовуються через плагин DataTables */
     font-weight: var(--table-firsts-row-weight);
@@ -215,6 +219,19 @@ button {
     font-variant: small-caps;
 }
 
+.important-4 {
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--white)
+}
+
+.important-4.cash {
+    background: rgba(138, 96, 134, 0.59);
+}
+.important-4.card {
+    background: #d3916e;
+}
+
 .not-important {
     font-size: calc(var(--font-size)/1.1);
 }
@@ -273,4 +290,18 @@ button {
 .selected-type {
     background: var(--base-color);
     color: var(--white);
+}
+
+.dashboard-tables {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+}
+
+.dashboard-tables div {
+    width: 30%;
+}
+
+.dashboard-tables table {
+    /*width: 70%;*/
 }
