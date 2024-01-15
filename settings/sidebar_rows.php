@@ -2,12 +2,12 @@
 global $router;
 
 return [
-    "Головна" => $router->url('home'),
-    "Замовлення" => $router->url('ordersTable'),
-    "Клієнти" => $router->url('customersTable'),
-    "Сервіси" => $router->url('productsList'),
-    "Аналітика" => $router->url('analyticPage'),
-    "Користувачі" => $router->url('usersTable'),
-    "Налаштування" => $router->url('settingsPage'),
-    "Профіль" => $router->url('profile'),
+    "Головна" => ['url' => $router->url('home'), 'right' => 'root'],
+    "Замовлення" => ['url' => $router->url('ordersTable'), 'right' => 'default'],
+    "Клієнти" => ['url' => $router->url('customersTable'), 'right' => 'default'],
+    "Сервіси" => ['url' => $router->url('productsList'), 'right' => 'root'],
+    "Аналітика" => ['url' => $router->url('analyticPage'), 'right' => 'root'],
+    "Користувачі" => ['url' => $router->url('usersTable'), 'right' => 'root'],
+    "Налаштування" => ['url' => $router->url('settingsPage'), 'right' => 'root'],
+    "Профіль" => ['url' => $router->url('profile'), 'right' => 'default'],
 ];

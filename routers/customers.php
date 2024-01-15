@@ -37,7 +37,7 @@ return [
             'CALL' => ['class' => 'Customer', 'method' => 'import', 'declare' => false],
             'METHOD' => 'post',
             'PARAMETERS' => [],
-            'RIGHTS' => ['default'],
+            'RIGHTS' => ['root'],
         ],
 
         'customersExport' => [                      // Метод експорту клієнтів
@@ -46,7 +46,7 @@ return [
             'CALL' => ['class' => 'Customer', 'method' => 'export', 'declare' => false],
             'METHOD' => 'get',
             'PARAMETERS' => [],
-            'RIGHTS' => ['default'],
+            'RIGHTS' => ['root'],
         ],
 
         'customerDelete' => [                       // Функція видалення клієнта

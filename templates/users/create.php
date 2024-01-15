@@ -17,14 +17,8 @@ if (!isset($router))
 
         <label>
             <select name="rights" required>
-                <?php
-                /**
-                 * @var $DIR
-                 */
-                $rights = require "$DIR/settings/rights_list.php";
-                foreach ($rights as $right)
-                    echo "<option value='" . $right->getId() ."'>" . $right->getSlug() . "</option>";
-                ?>
+                <option value='default'>Роботник</option>
+                <option value='root'>Адміністратор</option>
             </select>
         </label>
 

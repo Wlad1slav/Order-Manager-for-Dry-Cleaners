@@ -55,5 +55,10 @@ class Rights {
         $this->perms = $perms;
     }
 
+    public static function checkRights(array $rights, User $user = null): bool {
+        if ($user === null)
+            $user = User::getLoginUser();
 
+        return !empty(in_array($user->getUserRights(), $rights));
+    }
 }

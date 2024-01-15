@@ -19,7 +19,7 @@ $dbconfig = null;
 require_once 'User.php';
 require_once 'Rights.php';
 if (!User::isExist(1)) {
-    $user = new User('root', 'root', Rights::get(1));
+    $user = new User('root', 'root', 'root');
     $user->save();
 }
 

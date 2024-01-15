@@ -28,6 +28,4 @@ if (isset($_SESSION['error'])) {
 }
 ?>
 
-<?php include 'permissionsTable.php' ?>
-
 <?php include("$DIR/templates/base/footer.php"); ?>

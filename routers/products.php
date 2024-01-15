@@ -10,7 +10,7 @@ return [
             'PATH' => 'index.php',
             'METHOD' => 'get',
             'PARAMETERS' => [],
-            'RIGHTS' => ['default'],
+            'RIGHTS' => ['root'],
         ],
 
         'productsImport' => [               // Форма для імпорту продукції
@@ -18,7 +18,7 @@ return [
             'PATH' => 'importForm.php',
             'METHOD' => 'post',
             'PARAMETERS' => [],
-            'RIGHTS' => ['default'],
+            'RIGHTS' => ['root'],
         ],
 
     ]

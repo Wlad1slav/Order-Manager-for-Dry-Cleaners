@@ -10,24 +10,25 @@ class User {
     private int $id;            // Ідентифікатор користувача
     private string $username;   // Логін замовника
     private string $password;   // Пароль замовника
-    private Rights $rights;     // Рівень прав користувача
+    private string $rights;     // Рівень прав користувача
 
-    const COLUMNS = ['username', 'password', 'id_rights'];
+    const COLUMNS = ['username', 'password', 'rights'];
     const TABLE = 'users';      // Назва таблиці, у якої зберігаються данні
 
     /**
      * @param string $username
      * @param string $password
-     * @param Rights $rights
+     * @param string $rights
      * @param int $id
      * @param bool $checkCompliance
      */
-    public function __construct(string $username, string $password, Rights $rights, int $id = -1, $checkCompliance = true) {
+    public function __construct(string $username, string $password, string $rights, int $id = -1,
+                                bool $checkCompliance = true) {
         $this->repository = new Repository(self::TABLE, self::COLUMNS);
 
         if ($checkCompliance) {
             // checkCompliance - Чи потрібно проводити перевірку властивостей об'єкту при створенні
-            $this->validateUsername($username); // Перевіряє, чи відповідає логін нормам
+            $this->validateUsername($username, '__construct'); // Перевіряє, чи відповідає логін нормам
 //            if (strlen($password) < 8)
 //                throw new InvalidArgumentException('Конструктор User: Очікується, що довжина паролю >= 8 символів');
         }
@@ -45,7 +46,7 @@ class User {
         return new User(
             $userValues['username'],
             $userValues['password'],
-            User::getRight($userValues['id_rights']),
+            $userValues['rights'],
             $userValues['id'],
             false // не превіряти властивості класу при стовренні
         );
@@ -58,7 +59,7 @@ class User {
         return new User(
             $userValues['username'],
             $userValues['password'],
-            User::getRight($userValues['id_rights']),
+            $userValues['rights'],
             $userValues['id'],
             false // не превіряти властивості класу при стовренні
         );
@@ -115,7 +116,7 @@ class User {
         return [
             $this->username,            // username     varchar
             $this->password,            // password     varchar
-            $this->rights->getId()      // id_rights    int
+            $this->rights               // rights       varchar
         ];
     }
 
@@ -133,14 +134,14 @@ class User {
         $this->validateUsername($username); // Перевіряє, чи відповідає логін нормам
         $this->username = $username;
     }
-    private function validateUsername(string $username): void {
+    private function validateUsername(string $username, string $errorPlace = 'validateUsername()'): void {
         // Перевіряє, чи складається username тільки з латинських літер, і чи містить заборонені символи
-        Utils::validateName($username, "validateUsername(string $username)"); // Utils. Викликає помилку, якщо довжина строки = 0
+        Utils::validateName($username, "$errorPlace"); // Utils. Викликає помилку, якщо довжина строки = 0
         if (!preg_match('/^[a-zA-Z]+$/', $username))
-            throw new InvalidArgumentException("validateUsername(string $username): Очікується, що username буде містити тільки латинські літери");
+            throw new InvalidArgumentException("$errorPlace: Очікується, що username буде містити тільки латинські літери");
 
         if ($this->repository->isThereRow('username', $username)) // Перевірка, чи існує користувач
-            throw new InvalidArgumentException("validateUsername(string $username): Користувач з логіном $username вже існує.");
+            throw new InvalidArgumentException("$errorPlace: Користувач з логіном $username вже існує.");
     }
 
     public function getPassword(): string {
@@ -154,11 +155,11 @@ class User {
         $this->password = $password; // password_hash($password, PASSWORD_DEFAULT);
     }
 
-    public function getUserRights(): Rights {
+    public function getUserRights(): string {
         // Повертає права користувача
         return $this->rights;
     }
-    public function setRights(Rights $rights): void {
+    public function setRights(string $rights): void {
         // Встановлює права користувача
         $this->rights = $rights;
     }

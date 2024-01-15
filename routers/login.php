@@ -9,7 +9,7 @@ return [
             'PATH' => 'index.php',
             'METHOD' => 'get',
             'PARAMETERS' => [],
-            'RIGHTS' => [],
+            'RIGHTS' => ['default'],
         ],
 
         'auth' => [                 // Форма авторизації
@@ -17,7 +17,7 @@ return [
             'PATH' => 'loginForm.php',
             'METHOD' => 'post',
             'PARAMETERS' => [],
-            'RIGHTS' => [],
+            'RIGHTS' => ['default'],
         ],
 
     ]

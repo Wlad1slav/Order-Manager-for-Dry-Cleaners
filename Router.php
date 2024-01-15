@@ -18,6 +18,14 @@ class Router {
         foreach ($this->routes as $rout) {
             if (($rout['uri'] == $this->uri) && ($rout['method'] == strtoupper($this->method))) {
 
+                // Перевірка доступу
+                if ($rout['rights'][0] !== 'default')
+                    if (!Rights::checkRights($rout['rights'])) {
+                        $errNum = 403;
+                        break;
+                    }
+
+
                 if ($rout['call_method'] !== null) {
                     // Якщо в маршруті був заданий метод, який потрібно викликати
 
@@ -46,7 +54,8 @@ class Router {
             }
         }
         if (!$matches) {
-            $errNum = 404;
+            if (!isset($errNum))
+                $errNum = 404;
             require_once 'templates/error-page.php';
         }
     }

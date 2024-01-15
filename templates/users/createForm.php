@@ -6,8 +6,7 @@ require_once 'Router.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
-    $rights = require 'settings/rights_list.php';
-    $right = $rights[$_POST["rights"]-1];
+    $right = $_POST["rights"];
     try {
         $user = new User($username, $password, $right);
         $user->save();
