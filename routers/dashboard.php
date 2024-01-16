@@ -10,7 +10,7 @@ return [
             'PATH' => 'index.php',
             'METHOD' => 'get',
             'PARAMETERS' => [],
-            'RIGHTS' => ['root'],
+            'RIGHTS' => ['default'],
         ],
     ]
 ];
