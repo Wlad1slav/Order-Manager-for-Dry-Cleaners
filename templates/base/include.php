@@ -5,7 +5,7 @@ $config = require_once "settings/config.php";
 global $DIR;
 
 global $router;
-$sidebar = require_once "$DIR\settings\sidebar_rows.php";
+$sidebar = require_once "sidebar.php";
 
 require_once "$DIR\Repository.php";
 require_once "$DIR\RepositoryTraits.php";
