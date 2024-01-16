@@ -90,7 +90,7 @@ class User {
         // Метод, що перевіряє, чи залогінен користувач.
         // Якщо ні, то відбувається редірект.
         global $router;
-        if (empty($_SESSION['user']['id'])) {
+        if (empty($_SESSION['user']['id']) and $router->url('login') !== "{$_SERVER['REQUEST_URI']}") {
             $router->redirect('login');
             return null;
         }
