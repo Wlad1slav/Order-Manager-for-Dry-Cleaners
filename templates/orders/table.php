@@ -9,10 +9,11 @@ global $router;
         $(document).ready( function () {
             $('#orders').DataTable({
                 columnDefs: [
-                    { width: '3%', targets: 0 },
-                    { width: '4%', targets: 8 },
+                    { width: '2%', targets: 0 },
+                    { width: '3%', targets: 6 },
                     { width: '4%', targets: 9 },
-                    { width: '3%', targets: 10 },
+                    { width: '4%', targets: 10 },
+                    { width: '1%', targets: 11 },
                 ],
             });
         });
@@ -25,6 +26,7 @@ global $router;
             <th>Дата створення</th>
             <th>Дедлайн</th>
             <th>Клієнт</th>
+            <th>Рекламна кампанія</th>
             <th>Хто створив?</th>
             <th>Ціна</th>
             <th>Чи оплачено?</th>
@@ -101,12 +103,13 @@ global $router;
 
             $tableRow = "<tr id='order-$orderID'>";
 
-            $tableRow .= "<th>$orderID</th>";                                       // ID
-            $tableRow .= "<th>{$order['date_create']}</th>";                        // Дата і час створення
-            $tableRow .= "<th>{$order['date_end']}</th>";                           // Дата дедлайну
-            $tableRow .= "<th>{$customers[$order['id_customer']]['name']}</th>";    // Ім'я клієнта
-            $tableRow .= "<th>{$users[$order['id_user']]['username']}</th>";        // Юзернейм користувача
-            $tableRow .= "<th>{$order['total_price']} ₴</th>";                       // Ціна
+            $tableRow .= "<th>$orderID</th>";                                                   // ID
+            $tableRow .= "<th>{$order['date_create']}</th>";                                    // Дата і час створення
+            $tableRow .= "<th>{$order['date_end']}</th>";                                       // Дата дедлайну
+            $tableRow .= "<th>{$customers[$order['id_customer']]['name']}</th>";                // Ім'я клієнта
+            $tableRow .= "<th>{$customers[$order['id_customer']]['advertising_company']}</th>"; // Рекламна кампанія, звідки клієнт
+            $tableRow .= "<th>{$users[$order['id_user']]['username']}</th>";                    // Юзернейм користувача
+            $tableRow .= "<th>{$order['total_price']} ₴</th>";                                  // Ціна
 
             // Переключення статусу замовлення
             foreach ($statuses as $status) {
