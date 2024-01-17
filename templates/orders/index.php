@@ -1,11 +1,11 @@
 <?php
 global $DIR;
 global $router;
-include("$DIR\\templates\base\include.php");
+include("$DIR/templates/base/include.php");
 
 $pageTitle = "Замовлення";
-include("$DIR\\templates\base\header.php");
-include("$DIR\\templates\base\sidebar.php");
+include("$DIR/templates/base/header.php");
+include("$DIR/templates/base/sidebar.php");
 ?>
 
 <div>
@@ -26,4 +26,4 @@ include("$DIR\\templates\base\sidebar.php");
 
 <?php include 'import.php' ?> <!-- Таблиця замовлень -->
 
-<?php include("$DIR\\templates\base\\footer.php"); ?>
+<?php include("$DIR/templates/base/footer.php"); ?>
