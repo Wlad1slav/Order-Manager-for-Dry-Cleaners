@@ -111,15 +111,15 @@ label {
 }
 
 .login-form:hover {
-    transform: scale(2) translate(-40%, 0%);
+    /*transform: scale(2) translate(-40%, 0%);*/
 }
 
-@media screen and (max-width: 1600px) and (max-height: 1024px) {
-    /* Якщо екран користувача занадто маленький */
-    .login-form:hover {
-        transform: scale(1.2) translate(-50%, 0%);
-    }
-}
+/*@media screen and (max-width: 1600px) and (max-height: 1024px) {*/
+/*    !* Якщо екран користувача занадто маленький *!*/
+/*    .login-form:hover {*/
+/*        transform: scale(1.2) translate(-50%, 0%);*/
+/*    }*/
+/*}*/
 
 .login-form h1, .login-form p, .login-form label, .login-form a {
     color: var(--white);
