@@ -102,6 +102,8 @@ class Repository {
     
     public function getRow($element, $column='id'): array { // Read
         // Отримує окремий рядок з таблиці, знаходячи його по $column
+        error_log("getRow($element, $column): array");
+
         if (!$this->isThereRow($column, $element))
             throw new InvalidArgumentException("getRow($element): Рядка з $column $element в таблиці $this->tableName не існує.");
 
