@@ -42,7 +42,10 @@ class User {
     public static function get(?int $id = null, ?string $name = null): User {
         // Повертає користувача у вигляді об'єкту
         $repository = new Repository(self::TABLE, self::COLUMNS);
-        $userValues = $repository->getRow($id);
+        if ($name === null)
+            $userValues = $repository->getRow($id);
+        else $userValues = $repository->getRow($name, 'name');
+
         return new User(
             $userValues['username'],
             $userValues['password'],
@@ -90,21 +93,19 @@ class User {
         // Метод, що перевіряє, чи залогінен користувач.
         // Якщо ні, то відбувається редірект.
         global $router;
-        if (empty($_SESSION['user']['id']) and $router->url('login') !== "{$_SERVER['REQUEST_URI']}") {
-            $router->redirect('login');
-            return null;
-        }
-        else return self::getLoginUser();
+
+        if ($router->url('login') !== "{$_SERVER['REQUEST_URI']}") {
+            if (empty($_SESSION['user']['id'])) {
+                $router->redirect('login');
+                return null;
+            } else return self::getLoginUser();
+        } else return null;
+
     }
 
     public static function getLoginUser(): User {
         // Метод, що повертає об'єкт залогіненого користувача.
         return User::get($_SESSION['user']['id']);
-    }
-
-    public static function getRight(int $id): Rights {
-        $rights = require 'settings/rights_list.php';
-        return $rights[$id-1];
     }
 
     public static function isExist($id): bool {
@@ -135,13 +136,19 @@ class User {
         $this->username = $username;
     }
     private function validateUsername(string $username, string $errorPlace = 'validateUsername()'): void {
+        error_log("validateUsername(string '$username', string '$errorPlace')");
+
         // Перевіряє, чи складається username тільки з латинських літер, і чи містить заборонені символи
         Utils::validateName($username, "$errorPlace"); // Utils. Викликає помилку, якщо довжина строки = 0
-        if (!preg_match('/^[a-zA-Z]+$/', $username))
-            throw new InvalidArgumentException("$errorPlace: Очікується, що username буде містити тільки латинські літери");
+        if (!preg_match('/^[a-zA-Z]+$/', $username)) {
+            error_log("Очікується, що $username буде містити тільки латинські літери.");
+            throw new InvalidArgumentException("$errorPlace: Очікується, що $username буде містити тільки латинські літери.");
+        }
 
-        if ($this->repository->isThereRow('username', $username)) // Перевірка, чи існує користувач
+        if ($this->repository->isThereRow('username', $username)) { // Перевірка, чи існує користувач
+            error_log("Користувач з логіном $username вже існує.");
             throw new InvalidArgumentException("$errorPlace: Користувач з логіном $username вже існує.");
+        }
     }
 
     public function getPassword(): string {
