@@ -15,52 +15,57 @@ class Router {
     public function match(): void {
         // Перевіряє усі маршрути, додані до $routes
         $matches = false;
-        foreach ($this->routes as $rout) {
-            if (($rout['uri'] == $this->uri) && ($rout['method'] == strtoupper($this->method))) {
+        foreach ($this->routes as $route) {
+            if (($route['uri'] == $this->uri) && ($route['method'] == strtoupper($this->method))) {
+
+                // Логування, коли маршрут знайдено
+                error_log("Маршрут знайдено: URI = {$this->uri}, Method = {$this->method}");
 
                 // Перевірка доступу
-                if ($rout['rights'][0] !== 'default')
-                    if (!Rights::checkRights($rout['rights'])) {
+                if ($route['rights'][0] !== 'default') {
+                    if (!Rights::checkRights($route['rights'])) {
                         $errNum = 403;
                         break;
                     }
+                }
 
-
-                if ($rout['call_method'] !== null) {
+                if ($route['call_method'] !== null) {
                     // Якщо в маршруті був заданий метод, який потрібно викликати
+                    $class = $route['call_method']['class'];
+                    $method = $route['call_method']['method'];
 
-                    $class = $rout['call_method']['class']; // Класс, який потрібно використовувати для виклику методу
-                    $method = $rout['call_method']['method']; // Метод, який потрібно викликати
+                    require_once "$class.php";
 
-                    require_once "$class.php"; // Імпортує клас
-
-                    if ($rout['call_method']['declare']) {
-                        // Якщо метод нестатичний, і для його використання потрібен екземпляр классу
-                        $class = new $class(); // Створення екземпляру класу
+                    if ($route['call_method']['declare']) {
+                        $class = new $class();
                         $redirectTo = $class->$method();
-                    } else
-                        // Якщо метод статичний
+                    } else {
                         $redirectTo = $class::$method();
+                    }
+
+                    // Логування перед перенаправленням
+                    error_log("Перенаправлення: Route Name = {$redirectTo['rout-name']}, Params = " . json_encode($redirectTo['rout-params']) . ", Section = {$redirectTo['page-section']}");
 
                     $this->redirect($redirectTo['rout-name'], $redirectTo['rout-params'], $redirectTo['page-section']);
                 }
 
-                if ($rout['controller'] !== null)
-                    // Якщо в маршруті був задан файл, який потрібно викликати
-                    require_once $rout['controller'];
+                if ($route['controller'] !== null) {
+                    require_once $route['controller'];
+                }
 
                 $matches = true;
                 break;
             }
         }
         if (!$matches) {
-            if (!isset($errNum))
+            if (!isset($errNum)) {
                 $errNum = 404;
+            }
             require_once 'templates/error-page.php';
         }
     }
 
-    public function redirect(?string $name, array $params = [], string $section = null): void {
+    public function redirect(?string $name, ?array $params = [], string $section = null): void {
         // Метод редіректу на іншу сторінку по назві посиалання
         if ($name == null) die();
         $path = $this->url($name, $params, $section);
@@ -74,8 +79,9 @@ class Router {
         die();
     }
 
-    public function url(string $name, array $params = [], string $section = null): string {
+    public function url(string $name, ?array $params = [], string $section = null): string {
         // Метод, що повертає посилання на сторінку по заданой назві
+        if ($params === null) $params = [];
         foreach ($this->routes as $route)
             if ($route['name'] == $name) {
 
