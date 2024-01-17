@@ -1,7 +1,9 @@
 <?php
 global $router;
-User::checkLogin();
-$right = User::getLoginUser()->getUserRights();
+if ($router->url('login') !== "{$_SERVER['REQUEST_URI']}") {
+    $user = User::checkLogin();
+    $right = $user->getUserRights();
+}
 ?>
 <div class="sidebar">
         <?php
