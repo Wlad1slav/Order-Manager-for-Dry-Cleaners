@@ -335,9 +335,16 @@ class Order {
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-            $productions = self::getProductionFromForm($orderSettings);
+            $productions = self::getProductionFromForm($orderSettings); // Усі параметри з замовлення
 
-            $customer = Customer::get(null, $_POST["customer-name"]);
+
+            if (Customer::isExist($_POST["customer-name"], 'name'))
+                // Якщо користувач існує
+                $customer = Customer::get(null, $_POST["customer-name"]);
+            else {
+                $customer = new Customer($_POST["customer-name"], null);
+                $customer->save();
+            }
 
             $order = new Order($customer, $user, $productions);
             $order->save();

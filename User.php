@@ -108,10 +108,10 @@ class User {
         return User::get($_SESSION['user']['id']);
     }
 
-    public static function isExist($id): bool {
-        $repository = new Repository(self::TABLE, self::COLUMNS);
-        return $repository->isThereRow('id', $id);
-    }
+//    public static function isExist($id): bool {
+//        $repository = new Repository(self::TABLE, self::COLUMNS);
+//        return $repository->isThereRow('id', $id);
+//    }
 
     public function getValues(): array {
         return [

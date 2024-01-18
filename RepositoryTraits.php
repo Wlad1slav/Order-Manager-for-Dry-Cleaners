@@ -43,6 +43,11 @@ trait RepositoryTraits {
         return $repository->getRow($id);
     }
 
+    public static function isExist(string $value, string $column = 'id'): bool {
+        $repository = new Repository(self::TABLE, self::COLUMNS);
+        return $repository->isThereRow($column, $value);
+    }
+
     // Метод, що повертає об'єкт замовлення
     abstract static public function get(?int $id = null, ?string $name = null); // Повертає саме об'єкт, неоптимізований метод
     abstract public function getValues(): array;    // Метод, що повертає масив усіх даних, які потрібно ввести у базу даних
