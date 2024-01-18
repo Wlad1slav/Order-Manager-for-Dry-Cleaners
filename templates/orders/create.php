@@ -27,7 +27,7 @@ $orderSettings = Order::getJsonConfig();
             $phone = $customer['phone'];
             $discount = $customer['discount'];
 
-            echo "<option value='$name' data-customerID='$customerID' data-discount='$discount'></option>";
+            echo "<option value='$name' data-customerID='$customerID' data-discount='$discount'>$name ($phone)</option>";
         }
 
         ?>
