@@ -9,6 +9,15 @@ def script():
     orders = rep.Repository('orders')
     customers = rep.Repository('customers')
 
+    # Отримання id будь якого користувача з root правами
+    users = rep.Repository('users')
+    users = users.get_all()
+    user_id = -1
+    for user in users:
+        if user[2] == 'root':  # Якщо колонка rights == root
+            user_id = user[0]
+            break
+
     df = pd.read_csv('scripts/orders_for_import.csv')
 
     goods_csv = os.path.join(os.path.dirname(__file__), '..', 'settings', 'goods.csv')
@@ -19,7 +28,8 @@ def script():
     with open(invoice_config, 'r') as file:
         invoice_config = json.load(file)  # актуальний конфіг квитанцій
 
-    additional_fields_config = os.path.join(os.path.dirname(__file__), '..', 'settings', 'config_additional_fields.json')
+    additional_fields_config = os.path.join(os.path.dirname(__file__), '..', 'settings',
+                                            'config_additional_fields.json')
     with open(additional_fields_config, 'r') as file:
         additional_fields_config = json.load(file)  # актуальний конфіг додаткових полів
 
@@ -76,7 +86,7 @@ def script():
         orders.create_row(
             {
                 'id_customer': customer[0],  # id користувача
-                'id_user': 1,
+                'id_user': user_id,
                 'date_create': df['Дата створення замовлення'][row_index],
                 'date_end': df['Дедлайн'][row_index],
                 'total_price': int(df['Загальна ціна'][row_index]),
