@@ -110,7 +110,7 @@ class ProductAdditionalFields {
         $optionNum = 0;
         foreach ($field['possibleValues'] as $option) {
             $optionNum++;
-            $input .= "<label><input type='$name' value='$option' id='additionalPropertie-$optionNum-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum" . "[]'>$option</label>";
+            $input .= "<label><input type='checkbox' value='$option' id='additionalPropertie-$optionNum-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum" . "[]'>$option</label>";
         }
         return $label . $input;
     }
@@ -123,7 +123,7 @@ class ProductAdditionalFields {
         $optionNum = 0;
         foreach ($field['possibleValues'] as $option) {
             $optionNum++;
-            $input .= "<label><input type='$name' value='$option' id='additionalPropertie-$optionNum-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum'>$option</label>";
+            $input .= "<label><input type='radio' value='$option' id='additionalPropertie-$optionNum-$fieldNum-$productNum' name='additionalPropertie-$fieldNum-$productNum'>$option</label>";
         }
         return $label . $input;
     }

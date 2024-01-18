@@ -86,6 +86,7 @@ $orderSettings = Order::getJsonConfig();
         foreach ($additionalFields->getFields() as $fieldName=>$fieldInfo) {
             $filedNum++;
             echo $additionalFields->generateHTML($fieldName, $fieldInfo, $filedNum, $i);
+            echo '<hr>';
         }
 
         echo '</div>';

@@ -93,9 +93,17 @@
                     // Виведення даних для полів, що відміченні маркером в налаштуваннях
                     foreach ($order->getProductions()[$productNum]->getParams() as $additionalFieldName=>$value)
                         // Об'єкт замовлення->Елемент по номеру виробу в масиві об'єктів Product->Масив параметрів виробу
-                        if ($invoiceSettings['Fields']['Additional'][$additionalFieldName]['displayed'])
+                        if ($invoiceSettings['Fields']['Additional'][$additionalFieldName]['displayed']) {
                             // Якщо видимість поля == true
-                            echo "<td>$value</td>";
+                            if (is_array($value)) {
+                                // Якщо значення додаткового поля - масив (checkbox), то виводяться усі його елементи
+                                echo '<td>';
+                                foreach ($value as $el)
+                                    echo "$el. ";
+                                echo '</td>';
+                            }
+                            else echo "<td>$value</td>";
+                        }
 
                     $productNum++;
                 }
