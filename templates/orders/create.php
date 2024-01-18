@@ -39,20 +39,13 @@ $orderSettings = Order::getJsonConfig();
     for ($i = 1; $i <= $orderSettings['Number of products']; $i++) {
 
         echo '<div class="product">';
-        echo "<h2>Виріб $i <span class='product-status' id='product-status-$i'>✖</span></h2>"; // ✔
+        echo "<h2>Виріб $i</h2>"; // ✔
 
         // Найменування виробу
         echo "<label for='good-name-$i'>Найменування виробу <span class='red-text'>*</span></label>";
         echo "<input list='goods-$i' name='good-name-$i' id='good-name-$i' class='good-name'>";
-        echo "<datalist id='goods-$i'>";
-        foreach (Goods::getAll() as $good) {
-            $goodID = $good['0'];
-            $name = $good['1'];
-            $price = $good['2'];
 
-            echo "<option value='$name' name='good-$i' data-goodID='$goodID' data-price='$price'></option>";
-        }
-        echo '</datalist>';
+        echo Goods::getProductDataList($i);
 
         // Кількість
         echo "<label for='amount-$i'>Кількість <span class='red-text'>*</span></label>";

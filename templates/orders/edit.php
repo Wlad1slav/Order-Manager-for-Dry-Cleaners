@@ -12,9 +12,12 @@ include("$DIR/templates/base/sidebar.php");
 global $router;
 
 $order = Order::get($orderId); // Замовлення
-$orderSettings = json_decode($order->getSettings()['orders_config'], true); // Налаштування замовлення
+//$orderSettings = json_decode($order->getSettings()['orders_config'], true); // Налаштування замовлення
 $products = $order->getProductions(); // Масив виробів
-$additionalFields = json_decode($order->getSettings()['additional_fields'], true); // Додаткові поля замовлння
+
+$additionalFields = $order->getSettings()['additional_fields']; // Додаткові поля замовлння
+if (is_string($additionalFields))
+    $additionalFields = json_decode($additionalFields, true);
 ?>
 
 <h1>Замовлення №<?php echo $orderId; ?></h1>
@@ -35,15 +38,8 @@ $additionalFields = json_decode($order->getSettings()['additional_fields'], true
             // Найменування виробу
             echo "<label for='good-name-$i'>Найменування виробу <span class='red-text'>*</span></label>";
             echo "<input list='goods-$i' name='good-name-$i' id='good-name-$i' class='good-name' value='{$products[$i-1]->getGoods()->getName()}'>";
-            echo "<datalist id='goods-$i'>";
-            foreach (Goods::getAll() as $good) {
-                $goodID = $good['0'];
-                $name = $good['1'];
-                $price = $good['2'];
 
-                echo "<option value='$name' name='good-$i' data-goodID='$goodID' data-price='$price'></option>";
-            }
-            echo '</datalist>';
+            echo Goods::getProductDataList($i);
 
             // Кількість
             echo "<label for='amount-$i'>Кількість <span class='red-text'>*</span></label>";

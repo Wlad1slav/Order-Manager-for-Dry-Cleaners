@@ -85,4 +85,19 @@ class Goods {
         $this->price = Utils::atLeastFloat($price, 0); // Utils
     }
 
+    public static function getProductDataList(int $i): string {
+        // Генерує HTML datalist з переліком усіх сервисів
+        $dataList = "<datalist id='goods-$i'>";
+        foreach (Goods::getAll() as $good) {
+            $goodID = $good['0'];
+            $name = $good['1'];
+            $price = $good['2'];
+
+            $dataList .= "<option value='$name' name='good-$i' data-goodID='$goodID' data-price='$price'></option>";
+        }
+        $dataList .= '</datalist>';
+
+        return $dataList;
+    }
+
 }
