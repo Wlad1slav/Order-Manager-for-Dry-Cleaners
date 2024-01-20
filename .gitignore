@@ -11,3 +11,4 @@ layouts PHP
 settings/config_additional_fields.json
 *.pyc
 venv
+venv-unix

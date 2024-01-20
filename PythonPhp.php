@@ -9,11 +9,11 @@ class PythonPhp {
         'System' => 'unix',
         'Command' => [
             'windows' => '.\\venv\\Scripts\\python',
-            'unix' => 'source venv/bin/activate',
+            'unix' => 'source venv-unix/bin/activate',
         ],
         'Path' => [
             'windows' => 'venv\\Scripts\\python.exe',
-            'unix' => 'venv/bin/python3',
+            'unix' => 'venv-unix/bin/python3',
         ],
         'Version' => 'Python 3.11.7',
         'Folder' => 'scripts',
