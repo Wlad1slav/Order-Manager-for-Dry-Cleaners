@@ -86,7 +86,11 @@ class Repository {
             $tables = require 'settings/table_templates.php';
             foreach ($tables as $table => $query)
                 if ($table == $tableName) {
-                    $this->connection->exec($query);
+                    $this->connection->exec($query['createCommand']);
+
+                    if ($query['dependenceCommand'] !== null) // Якщо для бд треба застосувати додаткові команди
+                        foreach ($query['dependenceCommand'] as $command)
+                            $this->connection->exec($command);
                     return;
                 }
             // Якщо немає заготовки для таблиці, то виникає помилка
