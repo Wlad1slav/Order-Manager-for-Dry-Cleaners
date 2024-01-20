@@ -459,11 +459,13 @@ class Order {
             $newStatus = true;
         elseif ($newStatus === 'false') {
             $newStatus = false;
-            $order->setTypeOfPayment(null);
         }
 
-        if ($column == 'is_paid')
+        if ($column == 'is_paid') {
             $order->setIsPaid($newStatus);
+            if ($newStatus === false)
+                $order->setTypeOfPayment(null);
+        }
         elseif ($column == 'is_completed')
             $order->setIsCompleted($newStatus);
 

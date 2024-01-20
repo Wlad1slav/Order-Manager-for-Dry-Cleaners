@@ -69,6 +69,15 @@ global $router;
 
             }
 
+            function switchOrderStatusOpenClose(column, newStatus, orderID) {
+                // Змінює статус замовлення
+                $.ajax({
+                    type: "GET",
+                    url: "<?php echo $router->url('switchOrderStatus'); ?>",
+                    data: {column: column, newStatus: newStatus, orderID: orderID},
+                });
+            }
+
             function selectPaymentType(type, orderID) {
                 // Змінює статус замовлення
                 $.ajax({
@@ -106,8 +115,15 @@ global $router;
             $tableRow .= "<th>$orderID</th>";                                                   // ID
             $tableRow .= "<th>{$order['date_create']}</th>";                                    // Дата і час створення
             $tableRow .= "<th>{$order['date_end']}</th>";                                       // Дата дедлайну
-            $tableRow .= "<th>{$customers[$order['id_customer']]['name']}</th>";                // Ім'я клієнта
-            $tableRow .= "<th>{$customers[$order['id_customer']]['advertising_company']}</th>"; // Рекламна кампанія, звідки клієнт
+
+            if (isset($customers[$order['id_customer']]['name']))                               // Ім'я клієнта
+                $tableRow .= "<th>{$customers[$order['id_customer']]['name']}</th>";
+            else $tableRow .= '<th><i>видалений</i></th>';
+
+            if (isset($customers[$order['id_customer']]['advertising_company']))                // Рекламна кампанія, звідки клієнт
+                $tableRow .= "<th>{$customers[$order['id_customer']]['advertising_company']}</th>";
+            else $tableRow .= '<th></th>';
+
             $tableRow .= "<th>{$users[$order['id_user']]['username']}</th>";                    // Юзернейм користувача
             $tableRow .= "<th>{$order['total_price']} ₴</th>";                                  // Ціна
 
@@ -117,7 +133,7 @@ global $router;
                 $tableRow .= "<input type='radio' onclick=\"switchOrderStatus('$status', true, $orderID)\" id='$status-$orderID-true' name='$status-$orderID-true' " . ($order[$status] === 1 ? 'checked' : '') . ">";
                 $tableRow .= "<label for='$status-$orderID-true'>Так</label>";
 
-                $tableRow .= "<input type='radio' onclick=\"switchOrderStatus('$status', false, $orderID)\" id='$status-$orderID-false' name='$status-$orderID-true' " . ($order[$status] === 0 ? 'checked' : '') . ">";
+                $tableRow .= "<input type='radio' onclick=\"switchOrderStatusOpenClose('$status', false, $orderID)\" id='$status-$orderID-false' name='$status-$orderID-true' " . ($order[$status] === 0 ? 'checked' : '') . ">";
                 $tableRow .= "<label for='$status-$orderID-false'>Ні</label>";
 
                 if ($status === 'is_paid') {
