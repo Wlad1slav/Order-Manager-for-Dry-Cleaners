@@ -20,6 +20,18 @@ include("$DIR/templates/base/sidebar.php");
     <a href="#import" class="cta-text underline-animation">Імпорт</a>
     <b>::</b>
 
+    <?php // Обробчик помилок, що можуть виникнути при взаїмодії з замовленнями
+    if (isset($_SESSION['error'])) {
+        echo "<div class='error-message'>";
+
+        echo '<h3>ERROR</h3>';
+        echo '<p>' . $_SESSION['error'] . '</p>';
+        unset($_SESSION['error']);
+
+        echo '</div>';
+    }
+    ?>
+
 </div>
 
 <?php include 'table.php' ?> <!-- Таблиця замовлень -->
