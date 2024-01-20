@@ -18,7 +18,7 @@ $dbconfig = null;
 // Перевірка, чи існує суперкористувач. Якщо ні - він створюється
 require_once 'User.php';
 require_once 'Rights.php';
-if (!User::isExist(1)) {
+if (count(User::getAll()) === 0) {
     $user = new User('root', 'root', 'root');
     $user->save();
 }
